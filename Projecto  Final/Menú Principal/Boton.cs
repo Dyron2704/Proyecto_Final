@@ -16,8 +16,8 @@ namespace Projecto__Final
         Rectangle _rectangulo;
         Color _colorActual;
 
-        private bool mouseEncima;
-        private string texto;
+        public bool mouseEncima;
+        public string texto;
 
         public bool MouseEncima { get => mouseEncima; set => mouseEncima = value; }
         public string Texto { get => texto; set => texto = value; }

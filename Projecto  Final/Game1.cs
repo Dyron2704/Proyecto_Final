@@ -15,12 +15,13 @@ namespace Projecto__Final
         public enum GameState
         {
             MenuPrincipal,
-            Opciones,
             Jugando,
-            Pausa
+            Opciones
         }
 
-        private GameState estadoActual = GameState.MenuPrincipal;
+        MenuPrincipal menuPrincipal;
+        GameState estadoActual = GameState.MenuPrincipal;
+
 
         public Game1()
         {
@@ -33,6 +34,10 @@ namespace Projecto__Final
         {
             // TODO: Add your initialization logic here
 
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.ApplyChanges();
+
             base.Initialize();
         }
 
@@ -41,6 +46,17 @@ namespace Projecto__Final
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+
+            // Textura provisional para el fondo y los botones, hasta que Lucía tenga las imágenes definitivas
+            Texture2D texProvisional = new Texture2D(GraphicsDevice, 1, 1);
+            texProvisional.SetData(new[] { Color.White });
+
+            // Cuando Lucía tenga los fondos pondre: Content.Load<Texture2D>("nombre_imagen")
+            menuPrincipal = new MenuPrincipal(
+                fondoNormal: texProvisional, 
+                fondoHover: texProvisional, 
+                textureBoton: texProvisional
+            );
         }
 
         protected override void Update(GameTime gameTime)
@@ -50,92 +66,45 @@ namespace Projecto__Final
 
             // TODO: Add your update logic here
 
-            // Cambio del estado del juego
+            MouseState mouse = Mouse.GetState();
 
             switch (estadoActual)
             {
                 case GameState.MenuPrincipal:
-                    UpdateMenu();
+                    menuPrincipal.Update(mouse, ref estadoActual);
                     break;
-                case GameState.Opciones:
-                    UpdateOpciones();
-                    break;
+
                 case GameState.Jugando:
-                    UpdateJuego();
-                    break;
-                case GameState.Pausa:
-                    UpdatePausa();
+                    // Como aún no tenemos la lógica del juego, por ahora no haremos nada aquí
                     break;
             }
 
             base.Update(gameTime);
         }
 
-        private void UpdatePausa()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void UpdateJuego()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void UpdateOpciones()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void UpdateMenu()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
 
-            // Dependiendo del estado se dibuja una cosa u otra
+            _spriteBatch.Begin();
 
             switch (estadoActual)
             {
                 case GameState.MenuPrincipal:
-                    DrawMenu();
+                    menuPrincipal.Draw(_spriteBatch);
                     break;
-                case GameState.Opciones:
-                    DrawOpciones();
-                    break;
+
                 case GameState.Jugando:
-                    DrawJuego();
-                    break;
-                case GameState.Pausa:
-                    DrawPausa();
+                    // De momento, solo pondremos un fondo diferente para distinguirlo del menú
+                    GraphicsDevice.Clear(Color.CornflowerBlue);
                     break;
             }
 
+            _spriteBatch.End();
+
             base.Draw(gameTime);
-        }
-
-        private void DrawMenu()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void DrawOpciones()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void DrawJuego()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void DrawPausa()
-        {
-            throw new NotImplementedException();
         }
     }
 }
