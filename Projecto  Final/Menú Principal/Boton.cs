@@ -27,7 +27,8 @@ namespace Projecto__Final
             _textura = textura;
             _posicion = posicion;
             Texto = texto;
-            _rectangulo = new Rectangle((int)posicion.X, (int)posicion.Y, textura.Width, textura.Height);
+            //_rectangulo = new Rectangle((int)posicion.X, (int)posicion.Y, textura.Width, textura.Height); Para cuando tengamos las texturas definitivas, ahora lo dejo con un tamaño fijo para probar la lógica
+            _rectangulo = new Rectangle((int)posicion.X, (int)posicion.Y, 200, 50);
         }
 
         public void Update(MouseState mouse)
@@ -51,7 +52,9 @@ namespace Projecto__Final
 
         public void Draw(SpriteBatch spriteBach)
         {
-            spriteBach.Draw(_textura, _posicion, _colorActual);
+            Color colorPrueba = MouseEncima ? Color.Green : Color.Red;
+
+            spriteBach.Draw(_textura, _rectangulo, colorPrueba);
         }
     }
 }

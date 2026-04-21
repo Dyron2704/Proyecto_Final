@@ -42,7 +42,7 @@ namespace Projecto__Final
                 if (boton.Clicado(mouse))
                 {
                     if (boton.Texto == "Jugar") estadoGlobal = GameState.Jugando;
-                    if (boton.Texto == "Salir") /* Lógica para salir */;
+                    if (boton.Texto == "Salir") System.Environment.Exit(0);
                 }
             }
         }
@@ -50,7 +50,10 @@ namespace Projecto__Final
         public void Draw(SpriteBatch spriteBatch)
         {
             Texture2D fondoADibujar = _mostrarFondoEspecial ? _fondoHover : _fondoNormal;
-            spriteBatch.Draw(fondoADibujar, new Rectangle(0, 0, 800, 480), Color.White);
+
+            Color colorFondo = _mostrarFondoEspecial ? Color.LightBlue : Color.White;
+
+            spriteBatch.Draw(fondoADibujar, new Rectangle(0, 0, 1280, 720), colorFondo);
 
             foreach (Boton boton in _botones)
             {
