@@ -23,9 +23,15 @@ namespace Projecto__Final
             _fondoHover = fondoHover;
             _botones = new List<Boton>();
 
-            _botones.Add(new Boton(textureBoton, fuente, new Microsoft.Xna.Framework.Vector2(300, 200), "Jugar"));
-            _botones.Add(new Boton(textureBoton, fuente, new Microsoft.Xna.Framework.Vector2(300, 300), "Opciones"));
-            _botones.Add(new Boton(textureBoton, fuente, new Microsoft.Xna.Framework.Vector2(300, 400), "Salir"));
+            int anchoPantalla = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            int anchoBoton = 200;
+
+            int posXCentrada = (anchoPantalla / 2) - (anchoBoton * 2);
+
+
+            _botones.Add(new Boton(textureBoton, fuente, new Microsoft.Xna.Framework.Vector2(posXCentrada, 200), "Jugar"));
+            _botones.Add(new Boton(textureBoton, fuente, new Microsoft.Xna.Framework.Vector2(posXCentrada, 300), "Opciones"));
+            _botones.Add(new Boton(textureBoton, fuente, new Microsoft.Xna.Framework.Vector2(posXCentrada, 400), "Salir"));
         }
 
         public void Update(MouseState mouse, ref GameState estadoGlobal)
