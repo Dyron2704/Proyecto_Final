@@ -17,15 +17,15 @@ namespace Projecto__Final
         Texture2D _fondoHover;
         bool _mostrarFondoEspecial = false;
 
-        public MenuPrincipal(Texture2D fondoNormal, Texture2D fondoHover, Texture2D textureBoton)
+        public MenuPrincipal(Texture2D fondoNormal, Texture2D fondoHover, Texture2D textureBoton, SpriteFont fuente)
         {
             _fondoNormal = fondoNormal;
             _fondoHover = fondoHover;
             _botones = new List<Boton>();
 
-            _botones.Add(new Boton(textureBoton, new Microsoft.Xna.Framework.Vector2(300, 200), "Jugar"));
-            _botones.Add(new Boton(textureBoton, new Microsoft.Xna.Framework.Vector2(300, 300), "Opciones"));
-            _botones.Add(new Boton(textureBoton, new Microsoft.Xna.Framework.Vector2(300, 400), "Salir"));
+            _botones.Add(new Boton(textureBoton, fuente, new Microsoft.Xna.Framework.Vector2(300, 200), "Jugar"));
+            _botones.Add(new Boton(textureBoton, fuente, new Microsoft.Xna.Framework.Vector2(300, 300), "Opciones"));
+            _botones.Add(new Boton(textureBoton, fuente, new Microsoft.Xna.Framework.Vector2(300, 400), "Salir"));
         }
 
         public void Update(MouseState mouse, ref GameState estadoGlobal)

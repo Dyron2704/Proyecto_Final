@@ -45,18 +45,12 @@ namespace Projecto__Final
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            SpriteFont fuenteCargada = Content.Load<SpriteFont>("FuenteMenu");
 
-            // Textura provisional para el fondo y los botones, hasta que Lucía tenga las imágenes definitivas
             Texture2D texProvisional = new Texture2D(GraphicsDevice, 1, 1);
             texProvisional.SetData(new[] { Color.White });
 
-            // Cuando Lucía tenga los fondos pondre: Content.Load<Texture2D>("nombre_imagen")
-            menuPrincipal = new MenuPrincipal(
-                fondoNormal: texProvisional, 
-                fondoHover: texProvisional, 
-                textureBoton: texProvisional
-            );
+            menuPrincipal = new MenuPrincipal(texProvisional, texProvisional, texProvisional, fuenteCargada);
         }
 
         protected override void Update(GameTime gameTime)
