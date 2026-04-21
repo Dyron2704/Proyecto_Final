@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Projecto__Final
 {
@@ -8,6 +9,19 @@ namespace Projecto__Final
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        // Atributos menú
+
+        public enum GameState
+        {
+            MenuPrincipal,
+            Jugando,
+            Opciones
+        }
+
+        MenuPrincipal menuPrincipal;
+        GameState estadoActual = GameState.MenuPrincipal;
+
 
         public Game1()
         {
@@ -20,6 +34,10 @@ namespace Projecto__Final
         {
             // TODO: Add your initialization logic here
 
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.ApplyChanges();
+
             base.Initialize();
         }
 
@@ -27,7 +45,12 @@ namespace Projecto__Final
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            SpriteFont fuenteCargada = Content.Load<SpriteFont>("FuenteMenu");
+
+            Texture2D texProvisional = new Texture2D(GraphicsDevice, 1, 1);
+            texProvisional.SetData(new[] { Color.White });
+
+            menuPrincipal = new MenuPrincipal(texProvisional, texProvisional, texProvisional, fuenteCargada);
         }
 
         protected override void Update(GameTime gameTime)
@@ -37,14 +60,43 @@ namespace Projecto__Final
 
             // TODO: Add your update logic here
 
+            MouseState mouse = Mouse.GetState();
+
+            switch (estadoActual)
+            {
+                case GameState.MenuPrincipal:
+                    menuPrincipal.Update(mouse, ref estadoActual);
+                    break;
+
+                case GameState.Jugando:
+                    // Como aún no tenemos la lógica del juego, por ahora no haremos nada aquí
+                    break;
+            }
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
+
+            _spriteBatch.Begin();
+
+            switch (estadoActual)
+            {
+                case GameState.MenuPrincipal:
+                    menuPrincipal.Draw(_spriteBatch);
+                    break;
+
+                case GameState.Jugando:
+                    // De momento, solo pondremos un fondo diferente para distinguirlo del menú
+                    GraphicsDevice.Clear(Color.CornflowerBlue);
+                    break;
+            }
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
