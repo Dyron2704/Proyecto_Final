@@ -47,8 +47,9 @@ namespace Projecto__Final
 
                 if (boton.Clicado(mouse))
                 {
-                    if (boton.Texto == "Jugar") estadoGlobal = GameState.Jugando;
+                    if (boton.Texto == "Jugar") estadoGlobal = GameState.SeleccionPartida;
                     if (boton.Texto == "Salir") System.Environment.Exit(0);
+                    if (boton.Texto == "Opciones") estadoGlobal = GameState.Opciones;
                 }
             }
         }
