@@ -15,11 +15,13 @@ namespace Projecto__Final
         public enum GameState
         {
             MenuPrincipal,
+            SeleccionPartida,
             Jugando,
             Opciones
         }
 
         MenuPrincipal menuPrincipal;
+        MenuSeleccion menuSeleccion;
         GameState estadoActual = GameState.MenuPrincipal;
 
 
@@ -51,6 +53,7 @@ namespace Projecto__Final
             texProvisional.SetData(new[] { Color.White });
 
             menuPrincipal = new MenuPrincipal(texProvisional, texProvisional, texProvisional, fuenteCargada);
+            menuSeleccion = new MenuSeleccion(texProvisional, texProvisional, fuenteCargada, GraphicsDevice);
         }
 
         protected override void Update(GameTime gameTime)
@@ -70,6 +73,10 @@ namespace Projecto__Final
 
                 case GameState.Jugando:
                     // Como aún no tenemos la lógica del juego, por ahora no haremos nada aquí
+                    break;
+
+                case GameState.SeleccionPartida:
+                    menuSeleccion.Upadate(mouse, ref estadoActual);
                     break;
             }
 
@@ -93,6 +100,10 @@ namespace Projecto__Final
                 case GameState.Jugando:
                     // De momento, solo pondremos un fondo diferente para distinguirlo del menú
                     GraphicsDevice.Clear(Color.CornflowerBlue);
+                    break;
+
+                case GameState.SeleccionPartida:
+                    menuSeleccion.Draw(_spriteBatch);
                     break;
             }
 
