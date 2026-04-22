@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Projecto__Final
+namespace Projecto__Final.Menús
 {
     internal class MenuSeleccion
     {
