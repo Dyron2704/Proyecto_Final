@@ -58,12 +58,12 @@ namespace Projecto__Final
             Texture2D botonNoPresionado = Content.Load<Texture2D>("Boton");
             Texture2D botonPresionado = Content.Load<Texture2D>("Boton Presionado");
 
-            //Texture2D fondoNormal = Content.Load<Texture2D>("FondoMenu");
+            Texture2D fondoNormal = Content.Load<Texture2D>("FondoMenu");
             //Texture2D fondoEspecial = Content.Load<Texture2D>("FondoMenuEspecial");
 
-            menuPrincipal = new MenuPrincipal(texProvisional, texProvisional, botonNoPresionado, botonPresionado, fuenteCargada);
-            menuSeleccion = new MenuSeleccion(texProvisional, botonNoPresionado, botonPresionado, fuenteCargada);
-            menuOpciones = new MenuOpciones(texProvisional, botonNoPresionado, botonPresionado, fuenteCargada);
+            menuPrincipal = new MenuPrincipal(fondoNormal, texProvisional, botonNoPresionado, botonPresionado, fuenteCargada);
+            menuSeleccion = new MenuSeleccion(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
+            menuOpciones = new MenuOpciones(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
         }
 
         protected override void Update(GameTime gameTime)
