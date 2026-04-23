@@ -21,7 +21,7 @@ namespace Projecto__Final.Menús
 
             int xCentrada = (graphics.Viewport.Width / 2) - (200 / 2);
 
-            _botones.Add(new Boton(textureBoton, fuente, new Vector2(xCentrada, 250), "Crear Partida"));
+            _botones.Add(new Boton(textureBoton, fuente, new Vector2(xCentrada, 250), "Nueva Partida"));
             _botones.Add(new Boton(textureBoton, fuente, new Vector2(xCentrada, 350), "Cargar Partida"));
             _botones.Add(new Boton(textureBoton, fuente, new Vector2(xCentrada, 450), "Volver"));
         }
@@ -33,7 +33,7 @@ namespace Projecto__Final.Menús
                 boton.Update(mouse);
                 if (boton.Clicado(mouse))
                 {
-                    if (boton.Texto == "Crear Partida") estadoGlobal = Game1.GameState.Jugando;
+                    if (boton.Texto == "Nueva Partida") estadoGlobal = Game1.GameState.Jugando;
                     if (boton.Texto == "Volver") estadoGlobal = Game1.GameState.MenuPrincipal;
                 }
             }
