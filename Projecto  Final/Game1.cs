@@ -17,6 +17,7 @@ namespace Projecto__Final
         {
             MenuPrincipal,
             SeleccionPartida,
+            MenuPersonajes,
             Jugando,
             Opciones
         }
@@ -24,6 +25,7 @@ namespace Projecto__Final
         MenuPrincipal menuPrincipal;
         MenuSeleccion menuSeleccion;
         MenuOpciones menuOpciones;
+        MenuPersonajes menuPersonajes;
         GameState estadoActual = GameState.MenuPrincipal;
 
         MouseState mouseAnterior;
@@ -61,6 +63,7 @@ namespace Projecto__Final
             menuPrincipal = new MenuPrincipal(fondoNormal, fondoEspecial, botonNoPresionado, botonPresionado, fuenteCargada);
             menuSeleccion = new MenuSeleccion(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
             menuOpciones = new MenuOpciones(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
+            menuPersonajes = new MenuPersonajes(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
         }
 
         protected override void Update(GameTime gameTime)
@@ -88,6 +91,10 @@ namespace Projecto__Final
 
                 case GameState.Opciones:
                     menuOpciones.Update(mouse, mouseAnterior, ref estadoActual);
+                    break;
+
+                case GameState.MenuPersonajes:
+                    menuPersonajes.Update(mouse, mouseAnterior, ref estadoActual);
                     break;
             }
 
@@ -121,6 +128,10 @@ namespace Projecto__Final
 
                 case GameState.Opciones:
                     menuOpciones.Draw(_spriteBatch);
+                    break;
+
+                case GameState.MenuPersonajes:
+                    menuPersonajes.Draw(_spriteBatch);
                     break;
             }
 

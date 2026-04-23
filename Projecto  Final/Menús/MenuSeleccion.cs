@@ -35,7 +35,7 @@ namespace Projecto__Final.Menús
                 
                 if (boton.Clicado(mouse, mouseAnterior))
                 {
-                    if (boton.Texto == "Nueva Partida") estadoGlobal = Game1.GameState.Jugando;
+                    if (boton.Texto == "Nueva Partida") estadoGlobal = Game1.GameState.MenuPersonajes;
                     if (boton.Texto == "Volver") estadoGlobal = Game1.GameState.MenuPrincipal;
                 }
             }
