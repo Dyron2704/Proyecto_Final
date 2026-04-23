@@ -14,7 +14,8 @@ namespace Projecto__Final
         Texture2D _textura;
         Vector2 _posicion;
         Rectangle _rectangulo;
-        Color _colorActual;
+        Color _colorFondo;
+        Color _colorTexto;
 
         SpriteFont _fuente;
 
@@ -23,13 +24,17 @@ namespace Projecto__Final
 
         public bool MouseEncima { get => mouseEncima; set => mouseEncima = value; }
         public string Texto { get => texto; set => texto = value; }
+        public Color ColorFondo {get => _colorFondo; set => _colorFondo = value; }
+        public Color ColorTexto { get => _colorTexto; set => _colorTexto = value; }
 
-        public LineaDeTexto(Texture2D textura, SpriteFont fuente, Vector2 posicion, string texto)
+        public LineaDeTexto(Texture2D textura, SpriteFont fuente, Vector2 posicion, Color colorFondo, Color colorTexto, string texto)
         {
             _textura = textura;
             _posicion = posicion;
             Texto = texto;
             _fuente = fuente;
+            _colorFondo = colorFondo;
+            _colorTexto = colorTexto;
             //_rectangulo = new Rectangle((int)posicion.X, (int)posicion.Y, textura.Width, textura.Height); Para cuando tengamos las texturas definitivas, ahora lo dejo con un tamaño fijo para probar la lógica
             _rectangulo = new Rectangle((int)posicion.X-(int)((double)texto.Length*0.75), (int)posicion.Y, texto.Length*10, 30);
         }
@@ -48,7 +53,7 @@ namespace Projecto__Final
 
         public void Draw(SpriteBatch spriteBach)
         {
-            Color colorLinea = Color.White;
+            Color colorLinea = ColorFondo;
 
             spriteBach.Draw(_textura, _rectangulo, colorLinea);
 
@@ -58,7 +63,7 @@ namespace Projecto__Final
                 _rectangulo.Y + (_rectangulo.Height / 2) - (tamañoTexto.Y / 2)
             );
 
-            spriteBach.DrawString(_fuente, Texto, centroTexto, Color.Black);
+            spriteBach.DrawString(_fuente, Texto, centroTexto, ColorTexto);
         }
     }
 }
