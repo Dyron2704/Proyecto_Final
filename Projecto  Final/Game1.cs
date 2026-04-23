@@ -26,6 +26,7 @@ namespace Projecto__Final
         MenuOpciones menuOpciones;
         GameState estadoActual = GameState.MenuPrincipal;
 
+        MouseState mouseAnterior;
 
         public Game1()
         {
@@ -54,9 +55,15 @@ namespace Projecto__Final
             Texture2D texProvisional = new Texture2D(GraphicsDevice, 1, 1);
             texProvisional.SetData(new[] { Color.White });
 
-            menuPrincipal = new MenuPrincipal(texProvisional, texProvisional, texProvisional, fuenteCargada);
-            menuSeleccion = new MenuSeleccion(texProvisional, texProvisional, fuenteCargada, GraphicsDevice);
-            menuOpciones = new MenuOpciones(texProvisional, texProvisional, fuenteCargada, GraphicsDevice);
+            Texture2D botonNoPresionado = Content.Load<Texture2D>("Boton");
+            Texture2D botonPresionado = Content.Load<Texture2D>("Boton Presionado");
+
+            //Texture2D fondoNormal = Content.Load<Texture2D>("FondoMenu");
+            //Texture2D fondoEspecial = Content.Load<Texture2D>("FondoMenuEspecial");
+
+            menuPrincipal = new MenuPrincipal(texProvisional, texProvisional, botonNoPresionado, botonPresionado, fuenteCargada);
+            menuSeleccion = new MenuSeleccion(texProvisional, botonNoPresionado, botonPresionado, fuenteCargada);
+            menuOpciones = new MenuOpciones(texProvisional, botonNoPresionado, botonPresionado, fuenteCargada);
         }
 
         protected override void Update(GameTime gameTime)
@@ -71,7 +78,7 @@ namespace Projecto__Final
             switch (estadoActual)
             {
                 case GameState.MenuPrincipal:
-                    menuPrincipal.Update(mouse, ref estadoActual);
+                    menuPrincipal.Update(mouse, mouseAnterior, ref estadoActual);
                     break;
 
                 case GameState.Jugando:
@@ -79,13 +86,15 @@ namespace Projecto__Final
                     break;
 
                 case GameState.SeleccionPartida:
-                    menuSeleccion.Upadate(mouse, ref estadoActual);
+                    menuSeleccion.Update(mouse, mouseAnterior, ref estadoActual);
                     break;
 
                 case GameState.Opciones:
-                    menuOpciones.Update(mouse, ref estadoActual);
+                    menuOpciones.Update(mouse, mouseAnterior, ref estadoActual);
                     break;
             }
+
+            mouseAnterior = mouse;
 
             base.Update(gameTime);
         }

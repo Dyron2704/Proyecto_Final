@@ -14,24 +14,26 @@ namespace Projecto__Final.Menús
         List<Boton> _botones;
         Texture2D _fondoNormal;
 
-        public MenuOpciones(Texture2D fondoNormal, Texture2D textureBoton, SpriteFont fuente, GraphicsDevice graphics)
+        public MenuOpciones(Texture2D fondoNormal, Texture2D texBoton, Texture2D texBotonHover, SpriteFont fuente)
         {
             _fondoNormal = fondoNormal;
             _botones = new List<Boton>();
 
-            int xCentrada = (graphics.Viewport.Width / 2) - (200 / 2);
+            int ancho = 256;
+            int posXCentrada = 640 - (ancho / 2);
 
-            _botones.Add(new Boton(textureBoton, fuente, new Microsoft.Xna.Framework.Vector2(xCentrada, 250), "Ajuste 1"));
-            _botones.Add(new Boton(textureBoton, fuente, new Microsoft.Xna.Framework.Vector2(xCentrada, 350), "Ajuste 2"));
-            _botones.Add(new Boton(textureBoton, fuente, new Microsoft.Xna.Framework.Vector2(xCentrada, 450), "Volver"));
+            _botones.Add(new Boton(texBoton, texBotonHover, fuente, new Vector2(posXCentrada, 150), "Ajuste 1"));
+            _botones.Add(new Boton(texBoton, texBotonHover, fuente, new Vector2(posXCentrada, 300), "Ajuste 2"));
+            _botones.Add(new Boton(texBoton, texBotonHover, fuente, new Vector2(posXCentrada, 450), "Volver"));
         }
 
-        public void Update(MouseState mouse, ref Game1.GameState estadoGlobal)
+        public void Update(MouseState mouse, MouseState mouseAnterior, ref Game1.GameState estadoGlobal)
         {
             foreach (Boton boton in _botones)
             {
                 boton.Update(mouse);
-                if (boton.Clicado(mouse))
+
+                if (boton.Clicado(mouse, mouseAnterior))
                 {
                     if (boton.Texto == "Volver") estadoGlobal = Game1.GameState.MenuPrincipal;
                 }

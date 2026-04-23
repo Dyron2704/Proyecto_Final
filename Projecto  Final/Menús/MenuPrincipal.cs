@@ -17,35 +17,29 @@ namespace Projecto__Final
         Texture2D _fondoHover;
         bool _mostrarFondoEspecial = false;
 
-        public MenuPrincipal(Texture2D fondoNormal, Texture2D fondoHover, Texture2D textureBoton, SpriteFont fuente)
+        public MenuPrincipal(Texture2D fondoNormal, Texture2D fondoHover, Texture2D texBoton, Texture2D texBotonHover, SpriteFont fuente)
         {
             _fondoNormal = fondoNormal;
             _fondoHover = fondoHover;
             _botones = new List<Boton>();
 
-            int anchoPantalla = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            int anchoBoton = 200;
+            int ancho = 256;
+            int posXCentrada = 640 - (ancho / 2);
 
-            int posXCentrada = (anchoPantalla / 2) - (anchoBoton * 2);
-
-
-            _botones.Add(new Boton(textureBoton, fuente, new Microsoft.Xna.Framework.Vector2(posXCentrada, 200), "Jugar"));
-            _botones.Add(new Boton(textureBoton, fuente, new Microsoft.Xna.Framework.Vector2(posXCentrada, 300), "Opciones"));
-            _botones.Add(new Boton(textureBoton, fuente, new Microsoft.Xna.Framework.Vector2(posXCentrada, 400), "Salir"));
+            _botones.Add(new Boton(texBoton, texBotonHover, fuente, new Vector2(posXCentrada, 150), "Jugar"));
+            _botones.Add(new Boton(texBoton, texBotonHover, fuente, new Vector2(posXCentrada, 300), "Opciones"));
+            _botones.Add(new Boton(texBoton, texBotonHover, fuente, new Vector2(posXCentrada, 450), "Salir"));
         }
 
-        public void Update(MouseState mouse, ref GameState estadoGlobal)
+        public void Update(MouseState mouse, MouseState mouseAnterior, ref GameState estadoGlobal)
         {
             _mostrarFondoEspecial = false;
-
             foreach (Boton boton in _botones)
             {
                 boton.Update(mouse);
+                if (boton.MouseEncima && boton.Texto == "Jugar") _mostrarFondoEspecial = true;
 
-                if (boton.MouseEncima && boton.Texto == "Jugar")
-                    _mostrarFondoEspecial = true;
-
-                if (boton.Clicado(mouse))
+                if (boton.Clicado(mouse, mouseAnterior))
                 {
                     if (boton.Texto == "Jugar") estadoGlobal = GameState.SeleccionPartida;
                     if (boton.Texto == "Salir") System.Environment.Exit(0);
