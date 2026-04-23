@@ -52,16 +52,13 @@ namespace Projecto__Final
 
             SpriteFont fuenteCargada = Content.Load<SpriteFont>("FuenteMenu");
 
-            Texture2D texProvisional = new Texture2D(GraphicsDevice, 1, 1);
-            texProvisional.SetData(new[] { Color.White });
-
             Texture2D botonNoPresionado = Content.Load<Texture2D>("Boton");
             Texture2D botonPresionado = Content.Load<Texture2D>("Boton Presionado");
 
             Texture2D fondoNormal = Content.Load<Texture2D>("FondoMenu");
-            //Texture2D fondoEspecial = Content.Load<Texture2D>("FondoMenuEspecial");
+            Texture2D fondoEspecial = Content.Load<Texture2D>("FondoMenuEspecial");
 
-            menuPrincipal = new MenuPrincipal(fondoNormal, texProvisional, botonNoPresionado, botonPresionado, fuenteCargada);
+            menuPrincipal = new MenuPrincipal(fondoNormal, fondoEspecial, botonNoPresionado, botonPresionado, fuenteCargada);
             menuSeleccion = new MenuSeleccion(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
             menuOpciones = new MenuOpciones(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
         }

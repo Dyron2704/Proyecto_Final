@@ -42,7 +42,7 @@ namespace Projecto__Final.Menús
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_fondoNormal, new Rectangle(0, 0, 1280, 720), Color.DarkGray);
+            spriteBatch.Draw(_fondoNormal, new Rectangle(0, 0, 1280, 720), Color.White);
 
             foreach (Boton boton in _botones)
             {
