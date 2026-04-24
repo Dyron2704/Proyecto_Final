@@ -8,18 +8,20 @@ namespace Projecto__Final.Entidades
 {
     internal abstract class Entidad
     {
+        int vida;
         string nombre;
         int vida;
 
-        public Entidad(string nombre, int vida)
+        public Entidad(int vida, string nombre)
         {
+            this.vida = vida;
             this.nombre = nombre;
             this.vida = vida;
         }
+        public abstract void Atacar(Entidad objetivo);
 
         public string Nombre { get => nombre; set => nombre = value; }
         public int Vida { get => vida; set => vida = value; }
-
-        public abstract void Atacar();
+        public string Nombre { get => nombre; set => nombre = value; }
     }
 }

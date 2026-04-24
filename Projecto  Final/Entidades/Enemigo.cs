@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace Projecto__Final.Entidades
 {
-    internal class Enemigo:Entidad
+    internal class Enemigo: Entidad
     {
-        int cantidadExperiencia;
+        int nivelDificultad;
         int cantidadOro;
-
-        public Enemigo(string nombre, int vida,int cantidadExperiencia, int cantidadOro) : base(nombre, vida)
+        int experienciaOtorgada;
+        public Enemigo(int vida, string nombre, int nivelDificultad = 0, int cantidadOro = 0, int experienciaOtorgada = 0) : base(vida, nombre)
         {
-            this.cantidadExperiencia = cantidadExperiencia;
+            this.nivelDificultad = nivelDificultad;
             this.cantidadOro = cantidadOro;
+            this.experienciaOtorgada = experienciaOtorgada;
         }
-
-        public override void Atacar()
+        public override void Atacar(Entidad objetivo)
         {
-            //codigo provisional para atacar, el enemigo no hace nada
+            // Lógica de ataque del enemigo
         }
-        public int CantidadExperiencia { get => cantidadExperiencia; set => cantidadExperiencia = value; }
+        public int NivelDificultad { get => nivelDificultad; set => nivelDificultad = value; }
         public int CantidadOro { get => cantidadOro; set => cantidadOro = value; }
-
+        public int ExperienciaOtorgada { get => experienciaOtorgada; set => experienciaOtorgada = value; }
     }
 }
