@@ -1,62 +1,57 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Projecto__Final.Menús
 {
     internal class MenuPersonajes
     {
         List<Boton> _botones;
-        List<LineaDeTexto> _lineasDeTexto;
-        Texture2D _texturaNormal;
-        Texture2D _texturaHover;
+        Texture2D _fondo;
 
-        public MenuPersonajes(Texture2D normal, Texture2D texBoton, Texture2D texBotonHover, SpriteFont fuente)
+        public MenuPersonajes(Texture2D fondo, List<Texture2D> fotosPersonajes, List<string> nombres, SpriteFont fuente, Texture2D texBotonVacio)
         {
-            _texturaNormal = normal;
-            _texturaHover = texBoton;
+            _fondo = fondo;
             _botones = new List<Boton>();
-            _lineasDeTexto = new List<LineaDeTexto>();
 
-            int ancho = 256;
-            int posXCentrada = 640 - (ancho / 2);
+            int personajesPorFila = 5;
+            int espaciadoX = 220;
+            int espaciadoY = 250;
+            int inicioX = 100; 
+            int inicioY = 100;  
 
-            _lineasDeTexto.Add(new LineaDeTexto(texBoton, fuente, new Microsoft.Xna.Framework.Vector2(posXCentrada+8, 150), Color.White, Color.Black, "Selecciona tu personaje"));
-            _botones.Add(new Boton(texBoton, texBotonHover, fuente, new Microsoft.Xna.Framework.Vector2(posXCentrada, 250), "Tipo 1"));
-            _botones.Add(new Boton(texBoton, texBotonHover, fuente, new Microsoft.Xna.Framework.Vector2(posXCentrada, 350), "Tipo 2"));
-            _botones.Add(new Boton(texBoton, texBotonHover, fuente, new Microsoft.Xna.Framework.Vector2(posXCentrada, 450), "Tipo 3"));
-            _botones.Add(new Boton(texBoton, texBotonHover, fuente, new Microsoft.Xna.Framework.Vector2(posXCentrada, 550), "Volver"));
+            for (int i = 0; i < fotosPersonajes.Count; i++)
+            {
+                int fila = i / personajesPorFila;
+                int columna = i % personajesPorFila;
+
+                Vector2 pos = new Vector2(inicioX + (columna * espaciadoX), inicioY + (fila * espaciadoY));
+                _botones.Add(new Boton(texBotonVacio, texBotonVacio, fotosPersonajes[i], new Rectangle(0, 0, fotosPersonajes[i].Width, fotosPersonajes[i].Height), fuente, pos, nombres[i]));
+            }
+
+            _botones.Add(new Boton(texBotonVacio, fuente, new Vector2(50, 620), "Volver", 150, 50));
         }
 
         public void Update(MouseState mouse, MouseState mouseAnterior, ref Game1.GameState estadoGlobal)
         {
-            foreach (Boton boton in _botones)
+            foreach (var boton in _botones)
             {
                 boton.Update(mouse);
                 if (boton.Clicado(mouse, mouseAnterior))
                 {
-                    if (boton.Texto == "Volver") estadoGlobal = Game1.GameState.SeleccionPartida;
+                    if (boton.Texto == "Volver")
+                        estadoGlobal = Game1.GameState.SeleccionPartida;
+                    else
+                        estadoGlobal = Game1.GameState.Jugando;
                 }
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch sb)
         {
-            spriteBatch.Draw(_texturaNormal, new Rectangle(0, 0, 1280, 720), Color.CornflowerBlue);
-
-            foreach (Boton boton in _botones)
-            {
-                boton.Draw(spriteBatch);
-            }
-            foreach (LineaDeTexto linea in _lineasDeTexto)
-            {
-                linea.Draw(spriteBatch);
-            }
+            sb.Draw(_fondo, new Rectangle(0, 0, 1280, 720), Color.White);
+            foreach (var boton in _botones) boton.Draw(sb);
         }
     }
 }
