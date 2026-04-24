@@ -1,11 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Projecto__Final
 {
@@ -13,25 +8,43 @@ namespace Projecto__Final
     {
         Texture2D _texturaNormal;
         Texture2D _texturaHover;
+        Texture2D _spriteReferencia;
         Rectangle _rectangulo;
-        Color _colorActual;
-
+        Rectangle? _sourceRect;
         SpriteFont _fuente;
 
-        public bool mouseEncima;
-        public string texto;
+        public string Texto;
+        public bool MouseEncima;
 
-        public bool MouseEncima { get => mouseEncima; set => mouseEncima = value; }
-        public string Texto { get => texto; set => texto = value; }
-
+        
         public Boton(Texture2D normal, Texture2D hover, SpriteFont fuente, Vector2 posicion, string texto)
         {
             _texturaNormal = normal;
             _texturaHover = hover;
             _fuente = fuente;
             Texto = texto;
-
             _rectangulo = new Rectangle((int)posicion.X, (int)posicion.Y, 256, 64);
+        }
+
+        public Boton(Texture2D normal, Texture2D hover, Texture2D spriteReferencia, Rectangle sourceRect, SpriteFont fuente, Vector2 posicion, string texto)
+        {
+            _texturaNormal = normal;
+            _texturaHover = hover;
+            _spriteReferencia = spriteReferencia;
+            _sourceRect = sourceRect;
+            _fuente = fuente;
+            Texto = texto;
+            
+            _rectangulo = new Rectangle((int)posicion.X, (int)posicion.Y, 200, 120);
+        }
+
+        public Boton(Texture2D normal, SpriteFont fuente, Vector2 posicion, string texto, int ancho, int alto)
+        {
+            _texturaNormal = normal;
+            _texturaHover = normal;
+            _fuente = fuente;
+            Texto = texto;
+            _rectangulo = new Rectangle((int)posicion.X, (int)posicion.Y, ancho, alto);
         }
 
         public void Update(MouseState mouse)
@@ -41,24 +54,35 @@ namespace Projecto__Final
 
         public bool Clicado(MouseState mouseActual, MouseState mouseAnterior)
         {
-            return MouseEncima && mouseActual.LeftButton == ButtonState.Pressed &&
-                mouseAnterior.LeftButton == ButtonState.Released;
+            return MouseEncima &&
+                   mouseActual.LeftButton == ButtonState.Pressed &&
+                   mouseAnterior.LeftButton == ButtonState.Released;
         }
 
-        public void Draw(SpriteBatch spriteBach)
+        public void Draw(SpriteBatch sb)
         {
             Texture2D texturaADibujar = MouseEncima ? _texturaHover : _texturaNormal;
-
-            spriteBach.Draw(texturaADibujar, _rectangulo, Color.White);
-
-            if (_fuente != null)
+            if (texturaADibujar != null)
             {
-                Vector2 tamañoTexto = _fuente.MeasureString(Texto);
-                Vector2 centroTexto = new Vector2(
-                    _rectangulo.X + (_rectangulo.Width / 2) - (tamañoTexto.X / 2),
-                    _rectangulo.Y + (_rectangulo.Height / 2) - (tamañoTexto.Y / 2)
+                sb.Draw(texturaADibujar, _rectangulo, Color.White);
+            }
+
+            if (_spriteReferencia != null)
+            {
+                Rectangle destRect = new Rectangle(_rectangulo.X + 10, _rectangulo.Y + 5, 60, 90);
+                sb.Draw(_spriteReferencia, destRect, _sourceRect, Color.White);
+            }
+
+            if (_fuente != null && !string.IsNullOrEmpty(Texto))
+            {
+                Vector2 tam = _fuente.MeasureString(Texto);
+
+                Vector2 posTexto = new Vector2(
+                    _rectangulo.X + (_rectangulo.Width / 2) - (tam.X / 2),
+                    _rectangulo.Y + (_rectangulo.Height / 2) - (tam.Y / 2) - 4
                 );
-                spriteBach.DrawString(_fuente, Texto, centroTexto, Color.Black);
+
+                sb.DrawString(_fuente, Texto, posTexto, Color.Black);
             }
         }
     }
