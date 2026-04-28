@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Projecto__Final.Entidades;
 using Projecto__Final.Menús;
 using System;
 using System.Collections.Generic;
@@ -31,11 +32,29 @@ namespace Projecto__Final
 
         MouseState mouseAnterior;
 
+        Nivel nivelActual;
+
+        Jugador jugador;
+        Texture2D texturaPersonaje;
+        Texture2D mapaColisiones;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+        }
+
+        public void CargarMapa(string nombreMapa)
+        {
+            nivelActual = new Nivel();
+            nivelActual.Fondo = Content.Load<Texture2D>(nombreMapa);
+            nivelActual.Colisiones = Content.Load<Texture2D>(nombreMapa + " Colisiones");
+            nivelActual.Puerta = new Rectangle(280, 30, 20, 10); // Ejemplo de posición y tamaño de la puerta (Hay que mirarlo bien)
+            string[] partesNombreMapa = nombreMapa.Split(' ');
+            int nivel = Convert.ToInt32(partesNombreMapa[1]);
+            int siguienteNivel = nivel + 1;
+            nivelActual.SiguienteFondo = $"Pantalla {siguienteNivel}";
         }
 
         protected override void Initialize()
@@ -63,7 +82,7 @@ namespace Projecto__Final
             Texture2D fondoEspecial = Content.Load<Texture2D>("FondoMenuEspecial");
 
             List<Texture2D> listaPersonajesRecortados = new List<Texture2D>();
-            listaPersonajesRecortados.Add(Content.Load<Texture2D>("Astrid - Prota - Menu")); //Debajo se añaden las demás
+            listaPersonajesRecortados.Add(Content.Load<Texture2D>("Astrid - Menu"));
             listaPersonajesRecortados.Add(Content.Load<Texture2D>("Bellty - Menu"));
             listaPersonajesRecortados.Add(Content.Load<Texture2D>("Dormund - Menu"));
             listaPersonajesRecortados.Add(Content.Load<Texture2D>("Elyssa - Menu"));
@@ -98,7 +117,23 @@ namespace Projecto__Final
                     break;
 
                 case GameState.Jugando:
-                    // Como aún no tenemos la lógica del juego, por ahora no haremos nada aquí
+                    if (jugador == null)
+                    {
+                        texturaPersonaje = Content.Load<Texture2D>(DatosPartida.PersonajeSeleccionado);
+                        CargarMapa("Pantalla 1");
+                        jugador = new Jugador(texturaPersonaje, new Vector2(400, 300), 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje);
+                    }
+                    
+                    jugador.Update(gameTime, nivelActual.Colisiones);
+
+                    Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X, (int)jugador.Posicion.Y, 32, 32);
+                    
+
+                    if (rectJugador.Intersects(nivelActual.Puerta))
+                    {
+                        CargarMapa(nivelActual.SiguienteFondo);
+                        jugador.Posicion = new Vector2(50, 310);
+                    }
                     break;
 
                 case GameState.SeleccionPartida:
@@ -134,8 +169,11 @@ namespace Projecto__Final
                     break;
 
                 case GameState.Jugando:
-                    // De momento, solo pondremos un fondo diferente para distinguirlo del menú
-                    GraphicsDevice.Clear(Color.CornflowerBlue);
+                    if (nivelActual != null && nivelActual.Fondo != null)
+                        _spriteBatch.Draw(nivelActual.Fondo, Vector2.Zero, Color.White);
+
+                    if (jugador != null)    
+                        jugador.Draw(_spriteBatch);
                     break;
 
                 case GameState.SeleccionPartida:

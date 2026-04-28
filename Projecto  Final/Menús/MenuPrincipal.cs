@@ -17,6 +17,8 @@ namespace Projecto__Final
         Texture2D _fondoHover;
         bool _mostrarFondoEspecial = false;
 
+        public Texture2D FondoNormal { get => _fondoNormal; set => _fondoNormal = value; }
+
         public MenuPrincipal(Texture2D fondoNormal, Texture2D fondoHover, Texture2D texBoton, Texture2D texBotonHover, SpriteFont fuente)
         {
             _fondoNormal = fondoNormal;
