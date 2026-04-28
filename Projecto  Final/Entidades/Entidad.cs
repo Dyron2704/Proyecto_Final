@@ -10,7 +10,6 @@ namespace Projecto__Final.Entidades
     {
         int vida;
         string nombre;
-        int vida;
 
         public Entidad(int vida, string nombre)
         {
@@ -22,6 +21,5 @@ namespace Projecto__Final.Entidades
 
         public string Nombre { get => nombre; set => nombre = value; }
         public int Vida { get => vida; set => vida = value; }
-        public string Nombre { get => nombre; set => nombre = value; }
     }
 }

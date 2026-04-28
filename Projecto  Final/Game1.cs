@@ -64,9 +64,17 @@ namespace Projecto__Final
 
             List<Texture2D> listaPersonajesRecortados = new List<Texture2D>();
             listaPersonajesRecortados.Add(Content.Load<Texture2D>("Astrid - Prota - Menu")); //Debajo se añaden las demás
-            listaPersonajesRecortados.Add(Content.Load<Texture2D>("Flora - Prota - Menu"));
+            listaPersonajesRecortados.Add(Content.Load<Texture2D>("Bellty - Menu"));
+            listaPersonajesRecortados.Add(Content.Load<Texture2D>("Dormund - Menu"));
+            listaPersonajesRecortados.Add(Content.Load<Texture2D>("Elyssa - Menu"));
+            listaPersonajesRecortados.Add(Content.Load<Texture2D>("Flora - Menu"));
+            listaPersonajesRecortados.Add(Content.Load<Texture2D>("Froyd - Menu"));
+            listaPersonajesRecortados.Add(Content.Load<Texture2D>("Jade - Menu"));
+            listaPersonajesRecortados.Add(Content.Load<Texture2D>("Joseph - Menu"));
+            listaPersonajesRecortados.Add(Content.Load<Texture2D>("Martha - Menu"));
+            listaPersonajesRecortados.Add(Content.Load<Texture2D>("Pesta - Menu"));
 
-            List<string> nombres = new List<string> { "Astrid", "Flora" };
+            List<string> nombres = new List<string> { "Astrid", "Bellty", "Dormund", "Elyssa", "Flora", "Froyd", "Jade", "Joseph", "Martha", "Pesta" };
 
             menuPrincipal = new MenuPrincipal(fondoNormal, fondoEspecial, botonNoPresionado, botonPresionado, fuenteCargada);
             menuSeleccion = new MenuSeleccion(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
