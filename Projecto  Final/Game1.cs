@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Projecto__Final.Menús;
 using System;
+using System.Collections.Generic;
 
 namespace Projecto__Final
 {
@@ -52,6 +53,7 @@ namespace Projecto__Final
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+
             SpriteFont fuenteCargada = Content.Load<SpriteFont>("FuenteMenu");
 
             Texture2D botonNoPresionado = Content.Load<Texture2D>("Boton");
@@ -60,10 +62,16 @@ namespace Projecto__Final
             Texture2D fondoNormal = Content.Load<Texture2D>("FondoMenu");
             Texture2D fondoEspecial = Content.Load<Texture2D>("FondoMenuEspecial");
 
+            List<Texture2D> listaPersonajesRecortados = new List<Texture2D>();
+            listaPersonajesRecortados.Add(Content.Load<Texture2D>("Astrid - Prota - Menu")); //Debajo se añaden las demás
+            listaPersonajesRecortados.Add(Content.Load<Texture2D>("Flora - Prota - Menu"));
+
+            List<string> nombres = new List<string> { "Astrid", "Flora" };
+
             menuPrincipal = new MenuPrincipal(fondoNormal, fondoEspecial, botonNoPresionado, botonPresionado, fuenteCargada);
             menuSeleccion = new MenuSeleccion(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
             menuOpciones = new MenuOpciones(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
-            menuPersonajes = new MenuPersonajes(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
+            menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
         }
 
         protected override void Update(GameTime gameTime)

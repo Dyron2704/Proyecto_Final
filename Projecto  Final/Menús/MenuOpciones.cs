@@ -11,18 +11,22 @@ namespace Projecto__Final.Menús
 {
     internal class MenuOpciones
     {
+        List<Pulsador> _pulsadores;
         List<Boton> _botones;
         Texture2D _fondoNormal;
+        bool pantallaCompleta;
 
         public MenuOpciones(Texture2D fondoNormal, Texture2D texBoton, Texture2D texBotonHover, SpriteFont fuente)
         {
+            pantallaCompleta = false;
             _fondoNormal = fondoNormal;
             _botones = new List<Boton>();
+            _pulsadores = new List<Pulsador>();
 
             int ancho = 256;
             int posXCentrada = 640 - (ancho / 2);
 
-            _botones.Add(new Boton(texBoton, texBotonHover, fuente, new Vector2(posXCentrada, 150), "Ajuste 1"));
+            _pulsadores.Add(new Pulsador(texBoton, texBotonHover, fuente, new Vector2(posXCentrada, 150), "Musica: SI", "Musica: NO"));
             _botones.Add(new Boton(texBoton, texBotonHover, fuente, new Vector2(posXCentrada, 300), "Ajuste 2"));
             _botones.Add(new Boton(texBoton, texBotonHover, fuente, new Vector2(posXCentrada, 450), "Volver"));
         }
@@ -38,6 +42,16 @@ namespace Projecto__Final.Menús
                     if (boton.Texto == "Volver") estadoGlobal = Game1.GameState.MenuPrincipal;
                 }
             }
+
+            foreach (Pulsador pulsador in _pulsadores)
+            {
+                pulsador.Update(mouse);
+                pulsador.Clicado(mouse, mouseAnterior);
+                if (pulsador.pulsado)
+                {
+
+                }
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -47,6 +61,11 @@ namespace Projecto__Final.Menús
             foreach (Boton boton in _botones)
             {
                 boton.Draw(spriteBatch);
+            }
+
+            foreach (Pulsador pulsador in _pulsadores)
+            {
+                pulsador.Draw(spriteBatch);
             }
         }
     }
