@@ -43,7 +43,9 @@ namespace Projecto__Final.Menús
                     if (boton.Texto == "Volver")
                         estadoGlobal = Game1.GameState.SeleccionPartida;
                     else
+                    {
                         estadoGlobal = Game1.GameState.Jugando;
+                    }
                 }
             }
         }
