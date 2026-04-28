@@ -35,7 +35,7 @@ namespace Projecto__Final
         Nivel nivelActual;
 
         Jugador jugador;
-        Texture2D texturaProta;
+        Texture2D texturaPersonaje;
         Texture2D mapaColisiones;
 
         public Game1()
@@ -50,7 +50,7 @@ namespace Projecto__Final
             nivelActual = new Nivel();
             nivelActual.Fondo = Content.Load<Texture2D>(nombreMapa);
             nivelActual.Colisiones = Content.Load<Texture2D>(nombreMapa + " Colisiones");
-            nivelActual.Puerta = new Rectangle(1200, 300, 50, 100); // Ejemplo de posición y tamaño de la puerta (Hay que mirarlo bien)
+            nivelActual.Puerta = new Rectangle(280, 30, 20, 10); // Ejemplo de posición y tamaño de la puerta (Hay que mirarlo bien)
             string[] partesNombreMapa = nombreMapa.Split(' ');
             int nivel = Convert.ToInt32(partesNombreMapa[1]);
             int siguienteNivel = nivel + 1;
@@ -119,20 +119,20 @@ namespace Projecto__Final
                 case GameState.Jugando:
                     if (jugador == null)
                     {
-                        texturaProta = Content.Load<Texture2D>(DatosPartida.PersonajeSeleccionado);
-
+                        texturaPersonaje = Content.Load<Texture2D>(DatosPartida.PersonajeSeleccionado);
                         CargarMapa("Pantalla 1");
+                        jugador = new Jugador(texturaPersonaje, new Vector2(400, 300), 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje);
+                    }
+                    
+                    jugador.Update(gameTime, nivelActual.Colisiones);
 
-                        jugador = new Jugador(texturaProta, new Vector2(menuPrincipal.FondoNormal.Width / 3, menuPrincipal.FondoNormal.Height / 2), 100, DatosPartida.PersonajeSeleccionado.GetType().Name, DatosPartida.ColumnasPersonaje);
-                        jugador.Update(gameTime, nivelActual.Colisiones);
+                    Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X, (int)jugador.Posicion.Y, 32, 32);
+                    
 
-                        Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X, (int)jugador.Posicion.Y, 32, 32);
-
-                        if (rectJugador.Intersects(nivelActual.Puerta))
-                        {
-                            CargarMapa(nivelActual.SiguienteFondo);
-                            jugador.Posicion = new Vector2(100, 100);
-                        }
+                    if (rectJugador.Intersects(nivelActual.Puerta))
+                    {
+                        CargarMapa(nivelActual.SiguienteFondo);
+                        jugador.Posicion = new Vector2(50, 310);
                     }
                     break;
 

@@ -12,14 +12,11 @@ namespace Projecto__Final.Entidades
     {
         protected int vida;
         protected string nombre;
-
         protected Texture2D textura;
-        private Vector2 posicion;
-        protected int filaActual;
-        protected int columnaActual;
+        protected Vector2 posicion;
+        protected int filaActual = 0;
+        protected int columnaActual = 0;
         protected float timer = 0f;
-
-        public Vector2 Posicion { get => posicion; set => posicion = value; }
 
         public Entidad(int vida, string nombre, Texture2D textura, Vector2 posicion)
         {
@@ -31,23 +28,13 @@ namespace Projecto__Final.Entidades
 
         public abstract void Atacar(Entidad objetivo);
 
-        protected void Animar(GameTime gameTime, int inicio, int fin)
-        {
-            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (timer > 0.12f)
-            {
-                columnaActual++;
-                if (columnaActual > fin) columnaActual = inicio;
-                timer = 0f;
-            }
-        }
+        public Vector2 Posicion { get => posicion; set => posicion = value; }
 
-        public virtual void Draw(SpriteBatch spriteBatch, int totalColumnas)
+        public virtual void Draw(SpriteBatch spriteBatch, int columnas)
         {
-            int anchoFrame = textura.Width / totalColumnas;
-            int altoFrame = textura.Height / 4;
-
-            Rectangle origen = new Rectangle(columnaActual * anchoFrame, filaActual * altoFrame, anchoFrame, altoFrame);
+            int ancho = textura.Width / 8;
+            int alto = textura.Height / 4;
+            Rectangle origen = new Rectangle(columnaActual * ancho, filaActual * alto, ancho, alto);
             spriteBatch.Draw(textura, posicion, origen, Color.White);
         }
     }

@@ -12,15 +12,12 @@ namespace Projecto__Final.Entidades
 {
     internal class Jugador : Entidad
     {
-        int nivel;
         float velocidad = 2.5f;
-        int numColumnas;
-
-        public Jugador(Texture2D textura, Vector2 posicionInicial, int vida, string nombre, int columnas)
-            : base(vida, nombre, textura, posicionInicial)
+        int columnas;
+        public Jugador(Texture2D textura, Vector2 pos, int vida, string nombre, int columnas)
+            : base(vida, nombre, textura, pos)
         {
-            numColumnas = 8;
-            nivel = 1;
+            this.columnas = 8;
         }
 
         public void Update(GameTime gameTime, Texture2D mapaColisiones)
@@ -29,66 +26,43 @@ namespace Projecto__Final.Entidades
             Vector2 direccion = Vector2.Zero;
             bool moviendose = false;
 
-            if (teclado.IsKeyDown(Keys.W))
-            {
-                direccion.Y = -1;
-                filaActual = 3; moviendose = true;
-            }
-
-            else if (teclado.IsKeyDown(Keys.S))
-                direccion.Y = 1; filaActual = 0; moviendose = true;
-
-            if (teclado.IsKeyDown(Keys.A))
-            {
-                direccion.X = -1;
-                filaActual = 1; moviendose = true;
-            }
-
-            else if (teclado.IsKeyDown(Keys.D))
-            {
-                direccion.X = 1;
-                filaActual = 2; moviendose = true;
-            }
-
-            Vector2 nuevaPosicion = Posicion + (direccion * velocidad);
-
-            if (EsPosicionValida(nuevaPosicion, mapaColisiones))
-                Posicion = nuevaPosicion;
+            if (teclado.IsKeyDown(Keys.W)) { direccion.Y = -1; filaActual = 3; moviendose = true; }
+            if (teclado.IsKeyDown(Keys.S)) { direccion.Y = 1; filaActual = 0; moviendose = true; }
+            if (teclado.IsKeyDown(Keys.A)) { direccion.X = -1; filaActual = 1; moviendose = true; }
+            if (teclado.IsKeyDown(Keys.D)) { direccion.X = 1; filaActual = 2; moviendose = true; }
 
             if (moviendose)
-                Animar(gameTime, 0, 3);
-            else
-                columnaActual = 0;
+            {
+                Vector2 nuevaPos = posicion + (direccion * velocidad);
+                if (EsPosicionValida(nuevaPos, mapaColisiones))
+                {
+                    posicion = nuevaPos;
+                }
+
+                timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (timer > 0.12f)
+                {
+                    columnaActual = (columnaActual + 1) % 4; // Ciclo de 4 frames
+                    timer = 0;
+                }
+            }
+            else { columnaActual = 0; }
         }
 
-        private bool EsPosicionValida(Vector2 proximaPos, Texture2D mapaColisiones)
+        private bool EsPosicionValida(Vector2 proximaPos, Texture2D col)
         {
-            int anchoF = textura.Width / numColumnas;
-            int altoF = textura.Height / 4;
+            int x = (int)proximaPos.X + (textura.Width / columnas / 2);
+            int y = (int)proximaPos.Y + (textura.Height / 4);
 
-            int posX = (int)proximaPos.X + (anchoF / 2);
-            int posY = (int)proximaPos.Y + altoF;
+            if (x < 0 || x >= col.Width || y < 0 || y >= col.Height) return false;
 
-            bool resultado = false;
-            if (posX < 0 || posX >= mapaColisiones.Width || posY < 0 || posY >= mapaColisiones.Height)
-                resultado = false;
-
-            Color[] colorExtraido = new Color[1];
-            mapaColisiones.GetData(0, new Rectangle(posX, posY, 1, 1), colorExtraido, 0, 1);
-
-            resultado = colorExtraido[0] == Color.White;
-
-            return resultado;
+            Color[] pixel = new Color[1];
+            col.GetData(0, new Rectangle(x, y, 1, 1), pixel, 0, 1);
+            return pixel[0] == Color.White;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            base.Draw(spriteBatch, numColumnas);
-        }
+        public override void Atacar(Entidad objetivo) { }
 
-        public override void Atacar(Entidad objetivo)
-        {
-            throw new NotImplementedException();
-        }
+        public void Draw(SpriteBatch sb) { base.Draw(sb, columnas); }
     }
 }
