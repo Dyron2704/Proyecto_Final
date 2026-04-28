@@ -44,6 +44,7 @@ namespace Projecto__Final.Menús
                         estadoGlobal = Game1.GameState.SeleccionPartida;
                     else
                     {
+                        DatosPartida.PersonajeSeleccionado = boton.Texto;
                         estadoGlobal = Game1.GameState.Jugando;
                     }
                 }
