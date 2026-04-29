@@ -33,6 +33,7 @@ namespace Projecto__Final
         MouseState mouseAnterior;
 
         Nivel nivelActual;
+        int numeroNivelActual = 1;
 
         Jugador jugador;
         Texture2D texturaPersonaje;
@@ -49,12 +50,29 @@ namespace Projecto__Final
         {
             nivelActual = new Nivel();
             nivelActual.Fondo = Content.Load<Texture2D>(nombreMapa);
-            nivelActual.Colisiones = Content.Load<Texture2D>(nombreMapa + " Colisiones");
-            nivelActual.Puerta = new Rectangle(280, 30, 20, 10); // Ejemplo de posición y tamaño de la puerta (Hay que mirarlo bien)
             string[] partesNombreMapa = nombreMapa.Split(' ');
             int nivel = Convert.ToInt32(partesNombreMapa[1]);
-            int siguienteNivel = nivel + 1;
-            nivelActual.SiguienteFondo = $"Pantalla {siguienteNivel}";
+            numeroNivelActual = nivel;
+
+            nivelActual.Colisiones = Content.Load<Texture2D>(nombreMapa + " Colisiones");
+
+            int xAvance = 280;
+            int xRegreso = 220;
+
+            if (nivel == 1)
+            {
+                nivelActual.Puerta1 = new Rectangle(xAvance, 30, 32, 32);
+            }
+            else if (nivel == 2)
+            {
+                nivelActual.Puerta1 = new Rectangle(xAvance, 660, 32, 32);
+                nivelActual.Puerta2 = new Rectangle(xRegreso, 30, 32, 32);
+            }
+            else if (nivel == 3)
+            {
+                nivelActual.Puerta1 = new Rectangle(xRegreso, 660, 32, 32);
+                nivelActual.Puerta2 = new Rectangle(xAvance, 30, 32, 32);
+            }
         }
 
         protected override void Initialize()
@@ -120,19 +138,47 @@ namespace Projecto__Final
                     if (jugador == null)
                     {
                         texturaPersonaje = Content.Load<Texture2D>(DatosPartida.PersonajeSeleccionado);
-                        CargarMapa("Pantalla 1");
+                        CargarMapa($"Pantalla {numeroNivelActual}");
                         jugador = new Jugador(texturaPersonaje, new Vector2(400, 300), 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje);
                     }
-                    
+
                     jugador.Update(gameTime, nivelActual.Colisiones);
 
                     Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X, (int)jugador.Posicion.Y, 32, 32);
-                    
 
-                    if (rectJugador.Intersects(nivelActual.Puerta))
+                    if (numeroNivelActual == 1)
                     {
-                        CargarMapa(nivelActual.SiguienteFondo);
-                        jugador.Posicion = new Vector2(50, 310);
+                        if (rectJugador.Intersects(nivelActual.Puerta1))
+                        {
+                            CargarMapa($"Pantalla 2");
+                            jugador.Posicion = new Vector2(250, 560);
+                        }
+                    }
+                    else if (numeroNivelActual == 2)
+                    {
+                        if (rectJugador.Intersects(nivelActual.Puerta2))
+                        {
+                            CargarMapa($"Pantalla 3");
+                            jugador.Posicion = new Vector2(220, 600);
+                        }
+                        else if (rectJugador.Intersects(nivelActual.Puerta1))
+                        {
+                            CargarMapa($"Pantalla 1");
+                            jugador.Posicion = new Vector2(280, 100);
+                        }
+                    }
+                    else if (numeroNivelActual == 3)
+                    {
+                        if (rectJugador.Intersects(nivelActual.Puerta2))
+                        {
+                            CargarMapa($"Pantalla 2");
+                            jugador.Posicion = new Vector2(100, 100);
+                        }
+                        else if (rectJugador.Intersects(nivelActual.Puerta1))
+                        {
+                            CargarMapa($"Pantalla 4");
+                            jugador.Posicion = new Vector2(50, 400);
+                        }
                     }
                     break;
 

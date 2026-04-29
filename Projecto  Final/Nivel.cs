@@ -12,12 +12,14 @@ namespace Projecto__Final
     {
         Texture2D fondo;
         Texture2D colisiones;
-        Rectangle puerta;
+        Rectangle puerta1;
+        Rectangle puerta2;
         string siguienteFondo;
 
         public Texture2D Fondo { get => fondo; set => fondo = value; }
         public Texture2D Colisiones { get => colisiones; set => colisiones = value; }
-        public Rectangle Puerta { get => puerta; set => puerta = value; }
+        public Rectangle Puerta1 { get => puerta1; set => puerta1 = value; }
         public string SiguienteFondo { get => siguienteFondo; set => siguienteFondo = value; }
+        public Rectangle Puerta2 { get => puerta2; set => puerta2 = value; }
     }
 }
