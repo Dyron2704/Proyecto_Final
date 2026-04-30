@@ -356,7 +356,7 @@
 /processorParam:TextureFormat=Color
 /build:Pantalla 3.jpeg
 
-#begin Pantalla 3.jpeg
+#begin Pantalla 4 Colisiones.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -366,7 +366,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Pantalla 3.jpeg
+/build:Pantalla 4 Colisiones.jpeg
+
+#begin Pantalla 4.jpeg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Pantalla 4.jpeg
 
 #begin Pesta - Menu.png
 /importer:TextureImporter

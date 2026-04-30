@@ -31,6 +31,9 @@ namespace Projecto__Final.Entidades
             if (teclado.IsKeyDown(Keys.A)) { direccion.X = -1; filaActual = 1; moviendose = true; }
             if (teclado.IsKeyDown(Keys.D)) { direccion.X = 1; filaActual = 2; moviendose = true; }
 
+            if (teclado.IsKeyDown(Keys.LeftShift)) { velocidad = 5f; }
+            else { velocidad = 2.5f; }
+
             if (moviendose)
             {
                 Vector2 nuevaPos = posicion + (direccion * velocidad);
@@ -40,6 +43,7 @@ namespace Projecto__Final.Entidades
                 }
 
                 timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
                 if (timer > 0.12f)
                 {
                     columnaActual = (columnaActual + 1) % 4; // Ciclo de 4 frames
