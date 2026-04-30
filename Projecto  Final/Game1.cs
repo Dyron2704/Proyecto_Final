@@ -1,10 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Transactions;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Projecto__Final.Entidades;
 using Projecto__Final.Menús;
-using System;
-using System.Collections.Generic;
+using static Projecto__Final.Objetos.Transiciones.TransicionPantalla;
 
 namespace Projecto__Final
 {
@@ -12,6 +14,9 @@ namespace Projecto__Final
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        RenderTarget2D pantallaA;
+        RenderTarget2D pantallaB;
+        ScreenTransition transicion;
 
         // Atributos menú
 
@@ -84,6 +89,10 @@ namespace Projecto__Final
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.ApplyChanges();
 
+            //transición de la pantalla (de arriba a abajo)
+            pantallaA = new RenderTarget2D(GraphicsDevice, 800, 600);
+            pantallaB = new RenderTarget2D(GraphicsDevice, 800, 600);
+            transicion = new ScreenTransition(600);
             base.Initialize();
         }
 
