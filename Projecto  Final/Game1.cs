@@ -21,16 +21,19 @@ namespace Projecto__Final
             SeleccionPartida,
             MenuPersonajes,
             Jugando,
-            Opciones
+            Opciones,
+            MenuEscape
         }
 
         MenuPrincipal menuPrincipal;
         MenuSeleccion menuSeleccion;
         MenuOpciones menuOpciones;
         MenuPersonajes menuPersonajes;
+        MenuEscape menuEscape;
         GameState estadoActual = GameState.MenuPrincipal;
 
         MouseState mouseAnterior;
+        KeyboardState tecladoAnterior;
 
         Nivel nivelActual;
         int numeroNivelActual = 1;
@@ -38,6 +41,8 @@ namespace Projecto__Final
         Jugador jugador;
         Texture2D texturaPersonaje;
         Texture2D mapaColisiones;
+
+        string personajeSeleccionadoEnUso = "";
 
         public Game1()
         {
@@ -118,6 +123,7 @@ namespace Projecto__Final
             menuSeleccion = new MenuSeleccion(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
             menuOpciones = new MenuOpciones(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
             menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
+            menuEscape = new MenuEscape(GraphicsDevice, botonNoPresionado, botonPresionado, fuenteCargada);
         }
 
         protected override void Update(GameTime gameTime)
@@ -128,6 +134,16 @@ namespace Projecto__Final
             // TODO: Add your update logic here
 
             MouseState mouse = Mouse.GetState();
+            KeyboardState teclado = Keyboard.GetState();
+
+            if (estadoActual == GameState.Jugando && teclado.IsKeyDown(Keys.Escape) && tecladoAnterior.IsKeyDown(Keys.Escape))
+            {
+                estadoActual = GameState.MenuEscape;
+            }
+             else if (estadoActual == GameState.MenuEscape && teclado.IsKeyDown(Keys.Escape) && !tecladoAnterior.IsKeyDown(Keys.Escape))
+            {
+                estadoActual = GameState.Jugando;
+            }
 
             switch (estadoActual)
             {
@@ -136,11 +152,20 @@ namespace Projecto__Final
                     break;
 
                 case GameState.Jugando:
-                    if (jugador == null)
+                    if (jugador == null || personajeSeleccionadoEnUso != DatosPartida.PersonajeSeleccionado)
                     {
                         texturaPersonaje = Content.Load<Texture2D>(DatosPartida.PersonajeSeleccionado);
+                        personajeSeleccionadoEnUso = DatosPartida.PersonajeSeleccionado;
+
+                        Vector2 posicionAnterior = new Vector2(400, 300);
+                        if (jugador != null)
+                        {
+                            posicionAnterior = jugador.Posicion;
+                        }
+
                         CargarMapa($"Pantalla {numeroNivelActual}");
-                        jugador = new Jugador(texturaPersonaje, new Vector2(400, 300), 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje);
+
+                        jugador = new Jugador(texturaPersonaje, posicionAnterior, 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje);
                     }
 
                     jugador.Update(gameTime, nivelActual.Colisiones);
@@ -202,9 +227,14 @@ namespace Projecto__Final
                 case GameState.MenuPersonajes:
                     menuPersonajes.Update(mouse, mouseAnterior, ref estadoActual);
                     break;
+
+                case GameState.MenuEscape:
+                    menuEscape.Update(mouse, mouseAnterior, ref estadoActual);
+                    break;
             }
 
             mouseAnterior = mouse;
+            tecladoAnterior = teclado;
 
             base.Update(gameTime);
         }
@@ -217,31 +247,46 @@ namespace Projecto__Final
 
             _spriteBatch.Begin();
 
-            switch (estadoActual)
+            if (estadoActual == GameState.MenuEscape || estadoActual == GameState.Jugando)
             {
-                case GameState.MenuPrincipal:
-                    menuPrincipal.Draw(_spriteBatch);
-                    break;
+                if (nivelActual != null && nivelActual.Fondo != null)
+                    _spriteBatch.Draw(nivelActual.Fondo, Vector2.Zero, Color.White);
 
-                case GameState.Jugando:
-                    if (nivelActual != null && nivelActual.Fondo != null)
-                        _spriteBatch.Draw(nivelActual.Fondo, Vector2.Zero, Color.White);
+                if (jugador != null)
+                    jugador.Draw(_spriteBatch);
 
-                    if (jugador != null)    
-                        jugador.Draw(_spriteBatch);
-                    break;
+                if (estadoActual == GameState.MenuEscape)
+                    menuEscape.Draw(_spriteBatch);
+            }
 
-                case GameState.SeleccionPartida:
-                    menuSeleccion.Draw(_spriteBatch);
-                    break;
+            else
+            {
+                switch (estadoActual)
+                {
+                    case GameState.MenuPrincipal:
+                        menuPrincipal.Draw(_spriteBatch);
+                        break;
 
-                case GameState.Opciones:
-                    menuOpciones.Draw(_spriteBatch);
-                    break;
+                    case GameState.Jugando:
+                        if (nivelActual != null && nivelActual.Fondo != null)
+                            _spriteBatch.Draw(nivelActual.Fondo, Vector2.Zero, Color.White);
 
-                case GameState.MenuPersonajes:
-                    menuPersonajes.Draw(_spriteBatch);
-                    break;
+                        if (jugador != null)
+                            jugador.Draw(_spriteBatch);
+                        break;
+
+                    case GameState.SeleccionPartida:
+                        menuSeleccion.Draw(_spriteBatch);
+                        break;
+
+                    case GameState.Opciones:
+                        menuOpciones.Draw(_spriteBatch);
+                        break;
+
+                    case GameState.MenuPersonajes:
+                        menuPersonajes.Draw(_spriteBatch);
+                        break;
+                }
             }
 
             _spriteBatch.End();
