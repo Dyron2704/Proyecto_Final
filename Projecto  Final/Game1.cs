@@ -1,10 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Transactions;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Projecto__Final.Entidades;
 using Projecto__Final.Menús;
-using System;
-using System.Collections.Generic;
+using Projecto__Final.Transiciones;
+using static Projecto__Final.Transiciones.TransicionPantalla;
+
 
 namespace Projecto__Final
 {
@@ -12,6 +16,10 @@ namespace Projecto__Final
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        RenderTarget2D pantallaA;
+        RenderTarget2D pantallaB;
+        TransicionPantalla transicion;
 
         // Atributos menú
 
@@ -21,16 +29,19 @@ namespace Projecto__Final
             SeleccionPartida,
             MenuPersonajes,
             Jugando,
-            Opciones
+            Opciones,
+            MenuEscape
         }
 
         MenuPrincipal menuPrincipal;
         MenuSeleccion menuSeleccion;
         MenuOpciones menuOpciones;
         MenuPersonajes menuPersonajes;
+        MenuEscape menuEscape;
         GameState estadoActual = GameState.MenuPrincipal;
 
         MouseState mouseAnterior;
+        KeyboardState tecladoAnterior;
 
         Nivel nivelActual;
         int numeroNivelActual = 1;
@@ -43,6 +54,8 @@ namespace Projecto__Final
         List<Alertas> listaDeAlertas = new List<Alertas>();
         Texture2D texturaFondoAlerta;
         SpriteFont fuenteGlobal;
+        string personajeSeleccionadoEnUso = "";
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -88,6 +101,11 @@ namespace Projecto__Final
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.ApplyChanges();
 
+            //transición de la pantalla (de arriba a abajo)
+            pantallaA = new RenderTarget2D(GraphicsDevice, 800, 600);
+            pantallaB = new RenderTarget2D(GraphicsDevice, 800, 600);
+            transicion = new TransicionPantalla(600);
+
             base.Initialize();
         }
 
@@ -124,6 +142,7 @@ namespace Projecto__Final
             menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
 
             fuenteGlobal = Content.Load<SpriteFont>("FuenteMenu");
+            menuEscape = new MenuEscape(GraphicsDevice, botonNoPresionado, botonPresionado, fuenteCargada);
         }
 
         protected override void Update(GameTime gameTime)
@@ -134,6 +153,12 @@ namespace Projecto__Final
             // TODO: Add your update logic here
 
             MouseState mouse = Mouse.GetState();
+            KeyboardState teclado = Keyboard.GetState();
+
+            if (estadoActual == GameState.Jugando && teclado.IsKeyDown(Keys.Escape) && tecladoAnterior.IsKeyDown(Keys.Escape))
+                estadoActual = GameState.MenuEscape;
+            else if (estadoActual == GameState.MenuEscape && teclado.IsKeyDown(Keys.Escape) && !tecladoAnterior.IsKeyDown(Keys.Escape))
+                estadoActual = GameState.Jugando;
 
             switch (estadoActual)
             {
@@ -142,11 +167,20 @@ namespace Projecto__Final
                     break;
 
                 case GameState.Jugando:
-                    if (jugador == null)
+                    if (jugador == null || personajeSeleccionadoEnUso != DatosPartida.PersonajeSeleccionado)
                     {
                         texturaPersonaje = Content.Load<Texture2D>(DatosPartida.PersonajeSeleccionado);
+                        personajeSeleccionadoEnUso = DatosPartida.PersonajeSeleccionado;
+
+                        Vector2 posicionAnterior = new Vector2(400, 300);
+                        if (jugador != null)
+                        {
+                            posicionAnterior = jugador.Posicion;
+                        }
+
                         CargarMapa($"Pantalla {numeroNivelActual}");
-                        jugador = new Jugador(texturaPersonaje, new Vector2(400, 300), 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje);
+
+                        jugador = new Jugador(texturaPersonaje, posicionAnterior, 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje);
                     }
 
                     jugador.Update(gameTime, nivelActual.Colisiones);
@@ -209,9 +243,14 @@ namespace Projecto__Final
                 case GameState.MenuPersonajes:
                     menuPersonajes.Update(mouse, mouseAnterior, ref estadoActual);
                     break;
+
+                case GameState.MenuEscape:
+                    menuEscape.Update(mouse, mouseAnterior, ref estadoActual);
+                    break;
             }
 
             mouseAnterior = mouse;
+            tecladoAnterior = teclado;
 
             //codigo prueba alertas
             foreach (var alerta in listaDeAlertas)
@@ -231,31 +270,46 @@ namespace Projecto__Final
 
             _spriteBatch.Begin();
 
-            switch (estadoActual)
+            if (estadoActual == GameState.MenuEscape || estadoActual == GameState.Jugando)
             {
-                case GameState.MenuPrincipal:
-                    menuPrincipal.Draw(_spriteBatch);
-                    break;
+                if (nivelActual != null && nivelActual.Fondo != null)
+                    _spriteBatch.Draw(nivelActual.Fondo, Vector2.Zero, Color.White);
 
-                case GameState.Jugando:
-                    if (nivelActual != null && nivelActual.Fondo != null)
-                        _spriteBatch.Draw(nivelActual.Fondo, Vector2.Zero, Color.White);
+                if (jugador != null)
+                    jugador.Draw(_spriteBatch);
 
-                    if (jugador != null)    
-                        jugador.Draw(_spriteBatch);
-                    break;
+                if (estadoActual == GameState.MenuEscape)
+                    menuEscape.Draw(_spriteBatch);
+            }
 
-                case GameState.SeleccionPartida:
-                    menuSeleccion.Draw(_spriteBatch);
-                    break;
+            else
+            {
+                switch (estadoActual)
+                {
+                    case GameState.MenuPrincipal:
+                        menuPrincipal.Draw(_spriteBatch);
+                        break;
 
-                case GameState.Opciones:
-                    menuOpciones.Draw(_spriteBatch);
-                    break;
+                    case GameState.Jugando:
+                        if (nivelActual != null && nivelActual.Fondo != null)
+                            _spriteBatch.Draw(nivelActual.Fondo, Vector2.Zero, Color.White);
 
-                case GameState.MenuPersonajes:
-                    menuPersonajes.Draw(_spriteBatch);
-                    break;
+                        if (jugador != null)
+                            jugador.Draw(_spriteBatch);
+                        break;
+
+                    case GameState.SeleccionPartida:
+                        menuSeleccion.Draw(_spriteBatch);
+                        break;
+
+                    case GameState.Opciones:
+                        menuOpciones.Draw(_spriteBatch);
+                        break;
+
+                    case GameState.MenuPersonajes:
+                        menuPersonajes.Draw(_spriteBatch);
+                        break;
+                }
             }
 
             //prueba alertas
