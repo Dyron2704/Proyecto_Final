@@ -39,6 +39,10 @@ namespace Projecto__Final
         Texture2D texturaPersonaje;
         Texture2D mapaColisiones;
 
+        //variables prueba alertas
+        List<Alertas> listaDeAlertas = new List<Alertas>();
+        Texture2D texturaFondoAlerta;
+        SpriteFont fuenteGlobal;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -118,6 +122,8 @@ namespace Projecto__Final
             menuSeleccion = new MenuSeleccion(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
             menuOpciones = new MenuOpciones(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
             menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
+
+            fuenteGlobal = Content.Load<SpriteFont>("FuenteMenu");
         }
 
         protected override void Update(GameTime gameTime)
@@ -153,6 +159,7 @@ namespace Projecto__Final
                         {
                             CargarMapa($"Pantalla 2");
                             jugador.Posicion = new Vector2(200, 570);
+                            listaDeAlertas.Add(new Alertas("Has entrado en la Pantalla 2", new Vector2(500, 100), 3.0f));
                         }
                     }
                     else if (numeroNivelActual == 2)
@@ -206,6 +213,13 @@ namespace Projecto__Final
 
             mouseAnterior = mouse;
 
+            //codigo prueba alertas
+            foreach (var alerta in listaDeAlertas)
+            {
+                alerta.Update(gameTime);
+            }
+            listaDeAlertas.RemoveAll(a => !a.Activa);
+
             base.Update(gameTime);
         }
 
@@ -244,6 +258,11 @@ namespace Projecto__Final
                     break;
             }
 
+            //prueba alertas
+            foreach (var alerta in listaDeAlertas)
+            {
+                _spriteBatch.DrawString(fuenteGlobal, alerta.Mensaje, alerta.Posicion, Color.Yellow * alerta.Opacidad);
+            }
             _spriteBatch.End();
 
             base.Draw(gameTime);
