@@ -56,22 +56,23 @@ namespace Projecto__Final
 
             nivelActual.Colisiones = Content.Load<Texture2D>(nombreMapa + " Colisiones");
 
-            int xAvance = 280;
-            int xRegreso = 220;
-
             if (nivel == 1)
             {
-                nivelActual.Puerta1 = new Rectangle(xAvance, 30, 32, 32);
+                nivelActual.Puerta1 = new Rectangle(250, 20, 64, 32);
             }
             else if (nivel == 2)
             {
-                nivelActual.Puerta1 = new Rectangle(xAvance, 660, 32, 32);
-                nivelActual.Puerta2 = new Rectangle(xRegreso, 30, 32, 32);
+                nivelActual.Puerta1 = new Rectangle(200, 600, 64, 32);
+                nivelActual.Puerta2 = new Rectangle(210, 10, 64, 32);
             }
             else if (nivel == 3)
             {
-                nivelActual.Puerta1 = new Rectangle(xRegreso, 660, 32, 32);
-                nivelActual.Puerta2 = new Rectangle(xAvance, 30, 32, 32);
+                nivelActual.Puerta1 = new Rectangle(120, 600, 64, 32);
+                nivelActual.Puerta2 = new Rectangle(1100, 15, 64, 32);
+            }
+            else if (nivel == 4)
+            {
+                nivelActual.Puerta1 = new Rectangle(60, 600, 64, 32);
             }
         }
 
@@ -121,7 +122,7 @@ namespace Projecto__Final
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
                 Exit();
 
             // TODO: Add your update logic here
@@ -151,7 +152,7 @@ namespace Projecto__Final
                         if (rectJugador.Intersects(nivelActual.Puerta1))
                         {
                             CargarMapa($"Pantalla 2");
-                            jugador.Posicion = new Vector2(250, 560);
+                            jugador.Posicion = new Vector2(200, 570);
                         }
                     }
                     else if (numeroNivelActual == 2)
@@ -159,7 +160,7 @@ namespace Projecto__Final
                         if (rectJugador.Intersects(nivelActual.Puerta2))
                         {
                             CargarMapa($"Pantalla 3");
-                            jugador.Posicion = new Vector2(220, 600);
+                            jugador.Posicion = new Vector2(100, 560);
                         }
                         else if (rectJugador.Intersects(nivelActual.Puerta1))
                         {
@@ -171,13 +172,21 @@ namespace Projecto__Final
                     {
                         if (rectJugador.Intersects(nivelActual.Puerta2))
                         {
-                            CargarMapa($"Pantalla 2");
-                            jugador.Posicion = new Vector2(100, 100);
+                            CargarMapa($"Pantalla 4");
+                            jugador.Posicion = new Vector2(60, 560);
                         }
                         else if (rectJugador.Intersects(nivelActual.Puerta1))
                         {
-                            CargarMapa($"Pantalla 4");
-                            jugador.Posicion = new Vector2(50, 400);
+                            CargarMapa($"Pantalla 2");
+                            jugador.Posicion = new Vector2(200, 50); 
+                        }
+                    }
+                    else if (numeroNivelActual == 4)
+                    {
+                        if (rectJugador.Intersects(nivelActual.Puerta1))
+                        {
+                            CargarMapa($"Pantalla 3");
+                            jugador.Posicion = new Vector2(1100, 60);
                         }
                     }
                     break;
