@@ -137,13 +137,9 @@ namespace Projecto__Final
             KeyboardState teclado = Keyboard.GetState();
 
             if (estadoActual == GameState.Jugando && teclado.IsKeyDown(Keys.Escape) && tecladoAnterior.IsKeyDown(Keys.Escape))
-            {
                 estadoActual = GameState.MenuEscape;
-            }
-             else if (estadoActual == GameState.MenuEscape && teclado.IsKeyDown(Keys.Escape) && !tecladoAnterior.IsKeyDown(Keys.Escape))
-            {
+            else if (estadoActual == GameState.MenuEscape && teclado.IsKeyDown(Keys.Escape) && !tecladoAnterior.IsKeyDown(Keys.Escape))
                 estadoActual = GameState.Jugando;
-            }
 
             switch (estadoActual)
             {
