@@ -12,18 +12,21 @@ namespace Projecto__Final.Transiciones
     {
         private float _progreso = 0f;
         public bool EstaActiva { get; private set; }
+        public bool DireccionInversa { get; set; }
         private int _alturaPantalla;
         private float _velocidad = 1.5f;
+
 
         public TransicionPantalla(int altura)
         {
             _alturaPantalla = altura;
         }
 
-        public void Iniciar()
+        public void Iniciar(bool direccionInversa)
         {
             _progreso = 0f;
             EstaActiva = true;
+            DireccionInversa = direccionInversa;
         }
 
         public void Update(GameTime gameTime)
@@ -44,9 +47,16 @@ namespace Projecto__Final.Transiciones
             float desplazamientoSuave = MathHelper.SmoothStep(0, 1, _progreso);
             int pixelesY = (int)(desplazamientoSuave * _alturaPantalla);
 
-            spriteBatch.Draw(texturaVieja, new Vector2(0, pixelesY), Color.White);
-
-            spriteBatch.Draw(texturaNueva, new Vector2(0, pixelesY - _alturaPantalla), Color.White);
+            if(!DireccionInversa)
+            {
+                spriteBatch.Draw(texturaVieja, new Vector2(0, pixelesY), Color.White);
+                spriteBatch.Draw(texturaNueva, new Vector2(0, pixelesY - _alturaPantalla), Color.White);
+            }
+            else
+            {
+                spriteBatch.Draw(texturaVieja, new Vector2(0, -pixelesY), Color.White);
+                spriteBatch.Draw(texturaNueva, new Vector2(0, _alturaPantalla - pixelesY), Color.White);
+            }
         }
     }
 }
