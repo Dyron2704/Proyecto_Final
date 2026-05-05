@@ -16,6 +16,7 @@ namespace Projecto__Final
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private GameState estadoAnterior;
 
         RenderTarget2D pantallaA;
         RenderTarget2D pantallaB;
@@ -155,6 +156,8 @@ namespace Projecto__Final
             MouseState mouse = Mouse.GetState();
             KeyboardState teclado = Keyboard.GetState();
 
+            estadoAnterior = estadoActual;
+
             if (estadoActual == GameState.Jugando && teclado.IsKeyDown(Keys.Escape) && tecladoAnterior.IsKeyDown(Keys.Escape))
                 estadoActual = GameState.MenuEscape;
             else if (estadoActual == GameState.MenuEscape && teclado.IsKeyDown(Keys.Escape) && !tecladoAnterior.IsKeyDown(Keys.Escape))
@@ -257,7 +260,15 @@ namespace Projecto__Final
             {
                 alerta.Update(gameTime);
             }
+
             listaDeAlertas.RemoveAll(a => !a.Activa);
+
+            if (estadoActual == GameState.MenuPrincipal && estadoAnterior != GameState.MenuPrincipal)
+            {
+                {
+                    Reset();
+                }
+            }
 
             base.Update(gameTime);
         }
@@ -320,6 +331,14 @@ namespace Projecto__Final
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public void Reset()
+        {
+            estadoActual = GameState.MenuPrincipal;
+            jugador = null;
+            numeroNivelActual = 1;
+            personajeSeleccionadoEnUso = "";
         }
     }
 }
