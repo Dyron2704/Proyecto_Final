@@ -34,7 +34,7 @@ namespace Projecto__Final
             Opciones,
             MenuEscape,
             Transiciones,
-            Combatiendo
+            Combate
         }
 
         MenuPrincipal menuPrincipal;
@@ -59,6 +59,14 @@ namespace Projecto__Final
         Texture2D texturaFondoAlerta;
         SpriteFont fuenteGlobal;
         string personajeSeleccionadoEnUso = "";
+
+        Combate combateActual;
+        Enemigo enmigoPrueba;
+
+        /* Cuando se detecte un combate deberemos poner el siguiente código:
+         * combateActual = new Combate(jugador, enemigoPrueba, texturaBoton, texturaBotonHover, fuenteGlobal);
+         * estadoActual = GameState.Combate;
+         */
 
         public Game1()
         {
@@ -340,10 +348,14 @@ namespace Projecto__Final
                         estadoActual= GameState.Jugando;
                     }
                     break;
+
+                case GameState.Combate:
+                    combateActual.Update(gameTime, mouse, mouseAnterior);
+                    break;
             }
 
             //codigo prueba alertas
-            foreach (var alerta in listaDeAlertas)
+            foreach (Alertas alerta in listaDeAlertas)
             {
                 alerta.Update(gameTime);
             }
@@ -424,9 +436,14 @@ namespace Projecto__Final
                     case GameState.MenuPersonajes:
                         menuPersonajes.Draw(_spriteBatch);
                         break;
+
                     case GameState.Transiciones:
                         //GraphicsDevice.Clear(Color.Black);
                         transicion.Draw(_spriteBatch, pantallaA, pantallaB);
+                        break;
+
+                    case GameState.Combate:
+                        combateActual.Draw(_spriteBatch);
                         break;
                 }
             }
