@@ -10,7 +10,7 @@ namespace Projecto__Final.Entidades
 {
     internal abstract class Entidad
     {
-        protected int vida;
+        private int vida;
         protected string nombre;
         protected Texture2D textura;
         protected Vector2 posicion;
@@ -29,6 +29,7 @@ namespace Projecto__Final.Entidades
         public abstract void Atacar(Entidad objetivo);
 
         public Vector2 Posicion { get => posicion; set => posicion = value; }
+        public int Vida { get => vida; set => vida = value; }
 
         public virtual void Draw(SpriteBatch spriteBatch, int columnas)
         {

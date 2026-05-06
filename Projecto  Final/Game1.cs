@@ -33,7 +33,8 @@ namespace Projecto__Final
             Jugando,
             Opciones,
             MenuEscape,
-            Transiciones
+            Transiciones,
+            Combatiendo
         }
 
         MenuPrincipal menuPrincipal;
