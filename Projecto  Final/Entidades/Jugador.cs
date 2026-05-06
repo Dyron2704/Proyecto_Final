@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Projecto__Final.Inventarios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,15 @@ namespace Projecto__Final.Entidades
     {
         float velocidad = 2.5f;
         int columnas;
+        Inventario inventario;
+
+        internal Inventario Inventario { get => inventario; set => inventario = value; }
+
         public Jugador(Texture2D textura, Vector2 pos, int vida, string nombre, int columnas)
             : base(vida, nombre, textura, pos)
         {
             this.columnas = 8;
+            inventario = new Inventario();
         }
 
         public void Update(GameTime gameTime, Texture2D mapaColisiones)
@@ -33,6 +39,19 @@ namespace Projecto__Final.Entidades
 
             if (teclado.IsKeyDown(Keys.LeftShift)) { velocidad = 5f; }
             else { velocidad = 2.5f; }
+
+            // Para el uso de pociones del inventario en el futuro
+
+            if (teclado.IsKeyDown(Keys.E))
+            {
+                bool exito = Inventario.UsarObjeto("Pocion de Vida");
+
+                if (exito)
+                {
+                    vida += 20;
+                    if (vida > 100) vida = 100;
+                }
+            }
 
             if (moviendose)
             {
