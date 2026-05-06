@@ -48,8 +48,8 @@ namespace Projecto__Final.Entidades
 
                 if (exito)
                 {
-                    vida += 20;
-                    if (vida > 100) vida = 100;
+                    Vida += 20;
+                    if (Vida > 100) Vida = 100;
                 }
             }
 
