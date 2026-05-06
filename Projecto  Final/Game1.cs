@@ -110,6 +110,14 @@ namespace Projecto__Final
             {
                 nivelActual.Puerta1 = new Rectangle(120, 600, 64, 32);
                 nivelActual.Puerta2 = new Rectangle(1100, 15, 64, 32);
+
+                nivelActual.Cofres.Add(new Cofre(new Rectangle(190, 250, 40, 40),
+                    "Pocion de Vida", false, texturaCofre, null));
+                nivelActual.Cofres.Add(new Cofre(new Rectangle(960, 310, 40, 40),
+                    "Trampa tramposilla", false, texturaCofre, null));
+
+                nivelActual.Cofres.Add(new Cofre(new Rectangle(1050, 310, 40, 40),
+                    "Pocion de Vida", false, texturaCofre, null));
             }
             else if (nivel == 4)
             {
