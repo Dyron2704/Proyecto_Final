@@ -4,23 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Projecto__Final.Entidades
+namespace Projecto__Final.Items
 {
     internal class Item
     {
         string nombre;
         string descripcion;
-        int precio;
+        string tipo; // "Pocion de Vida" ó "Arma"
 
-        public Item(string nombre, string descripcion, int precio)
+        public Item(string nombre, string descripcion)
         {
             this.nombre = nombre;
             this.descripcion = descripcion;
-            this.precio = precio;
         }
 
         public string Nombre { get => nombre; set => nombre = value; }
         public string Descripcion { get => descripcion; set => descripcion = value; }
-        public int Precio { get => precio; set => precio = value; }
+        public string Tipo { get => tipo; set => tipo = value; }
     }
 }
