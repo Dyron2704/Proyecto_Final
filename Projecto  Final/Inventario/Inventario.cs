@@ -1,4 +1,5 @@
 ﻿using Projecto__Final.Entidades;
+using Projecto__Final.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,14 +19,17 @@ namespace Projecto__Final.Inventarios
 
         public List<ObjetoInventario> Objetos { get => objetos; set => objetos = value; }
 
-        public void AgregarObjeto(string nombre, string tipo, int cantidad = 1)
+        public void AgregarObjeto(Item item, int cantidad = 1)
         {
-            ObjetoInventario objetoExistente = objetos.Find(objeto => objeto.Nombre == nombre && objeto.Tipo == tipo);
+            ObjetoInventario objetoExistente = objetos.Find(o => o.Nombre == item.Nombre);
 
-            if (objetoExistente == null) {
-                Objetos.Add(new ObjetoInventario(nombre, tipo, cantidad));
-            } else {
+            if (objetoExistente != null)
+            {
                 objetoExistente.Cantidad += cantidad;
+            }
+            else
+            {
+                objetos.Add(new ObjetoInventario(item.Nombre, item.Tipo, cantidad));
             }
         }
 

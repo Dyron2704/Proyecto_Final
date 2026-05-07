@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Projecto__Final.Inventarios;
+using Projecto__Final.Menús;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,16 @@ namespace Projecto__Final.Entidades
         int columnas;
         Inventario inventario;
 
-        internal Inventario Inventario { get => inventario; set => inventario = value; }
+        KeyboardState tecladoAnterior;
+        
+        public Inventario Inventario { get => inventario; set => inventario = value; }
 
         public Jugador(Texture2D textura, Vector2 pos, int vida, string nombre, int columnas)
             : base(vida, nombre, textura, pos)
         {
             this.columnas = 8;
             inventario = new Inventario();
+            tecladoAnterior = Keyboard.GetState();
         }
 
         public void Update(GameTime gameTime, Texture2D mapaColisiones)
@@ -42,16 +46,16 @@ namespace Projecto__Final.Entidades
 
             // Para el uso de pociones del inventario en el futuro
 
-            if (teclado.IsKeyDown(Keys.E))
+            if (teclado.IsKeyDown(Keys.E) && tecladoAnterior.IsKeyUp(Keys.E))
             {
-                bool exito = Inventario.UsarObjeto("Pocion de Vida");
-
-                if (exito)
+                if (this.Inventario.UsarObjeto("Pocion de Vida"))
                 {
-                    Vida += 20;
-                    if (Vida > 100) Vida = 100;
+                    this.Vida += 20;
+                    if (this.Vida > 100) this.Vida = 100;
                 }
             }
+
+            tecladoAnterior = teclado;
 
             if (moviendose)
             {
