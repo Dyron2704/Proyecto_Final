@@ -74,14 +74,19 @@ namespace Projecto__Final.Entidades
 
         private bool EsPosicionValida(Vector2 proximaPos, Texture2D col)
         {
+            bool resultado = false;
+
             int x = (int)proximaPos.X + (textura.Width / columnas / 2);
             int y = (int)proximaPos.Y + (textura.Height / 4);
 
-            if (x < 0 || x >= col.Width || y < 0 || y >= col.Height) return false;
+            if (x < 0 || x >= col.Width || y < 0 || y >= col.Height) resultado = false;
 
             Color[] pixel = new Color[1];
             col.GetData(0, new Rectangle(x, y, 1, 1), pixel, 0, 1);
-            return pixel[0] == Color.White;
+
+            resultado = pixel[0] == Color.White;
+
+            return resultado;
         }
 
         public override void Atacar(Entidad objetivo) { }
