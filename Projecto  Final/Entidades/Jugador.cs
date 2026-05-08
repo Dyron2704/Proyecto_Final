@@ -2,7 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Projecto__Final.Inventarios;
+using Projecto__Final.Items;
 using Projecto__Final.Menús;
+using Projecto__Final.Objetos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +32,7 @@ namespace Projecto__Final.Entidades
             tecladoAnterior = Keyboard.GetState();
         }
 
-        public void Update(GameTime gameTime, Texture2D mapaColisiones)
+        public void Update(GameTime gameTime, Texture2D mapaColisiones, List<Cofre> cofres, Game1 juego)
         {
             KeyboardState teclado = Keyboard.GetState();
             Vector2 direccion = Vector2.Zero;
@@ -44,7 +46,50 @@ namespace Projecto__Final.Entidades
             if (teclado.IsKeyDown(Keys.LeftShift)) { velocidad = 5f; }
             else { velocidad = 2.5f; }
 
-            // Para el uso de pociones del inventario en el futuro
+            bool interactuado = false;
+
+            if (teclado.IsKeyDown(Keys.F) && tecladoAnterior.IsKeyUp(Keys.F))
+            {
+                Rectangle rectJugador = new Rectangle((int)posicion.X, (int)posicion.Y, 32, 32);
+
+                for (int i = 0; i < cofres.Count && !interactuado; i++)
+                {
+                    if (!cofres[i].abierto && cofres[i].area.Intersects(rectJugador))
+                    {
+                        if (cofres[i].Abrir())
+                        {
+                            if (cofres[i].esTrampa)
+                            {
+                                /*
+                                this.Vida -= 10;
+                                Item armaEnemigo = new Item(cofres[i].contenido, "Arma soltada por enemigo");
+                                armaEnemigo.Tipo = "Arma";
+
+                                this.Inventario.AgregarObjeto(armaEnemigo);
+                                juego.AgregarAlerta("¡Trampa! Has recibido 10 de daño pero obtuviste el arma.");
+                                */
+                            }
+                            else
+                            {
+                                Item nuevoItem;
+                                if (cofres[i].contenido == "Pocion de Vida")
+                                {
+                                    nuevoItem = new Pocion("Pocion de Vida", "Cura 20 HP", 20);
+                                }
+                                else
+                                {
+                                    nuevoItem = new Item(cofres[i].contenido, "Objeto común");
+                                }
+
+                                this.Inventario.AgregarObjeto(nuevoItem);
+                                juego.AgregarAlerta($"Guardado: {cofres[i].contenido}");
+                            }
+                        }
+                        
+                        interactuado = true;
+                    }
+                }
+                }
 
             if (teclado.IsKeyDown(Keys.E) && tecladoAnterior.IsKeyUp(Keys.E))
             {

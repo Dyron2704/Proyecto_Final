@@ -28,7 +28,7 @@ namespace Projecto__Final.Objetos
             this._texturaCerrado = texturaCerrado;
             this._texturaAbierto = texturaAbierto;
         }
-
+        /*
         public bool CheckInteraccion(Rectangle jugadorHitbox, KeyboardState teclado, 
             KeyboardState tecladoAnterior)
         {
@@ -43,7 +43,7 @@ namespace Projecto__Final.Objetos
                 }
             }
             return false;
-        }
+        }*/
         public void Draw(SpriteBatch spriteBatch)
         {
             Rectangle zonaInteraccion = area;
@@ -53,6 +53,19 @@ namespace Projecto__Final.Objetos
                 spriteBatch.Draw(_texturaCerrado, area, Color.White);
             }
             
+        }
+
+        public bool Abrir()
+        {
+            bool resultado = false;
+
+            if (!abierto)
+            {
+                abierto = true;
+                resultado = true;
+            }
+
+            return resultado;
         }
     }
 }
