@@ -303,11 +303,13 @@ namespace Projecto__Final
                         {
                             IniciarTransicion($"Pantalla 3", new Vector2(100, 560),false);
                             //jugador.Posicion = new Vector2(100, 560);
+                            AgregarAlerta("Has entrado en la Pantalla 3");
                         }
                         else if (rectJugador.Intersects(nivelActual.Puerta1))
                         {
                             IniciarTransicion($"Pantalla 1", new Vector2(280, 100),true);
                             //jugador.Posicion = new Vector2(280, 100);
+                            AgregarAlerta("Has entrado en la Pantalla 1");
                         }
                     }
                     else if (numeroNivelActual == 3)
@@ -316,11 +318,13 @@ namespace Projecto__Final
                         {
                             IniciarTransicion($"Pantalla 4", new Vector2(60, 560), false);
                             //jugador.Posicion = new Vector2(60, 560);
+                            AgregarAlerta("Has entrado en la Pantalla 4");
                         }
                         else if (rectJugador.Intersects(nivelActual.Puerta1))
                         {
                             IniciarTransicion($"Pantalla 2", new Vector2(200, 50), true);
                             //jugador.Posicion = new Vector2(200, 50); 
+                            AgregarAlerta("Has entrado en la Pantalla 2");
                         }
                     }
                     else if (numeroNivelActual == 4)
@@ -329,6 +333,7 @@ namespace Projecto__Final
                         {
                             IniciarTransicion($"Pantalla 3", new Vector2(1100, 60), true);
                             //jugador.Posicion = new Vector2(1100, 60);
+                            AgregarAlerta("Has entrado en la Pantalla 3");
                         }
                     }
                     break;
