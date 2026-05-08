@@ -85,17 +85,17 @@ namespace Projecto__Final
 
             nivelActual.Colisiones = Content.Load<Texture2D>(nombreMapa + " Colisiones");
 
-            Texture2D texturaCofre=Content.Load<Texture2D>("cofre");
+            Texture2D texturaCofre = Content.Load<Texture2D>("cofre");
 
             if (nivel == 1)
             {
                 nivelActual.Puerta1 = new Rectangle(250, 20, 64, 32);
 
-                nivelActual.Cofres.Add(new Cofre(new Rectangle(285, 380, 40, 40), 
+                nivelActual.Cofres.Add(new Cofre(new Rectangle(285, 380, 40, 40),
                     "Pocion de Vida", false, texturaCofre, null));
-                nivelActual.Cofres.Add(new Cofre(new Rectangle(575, 220, 40, 40), "Trampa", 
+                nivelActual.Cofres.Add(new Cofre(new Rectangle(575, 220, 40, 40), "Trampa",
                     true, texturaCofre, null));
-                nivelActual.Cofres.Add(new Cofre(new Rectangle(670, 220, 40, 40), 
+                nivelActual.Cofres.Add(new Cofre(new Rectangle(670, 220, 40, 40),
                     "Llave Antigua", false, texturaCofre, null));
             }
             else if (nivel == 2)
@@ -134,7 +134,7 @@ namespace Projecto__Final
                 nivelActual.Puerta1 = new Rectangle(60, 600, 64, 32);
             }
         }
-        public void IniciarTransicion(string nombreNuevoMapa, Vector2 nuevaPosicionJugador,bool inversa)
+        public void IniciarTransicion(string nombreNuevoMapa, Vector2 nuevaPosicionJugador, bool inversa)
         {
             GraphicsDevice.SetRenderTarget(pantallaA);
             GraphicsDevice.Clear(Color.Black);
@@ -227,9 +227,9 @@ namespace Projecto__Final
             MouseState mouse = Mouse.GetState();
             KeyboardState teclado = Keyboard.GetState();
 
-            if (estadoActual == GameState.Jugando && teclado.IsKeyDown(Keys.Escape) 
+            if (estadoActual == GameState.Jugando && teclado.IsKeyDown(Keys.Escape)
                 && !tecladoAnterior.IsKeyDown(Keys.Escape))
-            estadoAnterior = estadoActual;
+                estadoAnterior = estadoActual;
 
             if (estadoActual == GameState.Jugando && teclado.IsKeyDown(Keys.Escape) && tecladoAnterior.IsKeyDown(Keys.Escape))
                 estadoActual = GameState.MenuEscape;
@@ -259,41 +259,15 @@ namespace Projecto__Final
                         jugador = new Jugador(texturaPersonaje, posicionAnterior, 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje);
                     }
 
-                    jugador.Update(gameTime, nivelActual.Colisiones);
+                    jugador.Update(gameTime, nivelActual.Colisiones, nivelActual.Cofres, this);
 
-                    Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X, 
-                        (int)jugador.Posicion.Y, 32, 32);
+                    Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X, (int)jugador.Posicion.Y, 32, 32);
 
-                    if (nivelActual?.Cofres != null)
-                    {
-                        foreach (var cofre in nivelActual.Cofres)
-                        {
-                            if (cofre.CheckInteraccion(rectJugador, teclado, tecladoAnterior))
-                            {
-                                if (cofre.esTrampa)
-                                {
-                                    AgregarAlerta("¡Bicho fuera! Es una trampa");
-                                }
-                                else
-                                {
-                                    AgregarAlerta($"Has encontrado: {cofre.contenido}");
-                                }
-                            }
-                            else if(cofre.abierto && rectJugador.Intersects(cofre.area))
-                            {
-                                if (teclado.IsKeyDown(Keys.F) && !tecladoAnterior.IsKeyDown(Keys.F))
-                                {
-                                    AgregarAlerta("Este cofre ya esta vacio");
-                                }
-                            }
-                        }
-                    }
                     if (numeroNivelActual == 1)
                     {
                         if (rectJugador.Intersects(nivelActual.Puerta1))
                         {
-                            IniciarTransicion($"Pantalla 2", new Vector2(200, 570),false);
-                            //jugador.Posicion = new Vector2(200, 570);
+                            IniciarTransicion($"Pantalla 2", new Vector2(200, 570), false);
                             AgregarAlerta("Has entrado en la Pantalla 2");
                         }
                     }
@@ -301,13 +275,13 @@ namespace Projecto__Final
                     {
                         if (rectJugador.Intersects(nivelActual.Puerta2))
                         {
-                            IniciarTransicion($"Pantalla 3", new Vector2(100, 560),false);
+                            IniciarTransicion($"Pantalla 3", new Vector2(100, 560), false);
                             //jugador.Posicion = new Vector2(100, 560);
                             AgregarAlerta("Has entrado en la Pantalla 3");
                         }
                         else if (rectJugador.Intersects(nivelActual.Puerta1))
                         {
-                            IniciarTransicion($"Pantalla 1", new Vector2(280, 100),true);
+                            IniciarTransicion($"Pantalla 1", new Vector2(280, 100), true);
                             //jugador.Posicion = new Vector2(280, 100);
                             AgregarAlerta("Has entrado en la Pantalla 1");
                         }
@@ -355,9 +329,9 @@ namespace Projecto__Final
                     break;
                 case GameState.Transiciones:
                     transicion.Update(gameTime);
-                    if(!transicion.EstaActiva)
+                    if (!transicion.EstaActiva)
                     {
-                        estadoActual= GameState.Jugando;
+                        estadoActual = GameState.Jugando;
                     }
                     break;
 
@@ -366,12 +340,12 @@ namespace Projecto__Final
                     break;
             }
 
-                foreach (Alertas alerta in listaDeAlertas)
-                {
-                    alerta.Update(gameTime);
-                }
+            foreach (Alertas alerta in listaDeAlertas)
+            {
+                alerta.Update(gameTime);
+            }
 
-                listaDeAlertas.RemoveAll(a => !a.Activa);
+            listaDeAlertas.RemoveAll(a => !a.Activa);
 
             mouseAnterior = mouse;
             tecladoAnterior = teclado;
@@ -389,7 +363,7 @@ namespace Projecto__Final
         {
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
-           
+
             // TODO: Add your drawing code here
             Console.WriteLine($"Estado actual: {estadoActual}");
             if (estadoActual == GameState.MenuEscape || estadoActual == GameState.Jugando)
@@ -402,7 +376,7 @@ namespace Projecto__Final
                     Texture2D pixel = new Texture2D(GraphicsDevice, 1, 1);
                     pixel.SetData(new[] { Color.White });
 
-                    Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X, 
+                    Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X,
                         (int)jugador.Posicion.Y, 32, 32);
 
                     _spriteBatch.Draw(pixel, rectJugador, Color.Red * 0.5f);
@@ -432,7 +406,7 @@ namespace Projecto__Final
                         if (jugador != null)
                         {
                             jugador.Draw(_spriteBatch);
-                            
+
                         }
                         break;
 
@@ -458,10 +432,10 @@ namespace Projecto__Final
                         break;
                 }
             }
-          
-            
+
+
             //prueba alertas
-            foreach (var alerta in listaDeAlertas)
+            foreach (Alertas alerta in listaDeAlertas)
             {
                 Vector2 tamañoTexto = fuenteGlobal.MeasureString(alerta.Mensaje);
 
