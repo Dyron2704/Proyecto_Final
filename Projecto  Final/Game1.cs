@@ -212,6 +212,9 @@ namespace Projecto__Final
 
             fuenteGlobal = Content.Load<SpriteFont>("FuenteMenu");
             menuEscape = new MenuEscape(GraphicsDevice, botonNoPresionado, botonPresionado, fuenteCargada);
+
+            texturaFondoAlerta = new Texture2D(GraphicsDevice, 1, 1);
+            texturaFondoAlerta.SetData(new[] { Color.White });
         }
 
         protected override void Update(GameTime gameTime)
@@ -269,21 +272,18 @@ namespace Projecto__Final
                             {
                                 if (cofre.esTrampa)
                                 {
-                                    listaDeAlertas.Add(new Alertas("Bicho fuera! Es una trampa"
-                                        , jugador.Posicion, 2.0f));
+                                    AgregarAlerta("¡Bicho fuera! Es una trampa");
                                 }
                                 else
                                 {
-                                    listaDeAlertas.Add(new Alertas($"Has encontrado: " +
-                                        $"{cofre.contenido}", jugador.Posicion, 3.0f));
+                                    AgregarAlerta($"Has encontrado: {cofre.contenido}");
                                 }
                             }
                             else if(cofre.abierto && rectJugador.Intersects(cofre.area))
                             {
                                 if (teclado.IsKeyDown(Keys.F) && !tecladoAnterior.IsKeyDown(Keys.F))
                                 {
-                                    listaDeAlertas.Add(new Alertas("Este cofre ya esta vacio", 
-                                        jugador.Posicion, 1.5f));
+                                    AgregarAlerta("Este cofre ya esta vacio");
                                 }
                             }
                         }
@@ -294,8 +294,7 @@ namespace Projecto__Final
                         {
                             IniciarTransicion($"Pantalla 2", new Vector2(200, 570),false);
                             //jugador.Posicion = new Vector2(200, 570);
-                            listaDeAlertas.Add(new Alertas("Has entrado en la Pantalla 2", 
-                                new Vector2(500, 100), 3.0f));
+                            AgregarAlerta("Has entrado en la Pantalla 2");
                         }
                     }
                     else if (numeroNivelActual == 2)
@@ -362,13 +361,12 @@ namespace Projecto__Final
                     break;
             }
 
-            //codigo prueba alertas
-            foreach (Alertas alerta in listaDeAlertas)
-            {
-                alerta.Update(gameTime);
-            }
+                foreach (Alertas alerta in listaDeAlertas)
+                {
+                    alerta.Update(gameTime);
+                }
 
-            listaDeAlertas.RemoveAll(a => !a.Activa);
+                listaDeAlertas.RemoveAll(a => !a.Activa);
 
             mouseAnterior = mouse;
             tecladoAnterior = teclado;
@@ -460,13 +458,40 @@ namespace Projecto__Final
             //prueba alertas
             foreach (var alerta in listaDeAlertas)
             {
-                _spriteBatch.DrawString(fuenteGlobal, alerta.Mensaje, alerta.Posicion, Color.Yellow * alerta.Opacidad);
+                Vector2 tamañoTexto = fuenteGlobal.MeasureString(alerta.Mensaje);
+
+                int margen = 8;
+                Rectangle areaFondo = new Rectangle(
+                    (int)alerta.Posicion.X - margen,
+                    (int)alerta.Posicion.Y - margen,
+                    (int)tamañoTexto.X + (margen * 2),
+                    (int)tamañoTexto.Y + (margen * 2)
+                );
+
+                _spriteBatch.Draw(texturaFondoAlerta, areaFondo, Color.Black * 0.5f * alerta.Opacidad);
+
+                _spriteBatch.DrawString(fuenteGlobal, alerta.Mensaje, alerta.Posicion, Color.White * alerta.Opacidad);
             }
             _spriteBatch.End();
 
             base.Draw(gameTime);
         }
+        public void AgregarAlerta(string texto)
+        {
+            int anchoVentana = GraphicsDevice.Viewport.Width;
+            int altoVentana = GraphicsDevice.Viewport.Height;
 
+            float posX = 30f;
+            float posY = altoVentana / 2f;
+
+            float espacioEntreAlertas = 37f;
+            foreach (var alerta in listaDeAlertas)
+            {
+                alerta.Posicion = new Vector2(alerta.Posicion.X, alerta.Posicion.Y - espacioEntreAlertas);
+            }
+
+            listaDeAlertas.Add(new Alertas(texto, new Vector2(posX, posY), 3f));
+        }
         public void Reset()
         {
             estadoActual = GameState.MenuPrincipal;
