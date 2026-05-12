@@ -93,8 +93,8 @@ namespace Projecto__Final
 
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(285, 380, 40, 40),
                     "Pocion de Vida", false, texturaCofre, null));
-                nivelActual.Cofres.Add(new Cofre(new Rectangle(575, 220, 40, 40), "Trampa",
-                    true, texturaCofre, null));
+                nivelActual.Cofres.Add(new Cofre(new Rectangle(575, 220, 40, 40), "Trampa trampera",
+                    false, texturaCofre, null));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(670, 220, 40, 40),
                     "Llave Antigua", false, texturaCofre, null));
             }
