@@ -27,7 +27,7 @@ namespace Projecto__Final.Menús
             int posXCentrada = 640 - (ancho / 2);
 
             _pulsadores.Add(new Pulsador(texBoton, texBotonHover, fuente, new Vector2(posXCentrada, 150), "Musica: SI", "Musica: NO"));
-            _botones.Add(new Boton(texBoton, texBotonHover, fuente, new Vector2(posXCentrada, 300), "Ajuste 2"));
+            _botones.Add(new Boton(texBoton, texBotonHover, fuente, new Vector2(posXCentrada, 300), "Ajuste 2Agregadas las imagenes para el "));
             _botones.Add(new Boton(texBoton, texBotonHover, fuente, new Vector2(posXCentrada, 450), "Volver"));
         }
 
