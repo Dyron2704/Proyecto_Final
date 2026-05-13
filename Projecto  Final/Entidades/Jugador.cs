@@ -19,10 +19,12 @@ namespace Projecto__Final.Entidades
         float velocidad = 2.5f;
         int columnas;
         Inventario inventario;
+        int puntuacion;
 
         KeyboardState tecladoAnterior;
         
         public Inventario Inventario { get => inventario; set => inventario = value; }
+        public int Puntuacion { get => puntuacion; set => puntuacion = value; }
 
         public Jugador(Texture2D textura, Vector2 pos, int vida, string nombre, int columnas)
             : base(vida, nombre, textura, pos)
@@ -30,6 +32,7 @@ namespace Projecto__Final.Entidades
             this.columnas = 8;
             inventario = new Inventario();
             tecladoAnterior = Keyboard.GetState();
+            puntuacion = 0;
         }
 
         public void Update(GameTime gameTime, Texture2D mapaColisiones, List<Cofre> cofres, Game1 juego)
@@ -60,7 +63,7 @@ namespace Projecto__Final.Entidades
                         {
                             if (cofres[i].esTrampa)
                             {
-                                /*
+                                /* Esto es más o menos lo que hay que hacer
                                 this.Vida -= 10;
                                 Item armaEnemigo = new Item(cofres[i].contenido, "Arma soltada por enemigo");
                                 armaEnemigo.Tipo = "Arma";
