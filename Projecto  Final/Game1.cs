@@ -385,8 +385,8 @@ namespace Projecto__Final
                         (int)jugador.Posicion.Y, 32, 32);
 
                     jugador.Draw(_spriteBatch); 
-                    /*
-                    _spriteBatch.Draw(pixel, rectJugador, Color.Red * 0.5f);
+                    
+                    /*_spriteBatch.Draw(pixel, rectJugador, Color.Red * 0.5f);
 
                     foreach (var cofre in nivelActual.Cofres)
                     {
