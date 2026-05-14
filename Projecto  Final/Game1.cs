@@ -42,6 +42,7 @@ namespace Projecto__Final
         MenuOpciones menuOpciones;
         MenuPersonajes menuPersonajes;
         MenuEscape menuEscape;
+        Combate combate;
         GameState estadoActual = GameState.MenuPrincipal;
 
         MouseState mouseAnterior;
@@ -158,6 +159,7 @@ namespace Projecto__Final
             transicion.Iniciar(inversa);
             estadoActual = GameState.Transiciones;
         }
+
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -191,6 +193,8 @@ namespace Projecto__Final
             Texture2D fondoNormal = Content.Load<Texture2D>("FondoMenu");
             Texture2D fondoEspecial = Content.Load<Texture2D>("FondoMenuEspecial");
 
+            Texture2D fondoCombate = Content.Load<Texture2D>("Pantalla Combate");
+
             List<Texture2D> listaPersonajesRecortados = new List<Texture2D>();
             listaPersonajesRecortados.Add(Content.Load<Texture2D>("Astrid - Menu"));
             listaPersonajesRecortados.Add(Content.Load<Texture2D>("Bellty - Menu"));
@@ -208,7 +212,8 @@ namespace Projecto__Final
             menuPrincipal = new MenuPrincipal(fondoNormal, fondoEspecial, botonNoPresionado, botonPresionado, fuenteCargada);
             menuSeleccion = new MenuSeleccion(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
             menuOpciones = new MenuOpciones(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
-            menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
+            //menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
+            combate = new Combate(fondoCombate, jugador, )
 
             fuenteGlobal = Content.Load<SpriteFont>("FuenteMenu");
             menuEscape = new MenuEscape(GraphicsDevice, botonNoPresionado, botonPresionado, fuenteCargada);

@@ -92,7 +92,7 @@ namespace Projecto__Final.Entidades
                         interactuado = true;
                     }
                 }
-                }
+            }
 
             if (teclado.IsKeyDown(Keys.E) && tecladoAnterior.IsKeyUp(Keys.E))
             {

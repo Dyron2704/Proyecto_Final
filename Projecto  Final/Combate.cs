@@ -23,8 +23,11 @@ namespace Projecto__Final
         bool esTurnoJugador = true;
         string mensajeAccion = "¡Elige una acción para comenzar!";
 
-        public Combate(Jugador jugador, Enemigo enemigo, Texture2D texBoton, Texture2D texBotonHover, SpriteFont fuente)
+        Texture2D fondoCombate;
+
+        public Combate(Texture2D fondoCombate, Jugador jugador, Enemigo enemigo, Texture2D texBoton, Texture2D texBotonHover, SpriteFont fuente)
         {
+            this.fondoCombate = fondoCombate;
             this.jugador = jugador;
             this.enemigo = enemigo;
             this.fuente = fuente;
