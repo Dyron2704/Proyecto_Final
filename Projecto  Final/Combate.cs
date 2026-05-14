@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Projecto__Final.Game1;
 
 namespace Projecto__Final
 {
@@ -20,15 +21,17 @@ namespace Projecto__Final
         Vector2 posicionJugador = new Vector2(250, 350);
         Vector2 posicionEnemigo = new Vector2(850, 350);
 
+        bool activo = true;
         bool esTurnoJugador = true;
         string mensajeAccion = "¡Elige una acción para comenzar!";
+
+        public bool Activo { get => activo; set => activo = value; }
 
         public Combate(Jugador jugador, Enemigo enemigo, Texture2D texBoton, Texture2D texBotonHover, SpriteFont fuente)
         {
             this.jugador = jugador;
             this.enemigo = enemigo;
             this.fuente = fuente;
-
             botones = new List<Boton>();
             int posX = 150;
 
@@ -37,8 +40,16 @@ namespace Projecto__Final
             botones.Add(new Boton(texBoton, texBotonHover, fuente, new Vector2(posX + 560, 550), "Huir"));
         }
 
-        public void Update(GameTime gameTime, MouseState mouse, MouseState mouseAnterior)
+        public void Update(GameTime gameTime, MouseState mouse, MouseState mouseAnterior, ref GameState gameState)
         {
+            if (jugador.Vida <= 0 || enemigo.Vida <= 0)
+            {
+                mensajeAccion = jugador.Vida <= 0 ? "¡Has sido derrotado!" : "¡Has ganado el combate!";
+                if (jugador.Vida > 0)
+                {
+                    activo = false;
+                }
+            }
             if (esTurnoJugador)
             {
                 foreach (Boton boton in botones)
@@ -51,9 +62,10 @@ namespace Projecto__Final
                     }
                 }
             }
-
             else
+            {
                 TurnoEnemigo();
+            }
         }
 
         private void ProcesarAccion(string accion)

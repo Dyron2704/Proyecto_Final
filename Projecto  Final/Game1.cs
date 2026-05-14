@@ -15,6 +15,8 @@ namespace Projecto__Final
 {
     public class Game1 : Game
     {
+        Random r = new Random();
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private GameState estadoAnterior;
@@ -42,6 +44,7 @@ namespace Projecto__Final
         MenuOpciones menuOpciones;
         MenuPersonajes menuPersonajes;
         MenuEscape menuEscape;
+        Combate combate;
         GameState estadoActual = GameState.MenuPrincipal;
 
         MouseState mouseAnterior;
@@ -53,18 +56,20 @@ namespace Projecto__Final
         Jugador jugador;
         Texture2D texturaPersonaje;
         Texture2D mapaColisiones;
+        Texture2D botonNoPresionado;
+        Texture2D botonPresionado;
 
         //variables prueba alertas
-        List<Alertas> listaDeAlertas = new List<Alertas>();
+        List <Alertas> listaDeAlertas = new List<Alertas>();
         Texture2D texturaFondoAlerta;
         SpriteFont fuenteGlobal;
         string personajeSeleccionadoEnUso = "";
 
-        Combate combateActual;
+        List<Combate> combates = new List<Combate>();
         Enemigo enmigoPrueba;
 
         /* Cuando se detecte un combate deberemos poner el siguiente código:
-         * combateActual = new Combate(jugador, enemigoPrueba, texturaBoton, texturaBotonHover, fuenteGlobal);
+         * combates = new Combate(jugador, enemigoPrueba, texturaBoton, texturaBotonHover, fuenteGlobal);
          * estadoActual = GameState.Combate;
          */
 
@@ -180,13 +185,15 @@ namespace Projecto__Final
 
         protected override void LoadContent()
         {
+            int ancho = 256;
+            int posXCentrada = 640 - (ancho / 2);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
 
             SpriteFont fuenteCargada = Content.Load<SpriteFont>("FuenteMenu");
 
-            Texture2D botonNoPresionado = Content.Load<Texture2D>("Boton");
-            Texture2D botonPresionado = Content.Load<Texture2D>("Boton Presionado");
+            botonNoPresionado = Content.Load<Texture2D>("Boton");
+            botonPresionado = Content.Load<Texture2D>("Boton Presionado");
 
             Texture2D fondoNormal = Content.Load<Texture2D>("FondoMenu");
             Texture2D fondoEspecial = Content.Load<Texture2D>("FondoMenuEspecial");
@@ -215,6 +222,8 @@ namespace Projecto__Final
 
             texturaFondoAlerta = new Texture2D(GraphicsDevice, 1, 1);
             texturaFondoAlerta.SetData(new[] { Color.White });
+
+            enmigoPrueba = new Murcielago(100, "Murcielago", Content.Load<Texture2D>("enemy-bird"), new Vector2(posXCentrada+200, 300), 1, 20, 10);
         }
 
         protected override void Update(GameTime gameTime)
@@ -259,9 +268,16 @@ namespace Projecto__Final
                         jugador = new Jugador(texturaPersonaje, posicionAnterior, 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje);
                     }
 
-                    jugador.Update(gameTime, nivelActual.Colisiones, nivelActual.Cofres, this);
+                    combates.Clear();
+                    combates.Add(new Combate(jugador, enmigoPrueba, botonNoPresionado, botonPresionado, fuenteGlobal));
+                    combates.Add(new Combate(jugador, enmigoPrueba, botonNoPresionado, botonPresionado, fuenteGlobal));
+                    combates.Add(new Combate(jugador, enmigoPrueba, botonNoPresionado, botonPresionado, fuenteGlobal));
+                    combate = combates[r.Next(0, combates.Count)];
+
+                    jugador.Update(gameTime, nivelActual.Colisiones, nivelActual.Cofres, this, ref estadoActual);
 
                     Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X, (int)jugador.Posicion.Y, 32, 32);
+
 
                     if (numeroNivelActual == 1)
                     {
@@ -311,6 +327,7 @@ namespace Projecto__Final
                         }
                     }
                     break;
+                    
 
                 case GameState.SeleccionPartida:
                     menuSeleccion.Update(mouse, mouseAnterior, ref estadoActual);
@@ -336,7 +353,11 @@ namespace Projecto__Final
                     break;
 
                 case GameState.Combate:
-                    combateActual.Update(gameTime, mouse, mouseAnterior);
+                    combate.Update(gameTime, mouse, mouseAnterior, ref estadoActual);
+                    if (!combate.Activo)
+                    {
+                        estadoActual = GameState.Jugando;
+                    }
                     break;
             }
 
@@ -428,7 +449,7 @@ namespace Projecto__Final
                         break;
 
                     case GameState.Combate:
-                        combateActual.Draw(_spriteBatch);
+                        combate.Draw(_spriteBatch);
                         break;
                 }
             }
