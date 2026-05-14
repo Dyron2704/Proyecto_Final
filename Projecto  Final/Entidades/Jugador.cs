@@ -54,6 +54,7 @@ namespace Projecto__Final.Entidades
             if (teclado.IsKeyDown(Keys.F) && tecladoAnterior.IsKeyUp(Keys.F))
             {
                 Rectangle rectJugador = new Rectangle((int)posicion.X, (int)posicion.Y, 32, 32);
+                rectJugador.Inflate(15, 15); // Aumenta el área de interacción
 
                 for (int i = 0; i < cofres.Count && !interactuado; i++)
                 {
