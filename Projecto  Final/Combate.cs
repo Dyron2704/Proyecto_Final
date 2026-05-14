@@ -117,7 +117,7 @@ namespace Projecto__Final
             jugador.Posicion = posicionJugador;
             enemigo.Posicion = posicionEnemigo;
 
-            jugador.Draw(sb);
+            jugador.Draw(sb, fuente);
             enemigo.Draw(sb, 1); // Podemos ajustar el tamaño del enemigo para que se vea más grande
 
             jugador.Posicion = posOriginalJugador;

@@ -141,7 +141,7 @@ namespace Projecto__Final
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
             _spriteBatch.Draw(nivelActual.Fondo, Vector2.Zero, Color.White);
-            jugador.Draw(_spriteBatch);
+            jugador.Draw(_spriteBatch, fuenteGlobal);
             _spriteBatch.End();
 
             CargarMapa(nombreNuevoMapa);
@@ -151,7 +151,7 @@ namespace Projecto__Final
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
             _spriteBatch.Draw(nivelActual.Fondo, Vector2.Zero, Color.White);
-            jugador.Draw(_spriteBatch);
+            jugador.Draw(_spriteBatch, fuenteGlobal);
             _spriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);
@@ -384,7 +384,7 @@ namespace Projecto__Final
                     Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X,
                         (int)jugador.Posicion.Y, 32, 32);
 
-                    jugador.Draw(_spriteBatch); 
+                    jugador.Draw(_spriteBatch, fuenteGlobal); 
                     
                     /*_spriteBatch.Draw(pixel, rectJugador, Color.Red * 0.5f);
 
@@ -412,7 +412,7 @@ namespace Projecto__Final
 
                         if (jugador != null)
                         {
-                            jugador.Draw(_spriteBatch);
+                            jugador.Draw(_spriteBatch, fuenteGlobal);
 
                         }
                         break;

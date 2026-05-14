@@ -144,6 +144,13 @@ namespace Projecto__Final.Entidades
 
         public override void Atacar(Entidad objetivo) { }
 
-        public void Draw(SpriteBatch sb) { base.Draw(sb, columnas); }
+        public void Draw(SpriteBatch sb, SpriteFont fuente) 
+        { 
+            base.Draw(sb, columnas); 
+
+            Vector2 posicionTexto = new Vector2(posicion.X, posicion.Y - 20);
+
+            sb.DrawString(fuente, $"HP: {this.Vida}", posicionTexto, Color.White);
+        }
     }
 }
