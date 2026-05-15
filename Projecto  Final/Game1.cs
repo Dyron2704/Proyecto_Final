@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 using System.Transactions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -34,7 +36,9 @@ namespace Projecto__Final
             Opciones,
             MenuEscape,
             Transiciones,
-            Combate
+            Combate,
+            MenuGuardar,
+            MenuCargar
         }
 
         MenuPrincipal menuPrincipal;
@@ -42,6 +46,9 @@ namespace Projecto__Final
         MenuOpciones menuOpciones;
         MenuPersonajes menuPersonajes;
         MenuEscape menuEscape;
+        MenuGuardado menuGuardado;
+        MenuCargar menuCargar;
+
         Combate combate;
         GameState estadoActual = GameState.MenuPrincipal;
 
@@ -213,10 +220,13 @@ namespace Projecto__Final
             menuSeleccion = new MenuSeleccion(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
             menuOpciones = new MenuOpciones(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
             menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
-            
+
 
             fuenteGlobal = Content.Load<SpriteFont>("FuenteMenu");
             menuEscape = new MenuEscape(GraphicsDevice, botonNoPresionado, botonPresionado, fuenteCargada);
+
+            menuGuardado = new MenuGuardado(fondoNormal, botonNoPresionado, botonPresionado, fuenteGlobal);
+            menuCargar = new MenuCargar(fondoNormal, botonNoPresionado, botonPresionado, fuenteGlobal);
 
             texturaFondoAlerta = new Texture2D(GraphicsDevice, 1, 1);
             texturaFondoAlerta.SetData(new[] { Color.White });
@@ -245,6 +255,8 @@ namespace Projecto__Final
             {
                 case GameState.MenuPrincipal:
                     menuPrincipal.Update(mouse, mouseAnterior, ref estadoActual);
+
+                    if (estadoActual == GameState.MenuCargar) menuCargar.ActualizarListaPerfiles();
                     break;
 
                 case GameState.Jugando:
@@ -331,7 +343,18 @@ namespace Projecto__Final
 
                 case GameState.MenuEscape:
                     menuEscape.Update(mouse, mouseAnterior, ref estadoActual);
+
+                    if (estadoActual == GameState.MenuGuardar) menuGuardado.CargarNombresDesdeFichero();
                     break;
+
+                case GameState.MenuGuardar:
+                    menuGuardado.Update(mouse, mouseAnterior, this, ref estadoActual);
+                    break;
+
+                case GameState.MenuCargar:
+                    menuCargar.Update(mouse, mouseAnterior, this, ref estadoActual);
+                    break;
+
                 case GameState.Transiciones:
                     transicion.Update(gameTime);
                     if (!transicion.EstaActiva)
@@ -384,8 +407,8 @@ namespace Projecto__Final
                     Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X,
                         (int)jugador.Posicion.Y, 32, 32);
 
-                    jugador.Draw(_spriteBatch, fuenteGlobal); 
-                    
+                    jugador.Draw(_spriteBatch, fuenteGlobal);
+
                     /*_spriteBatch.Draw(pixel, rectJugador, Color.Red * 0.5f);
 
                     foreach (var cofre in nivelActual.Cofres)
@@ -484,6 +507,70 @@ namespace Projecto__Final
             jugador = null;
             numeroNivelActual = 1;
             personajeSeleccionadoEnUso = "";
+        }
+
+        public void GuardarJSON(string nombrePerfil)
+        {
+            DatosJugador datos = new DatosJugador();
+
+            datos.NombrePrefil = nombrePerfil;
+            datos.PersonajeTextura = DatosPartida.PersonajeSeleccionado;
+            datos.PosX = jugador.Posicion.X;
+            datos.PosY = jugador.Posicion.Y;
+            datos.Vida = jugador.Vida;
+            datos.NivelActual = numeroNivelActual;
+
+            datos.ObjetosGuardados = jugador.Inventario.Objetos;
+
+            datos.CofresAbiertosIds = new List<int>();
+            List<Cofre> cofresActuales = nivelActual.Cofres;
+
+            for (int i = 0; i < cofresActuales.Count; i++)
+            {
+                if (cofresActuales[i].abierto)
+                {
+                    datos.CofresAbiertosIds.Add(i);
+                }
+            }
+
+            string jsonString = JsonSerializer.Serialize(datos);
+            File.WriteAllText(nombrePerfil + ".json", jsonString);
+
+            AgregarAlerta($"¡Partida '{nombrePerfil}' guardada!");
+        }
+
+        public void CargarPartida(string nombrePerfil)
+        {
+            string ruta = nombrePerfil + ".json";
+
+            if (File.Exists(ruta))
+            {
+                string contenido = File.ReadAllText(ruta);
+                DatosJugador datos = JsonSerializer.Deserialize<DatosJugador>(contenido);
+
+                DatosPartida.PersonajeSeleccionado = datos.PersonajeTextura;
+                numeroNivelActual = datos.NivelActual;
+                personajeSeleccionadoEnUso = "";
+
+                CargarMapa("Pantalla " + numeroNivelActual);
+
+                texturaPersonaje = Content.Load<Texture2D>(DatosPartida.PersonajeSeleccionado);
+                jugador = new Jugador(texturaPersonaje, new Vector2(datos.PosX, datos.PosY),
+                                     datos.Vida, datos.PersonajeTextura, DatosPartida.ColumnasPersonaje);
+
+                jugador.Inventario.Objetos = datos.ObjetosGuardados;
+
+                foreach (int indice in datos.CofresAbiertosIds)
+                {
+                    if (indice < nivelActual.Cofres.Count)
+                    {
+                        nivelActual.Cofres[indice].abierto = true;
+                    }
+                }
+
+                estadoActual = GameState.Jugando;
+                AgregarAlerta("Partida cargada con éxito");
+            }
         }
     }
 }
