@@ -265,6 +265,8 @@ namespace Projecto__Final
                         jugador = new Jugador(texturaPersonaje, posicionAnterior, 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje, 0);
                     }
 
+                    combateActual = new Combate(Content.Load<Texture2D>("Pantalla Combate"), jugador, Content.Load<Texture2D>("Boton"), Content.Load<Texture2D>("Boton Presionado"), fuenteGlobal);
+
                     jugador.Update(gameTime, nivelActual.Colisiones, nivelActual.Cofres, this, ref estadoActual);
 
                     Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X, (int)jugador.Posicion.Y, 32, 32);
@@ -342,7 +344,6 @@ namespace Projecto__Final
                     break;
 
                 case GameState.Combate:
-                    combateActual = new Combate(Content.Load<Texture2D>("Pantalla Combate"), jugador, Content.Load<Texture2D>("Boton"), Content.Load<Texture2D>("Boton Presionado"), fuenteGlobal);
                     combateActual.Update(gameTime, mouse, mouseAnterior, ref estadoActual);
                     break;
             }
