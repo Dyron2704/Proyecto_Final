@@ -20,19 +20,22 @@ namespace Projecto__Final.Entidades
         int columnas;
         Inventario inventario;
         int puntuacion;
+        int danoExtra;
 
         KeyboardState tecladoAnterior;
         
         public Inventario Inventario { get => inventario; set => inventario = value; }
         public int Puntuacion { get => puntuacion; set => puntuacion = value; }
+        public int DanoExtra { get => danoExtra; set => danoExtra = value; }
 
-        public Jugador(Texture2D textura, Vector2 pos, int vida, string nombre, int columnas)
+        public Jugador(Texture2D textura, Vector2 pos, int vida, string nombre, int columnas, int danoExtra)
             : base(vida, nombre, textura, pos)
         {
             this.columnas = 8;
             inventario = new Inventario();
             tecladoAnterior = Keyboard.GetState();
             puntuacion = 0;
+            danoExtra = 0;
         }
 
         public void Update(GameTime gameTime, Texture2D mapaColisiones, List<Cofre> cofres, Game1 juego)
