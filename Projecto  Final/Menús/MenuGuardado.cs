@@ -98,6 +98,18 @@ namespace Projecto__Final.Menús
                 if (slotSeleccionado != -1 && !string.IsNullOrWhiteSpace(nombreEscrito))
                 {
                     game.GuardarJSON(nombreEscrito);
+
+                    nombresPerfiles[slotSeleccionado] = nombreEscrito;
+
+                    try
+                    {
+                        File.WriteAllLines(rutaPerfiles, nombresPerfiles);
+                    }
+                    catch (Exception ex)
+                    {
+                        game.AgregarAlerta("Error al actualizar perfiles.txt");
+                    }
+
                     estadoActual = Game1.GameState.Jugando;
                 }
             }
