@@ -118,7 +118,18 @@ namespace Projecto__Final
             enemigo.Posicion = posicionEnemigo;
 
             jugador.Draw(sb, fuente);
-            enemigo.Draw(sb, 1); // Podemos ajustar el tamaño del enemigo para que se vea más grande
+
+            if (enemigo.Nombre == "Murcielago" || enemigo.Nombre == "murcielago")
+            {
+                enemigo.Draw(sb, 1, 4); // Podemos ajustar el tamaño del enemigo para que se vea más grande
+            } else if (enemigo.Nombre == "Slime" || enemigo.Nombre == "slime")
+            {
+                enemigo.Draw(sb, 1, 9); // Ajustamos el tamaño del slime para que se vea más grande
+            }
+            else if (enemigo.Nombre == "Caballero" || enemigo.Nombre == "caballero")
+            {
+                enemigo.Draw(sb, 1, 8);
+            }
 
             jugador.Posicion = posOriginalJugador;
             enemigo.Posicion = posOriginalEnemigo;
