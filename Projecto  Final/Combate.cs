@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Projecto__Final.Game1;
 
 namespace Projecto__Final
 {
@@ -25,11 +26,11 @@ namespace Projecto__Final
 
         Texture2D fondoCombate;
 
-        public Combate(Texture2D fondoCombate, Jugador jugador, Enemigo enemigo, Texture2D texBoton, Texture2D texBotonHover, SpriteFont fuente)
+        public Combate(Texture2D fondoCombate, Jugador jugador, Enemigo[] enemigos, Texture2D texBoton, Texture2D texBotonHover, SpriteFont fuente)
         {
             this.fondoCombate = fondoCombate;
             this.jugador = jugador;
-            this.enemigo = enemigo;
+            this.enemigo = enemigos[new Random().Next(enemigos.Length)];
             this.fuente = fuente;
 
             botones = new List<Boton>();
@@ -40,8 +41,14 @@ namespace Projecto__Final
             botones.Add(new Boton(texBoton, texBotonHover, fuente, new Vector2(posX + 560, 550), "Huir"));
         }
 
-        public void Update(GameTime gameTime, MouseState mouse, MouseState mouseAnterior)
+        public void Update(GameTime gameTime, MouseState mouse, MouseState mouseAnterior, ref GameState estadoActual)
         {
+            if(enemigo.Vida <= 0 && jugador.Vida > 0)
+            {
+                mensajeAccion = "¡Has derrotado al enemigo!";
+                estadoActual = GameState.Jugando;
+                return;
+            }
             if (esTurnoJugador)
             {
                 foreach (Boton boton in botones)
@@ -118,7 +125,18 @@ namespace Projecto__Final
             enemigo.Posicion = posicionEnemigo;
 
             jugador.Draw(sb, fuente);
-            enemigo.Draw(sb, 1); // Podemos ajustar el tamaño del enemigo para que se vea más grande
+
+            if (enemigo.Nombre == "Murcielago" || enemigo.Nombre == "murcielago")
+            {
+                enemigo.Draw(sb, 1, 4); // Podemos ajustar el tamaño del enemigo para que se vea más grande
+            } else if (enemigo.Nombre == "Slime" || enemigo.Nombre == "slime")
+            {
+                enemigo.Draw(sb, 1, 9); // Ajustamos el tamaño del slime para que se vea más grande
+            }
+            else if (enemigo.Nombre == "Caballero" || enemigo.Nombre == "caballero")
+            {
+                enemigo.Draw(sb, 1, 8);
+            }
 
             jugador.Posicion = posOriginalJugador;
             enemigo.Posicion = posOriginalEnemigo;

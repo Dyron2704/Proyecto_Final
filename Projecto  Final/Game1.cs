@@ -18,6 +18,8 @@ namespace Projecto__Final
 {
     public class Game1 : Game
     {
+        Random r = new Random();
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private GameState estadoAnterior;
@@ -69,8 +71,8 @@ namespace Projecto__Final
         SpriteFont fuenteGlobal;
         string personajeSeleccionadoEnUso = "";
 
+        Enemigo[] enemigos;
         Combate combateActual;
-        Enemigo enmigoPrueba;
 
         /* Cuando se detecte un combate deberemos poner el siguiente código:
          * combateActual = new Combate(jugador, enemigoPrueba, texturaBoton, texturaBotonHover, fuenteGlobal);
@@ -101,11 +103,11 @@ namespace Projecto__Final
                 nivelActual.Puerta1 = new Rectangle(250, 20, 64, 32);
 
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(285, 380, 40, 40),
-                    "Pocion de Vida", false, texturaCofre, null));
+                    "Pocion de Vida", false, texturaCofre, null, 11));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(575, 220, 40, 40), "Trampa trampera",
-                    false, texturaCofre, null));
+                    false, texturaCofre, null, 12));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(670, 220, 40, 40),
-                    "Llave Antigua", false, texturaCofre, null));
+                    "Llave Antigua", false, texturaCofre, null, 13));
             }
             else if (nivel == 2)
             {
@@ -113,14 +115,14 @@ namespace Projecto__Final
                 nivelActual.Puerta2 = new Rectangle(210, 10, 64, 32);
 
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(730, 60, 40, 40),
-                    "Pocion de Vida", false, texturaCofre, null));
+                    "Pocion de Vida", false, texturaCofre, null,21));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(1210, 130, 40, 40),
-                    "Trampa tramposilla", false, texturaCofre, null));
+                    "Trampa tramposilla", false, texturaCofre, null,22));
 
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(480, 570, 40, 40),
-                    "Pocion de Vida", false, texturaCofre, null));
+                    "Pocion de Vida", false, texturaCofre, null,23));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(800, 380, 40, 40),
-                    "Trampa tramposa", false, texturaCofre, null));
+                    "Trampa tramposa", false, texturaCofre, null,24));
 
 
 
@@ -131,12 +133,12 @@ namespace Projecto__Final
                 nivelActual.Puerta2 = new Rectangle(1100, 15, 64, 32);
 
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(190, 250, 40, 40),
-                    "Pocion de Vida", false, texturaCofre, null));
+                    "Pocion de Vida", false, texturaCofre, null,31));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(960, 310, 40, 40),
-                    "Trampa tramposilla", false, texturaCofre, null));
+                    "Trampa tramposilla", false, texturaCofre, null,32));
 
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(1050, 310, 40, 40),
-                    "Pocion de Vida", false, texturaCofre, null));
+                    "Pocion de Vida", false, texturaCofre, null,33));
             }
             else if (nivel == 4)
             {
@@ -220,6 +222,8 @@ namespace Projecto__Final
             menuPrincipal = new MenuPrincipal(fondoNormal, fondoEspecial, botonNoPresionado, botonPresionado, fuenteCargada);
             menuSeleccion = new MenuSeleccion(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
             menuOpciones = new MenuOpciones(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
+            //menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
+            //combate = new Combate(fondoCombate, jugador, )
             menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
 
 
@@ -231,6 +235,13 @@ namespace Projecto__Final
 
             texturaFondoAlerta = new Texture2D(GraphicsDevice, 1, 1);
             texturaFondoAlerta.SetData(new[] { Color.White });
+
+            enemigos = new Enemigo[]
+            {
+                new Enemigo(20, "Slime", Content.Load<Texture2D>("Slime"), new Vector2(800, 300), 1, 10, 20),
+                new Enemigo(40, "Murcielago", Content.Load<Texture2D>("enemy-bird"), new Vector2(800,300), 2, 20, 40),
+                new Enemigo(80, "Caballero", Content.Load<Texture2D>("Caballero"), new Vector2(800, 300), 3, 40, 80)
+            };
         }
 
         protected override void Update(GameTime gameTime)
@@ -274,10 +285,12 @@ namespace Projecto__Final
 
                         CargarMapa($"Pantalla {numeroNivelActual}");
 
-                        jugador = new Jugador(texturaPersonaje, posicionAnterior, 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje);
+                        jugador = new Jugador(texturaPersonaje, posicionAnterior, 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje, 0);
                     }
 
-                    jugador.Update(gameTime, nivelActual.Colisiones, nivelActual.Cofres, this);
+                    combateActual = new Combate(Content.Load<Texture2D>("Pantalla Combate"), jugador, enemigos, Content.Load<Texture2D>("Boton"), Content.Load<Texture2D>("Boton Presionado"), fuenteGlobal);
+
+                    jugador.Update(gameTime, nivelActual.Colisiones, nivelActual.Cofres, this, ref estadoActual);
 
                     Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X, (int)jugador.Posicion.Y, 32, 32);
 
@@ -365,7 +378,7 @@ namespace Projecto__Final
                     break;
 
                 case GameState.Combate:
-                    combateActual.Update(gameTime, mouse, mouseAnterior);
+                    combateActual.Update(gameTime, mouse, mouseAnterior, ref estadoActual);
                     break;
             }
 
@@ -409,7 +422,8 @@ namespace Projecto__Final
                         (int)jugador.Posicion.Y, 32, 32);
 
                     jugador.Draw(_spriteBatch, fuenteGlobal);
-
+                    jugador.Draw(_spriteBatch, fuenteGlobal); 
+                    
                     /*_spriteBatch.Draw(pixel, rectJugador, Color.Red * 0.5f);
 
                     foreach (var cofre in nivelActual.Cofres)

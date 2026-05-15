@@ -30,5 +30,13 @@ namespace Projecto__Final.Entidades
         public int NivelDificultad { get => nivelDificultad; set => nivelDificultad = value; }
         public int CantidadOro { get => cantidadOro; set => cantidadOro = value; }
         public int ExperienciaOtorgada { get => experienciaOtorgada; set => experienciaOtorgada = value; }
+
+        public void Draw(SpriteBatch spriteBatch, int filas, int columnas)
+        {
+            int ancho = textura.Width / columnas;
+            int alto = textura.Height / filas;
+            Rectangle origen = new Rectangle(columnaActual * ancho, filaActual * alto, ancho, alto);
+            spriteBatch.Draw(textura, posicion, origen, Color.White);
+        }
     }
 }
