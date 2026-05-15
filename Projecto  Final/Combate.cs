@@ -26,16 +26,10 @@ namespace Projecto__Final
 
         Texture2D fondoCombate;
 
-        public Combate(Texture2D fondoCombate, Jugador jugador, Texture2D texBoton, Texture2D texBotonHover, SpriteFont fuente)
+        public Combate(Texture2D fondoCombate, Jugador jugador, Enemigo[] enemigos, Texture2D texBoton, Texture2D texBotonHover, SpriteFont fuente)
         {
             this.fondoCombate = fondoCombate;
             this.jugador = jugador;
-            Enemigo[] enemigos = new Enemigo[]
-            {
-                new Enemigo(50, "Slime", fondoCombate, posicionEnemigo, 1, 10, 20),
-                new Enemigo(80, "Murcielago", fondoCombate, posicionEnemigo, 2, 20, 40),
-                new Enemigo(120, "Caballero", fondoCombate, posicionEnemigo, 3, 30, 60)
-            };
             this.enemigo = enemigos[new Random().Next(enemigos.Length)];
             this.fuente = fuente;
 
