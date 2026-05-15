@@ -29,7 +29,7 @@ namespace Projecto__Final.Entidades
         public int Puntuacion { get => puntuacion; set => puntuacion = value; }
         public int DanoExtra { get => danoExtra; set => danoExtra = value; }
 
-        public Jugador(Texture2D textura, Vector2 pos, int vida, string nombre, int columnas, int danoExtra)
+        public Jugador(Texture2D textura, Vector2 pos, int vida, string nombre, int columnas)
             : base(vida, nombre, textura, pos)
         {
             this.columnas = 8;

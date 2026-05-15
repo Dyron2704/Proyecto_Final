@@ -285,7 +285,7 @@ namespace Projecto__Final
 
                         CargarMapa($"Pantalla {numeroNivelActual}");
 
-                        jugador = new Jugador(texturaPersonaje, posicionAnterior, 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje, 0);
+                        jugador = new Jugador(texturaPersonaje, posicionAnterior, 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje);
                     }
 
                     combateActual = new Combate(Content.Load<Texture2D>("Pantalla Combate"), jugador, enemigos, Content.Load<Texture2D>("Boton"), Content.Load<Texture2D>("Boton Presionado"), fuenteGlobal);
@@ -421,7 +421,6 @@ namespace Projecto__Final
                     Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X,
                         (int)jugador.Posicion.Y, 32, 32);
 
-                    jugador.Draw(_spriteBatch, fuenteGlobal);
                     jugador.Draw(_spriteBatch, fuenteGlobal); 
                     
                     /*_spriteBatch.Draw(pixel, rectJugador, Color.Red * 0.5f);
