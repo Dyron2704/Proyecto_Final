@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Projecto__Final.Menús
 {
-    internal class MenuCargar
+    public class MenuCargar
     {
         Texture2D fondo;
         Texture2D texturaBoton;
@@ -19,7 +19,9 @@ namespace Projecto__Final.Menús
 
         List<Rectangle> botonesSlots;
         List<string> nombresPerfiles;
-        string rutaPerfiles = "perfiles.txt";
+        Rectangle botonVolver;
+
+        string rutaPerfiles = "Saves/perfiles.txt";
 
         public MenuCargar(Texture2D fondo, Texture2D texturaBoton, Texture2D texturaBotonHover, SpriteFont fuente)
         {
@@ -30,6 +32,8 @@ namespace Projecto__Final.Menús
             this.nombresPerfiles = new List<string>();
             this.botonesSlots = new List<Rectangle>();
 
+            this.botonVolver = new Rectangle(540, 580, 200, 50);
+
             ActualizarListaPerfiles();
         }
 
@@ -37,6 +41,17 @@ namespace Projecto__Final.Menús
         {
             nombresPerfiles.Clear();
             botonesSlots.Clear();
+
+            string directorio = Path.GetDirectoryName(rutaPerfiles);
+            if (!string.IsNullOrEmpty(directorio) && !Directory.Exists(directorio))
+            {
+                Directory.CreateDirectory(directorio);
+            }
+
+            if (!File.Exists(rutaPerfiles))
+            {
+                File.WriteAllLines(rutaPerfiles, new string[] { "Vacio", "Vacio", "Vacio" });
+            }
 
             if (File.Exists(rutaPerfiles))
             {
@@ -71,15 +86,26 @@ namespace Projecto__Final.Menús
                     }
                 }
             }
+
+            if (botonVolver.Contains(mouse.Position))
+            {
+                if (mouse.LeftButton == ButtonState.Pressed && mouseAnterior.LeftButton == ButtonState.Released)
+                {
+                    estadoActual = Game1.GameState.SeleccionPartida;
+                }
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch, MouseState mouse)
         {
-            spriteBatch.Draw(fondo, Vector2.Zero, Color.White);
+            spriteBatch.Draw(fondo, new Rectangle(0, 0, 1280, 720), Color.White);
+
+            string titulo = "CARGAR PARTIDA";
+            spriteBatch.DrawString(fuente, titulo, new Vector2(640 - fuente.MeasureString(titulo).X / 2, 50), Color.Yellow);
 
             if (nombresPerfiles.Count == 0)
             {
-                spriteBatch.DrawString(fuente, "No hay perfiles creados en perfiles.txt", new Vector2(450, 300), Color.Red);
+                spriteBatch.DrawString(fuente, "No hay perfiles en perfiles.txt", new Vector2(450, 300), Color.Red);
             }
 
             for (int i = 0; i < botonesSlots.Count; i++)
@@ -87,13 +113,29 @@ namespace Projecto__Final.Menús
                 bool existeArchivo = File.Exists(nombresPerfiles[i] + ".json");
                 Color colorBoton = existeArchivo ? Color.White : Color.Gray * 0.6f;
 
-                Texture2D textura = botonesSlots[i].Contains(mouse.Position) ? texturaBotonHover : texturaBoton;
-                spriteBatch.Draw(textura, botonesSlots[i], colorBoton);
+                Texture2D texActual = botonesSlots[i].Contains(mouse.Position) ? texturaBotonHover : texturaBoton;
+                spriteBatch.Draw(texActual, botonesSlots[i], colorBoton);
 
-                string texto = existeArchivo ? $"Cargar {nombresPerfiles[i]}" : $"{nombresPerfiles[i]} (Sin datos)";
+                string texto = existeArchivo ? $"Cargar {nombresPerfiles[i]}" : $"{nombresPerfiles[i]} (Vacio)";
                 Vector2 tam = fuente.MeasureString(texto);
-                spriteBatch.DrawString(fuente, texto, new Vector2(botonesSlots[i].Center.X - tam.X / 2, botonesSlots[i].Center.Y - tam.Y / 2), Color.Black);
+                Vector2 posTexto = new Vector2(
+                    botonesSlots[i].X + (botonesSlots[i].Width / 2) - (tam.X / 2),
+                    botonesSlots[i].Y + (botonesSlots[i].Height / 2) - (tam.Y / 2)
+                );
+                spriteBatch.DrawString(fuente, texto, posTexto, Color.Black);
             }
+
+            Texture2D texVolver = botonVolver.Contains(mouse.Position) ? texturaBotonHover : texturaBoton;
+            spriteBatch.Draw(texVolver, botonVolver, Color.White);
+
+            string txtVolver = "VOLVER";
+            Vector2 tamVolver = fuente.MeasureString(txtVolver);
+            Vector2 posTxtVolver = new Vector2(
+                botonVolver.X + (botonVolver.Width / 2) - (tamVolver.X / 2),
+                botonVolver.Y + (botonVolver.Height / 2) - (tamVolver.Y / 2)
+            );
+
+            spriteBatch.DrawString(fuente, txtVolver, posTxtVolver, Color.Black);
         }
     }
 }

@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
-using System.Transactions;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Projecto__Final.Entidades;
 using Projecto__Final.Menús;
 using Projecto__Final.Objetos;
 using Projecto__Final.Transiciones;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Text.Json;
+using System.Transactions;
 using static Projecto__Final.Transiciones.TransicionPantalla;
 
 
@@ -427,6 +428,14 @@ namespace Projecto__Final
                 {
                     case GameState.MenuPrincipal:
                         menuPrincipal.Draw(_spriteBatch);
+                        break;
+
+                    case GameState.MenuGuardar:
+                        menuGuardado.Draw(_spriteBatch, mouseAnterior);
+                        break;
+
+                    case GameState.MenuCargar:
+                        menuCargar.Draw(_spriteBatch, mouseAnterior);
                         break;
 
                     case GameState.Jugando:

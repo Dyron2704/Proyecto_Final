@@ -50,7 +50,7 @@ namespace Projecto__Final.Menús
                             estadoGlobal = Game1.GameState.MenuPersonajes;
                             break;
                         case "Guardar Partida":
-                            // Aquí irá la lógica del guardado de la partida
+                            estadoGlobal = Game1.GameState.MenuGuardar;
                             break;
                         case "Menu Principal":
                             estadoGlobal = Game1.GameState.MenuPrincipal;
