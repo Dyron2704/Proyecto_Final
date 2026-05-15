@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static Projecto__Final.Game1;
 
 namespace Projecto__Final.Entidades
 {
@@ -38,7 +39,7 @@ namespace Projecto__Final.Entidades
             danoExtra = 0;
         }
 
-        public void Update(GameTime gameTime, Texture2D mapaColisiones, List<Cofre> cofres, Game1 juego)
+        public void Update(GameTime gameTime, Texture2D mapaColisiones, List<Cofre> cofres, Game1 juego, ref GameState estadoActual)
         {
             KeyboardState teclado = Keyboard.GetState();
             Vector2 direccion = Vector2.Zero;
@@ -48,6 +49,10 @@ namespace Projecto__Final.Entidades
             if (teclado.IsKeyDown(Keys.S)) { direccion.Y = 1; filaActual = 0; moviendose = true; }
             if (teclado.IsKeyDown(Keys.A)) { direccion.X = -1; filaActual = 1; moviendose = true; }
             if (teclado.IsKeyDown(Keys.D)) { direccion.X = 1; filaActual = 2; moviendose = true; }
+            if (teclado.IsKeyDown(Keys.Up)) { direccion.Y = -1; filaActual = 3; moviendose = true; }
+            if (teclado.IsKeyDown(Keys.Down)) { direccion.Y = 1; filaActual = 0; moviendose = true; }
+            if (teclado.IsKeyDown(Keys.Left)) { direccion.X = -1; filaActual = 1; moviendose = true; }
+            if (teclado.IsKeyDown(Keys.Right)) { direccion.X = 1; filaActual = 2; moviendose = true; }
 
             if (teclado.IsKeyDown(Keys.LeftShift)) { velocidad = 5f; }
             else { velocidad = 2.5f; }
@@ -67,6 +72,7 @@ namespace Projecto__Final.Entidades
                         {
                             if (cofres[i].esTrampa)
                             {
+                                estadoActual = GameState.Combate;
                                 /* Esto es más o menos lo que hay que hacer
                                 this.Vida -= 10;
                                 Item armaEnemigo = new Item(cofres[i].contenido, "Arma soltada por enemigo");

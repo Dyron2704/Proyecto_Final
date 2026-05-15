@@ -15,6 +15,8 @@ namespace Projecto__Final
 {
     public class Game1 : Game
     {
+        Random r = new Random();
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private GameState estadoAnterior;
@@ -42,7 +44,6 @@ namespace Projecto__Final
         MenuOpciones menuOpciones;
         MenuPersonajes menuPersonajes;
         MenuEscape menuEscape;
-        Combate combate;
         GameState estadoActual = GameState.MenuPrincipal;
 
         MouseState mouseAnterior;
@@ -62,7 +63,6 @@ namespace Projecto__Final
         string personajeSeleccionadoEnUso = "";
 
         Combate combateActual;
-        Enemigo enmigoPrueba;
 
         /* Cuando se detecte un combate deberemos poner el siguiente código:
          * combateActual = new Combate(jugador, enemigoPrueba, texturaBoton, texturaBotonHover, fuenteGlobal);
@@ -215,7 +215,6 @@ namespace Projecto__Final
             //menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
             //combate = new Combate(fondoCombate, jugador, )
             menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
-            
 
             fuenteGlobal = Content.Load<SpriteFont>("FuenteMenu");
             menuEscape = new MenuEscape(GraphicsDevice, botonNoPresionado, botonPresionado, fuenteCargada);
@@ -263,10 +262,10 @@ namespace Projecto__Final
 
                         CargarMapa($"Pantalla {numeroNivelActual}");
 
-                        jugador = new Jugador(texturaPersonaje, posicionAnterior, 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje);
+                        jugador = new Jugador(texturaPersonaje, posicionAnterior, 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje, 0);
                     }
 
-                    jugador.Update(gameTime, nivelActual.Colisiones, nivelActual.Cofres, this);
+                    jugador.Update(gameTime, nivelActual.Colisiones, nivelActual.Cofres, this, ref estadoActual);
 
                     Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X, (int)jugador.Posicion.Y, 32, 32);
 
@@ -343,7 +342,8 @@ namespace Projecto__Final
                     break;
 
                 case GameState.Combate:
-                    combateActual.Update(gameTime, mouse, mouseAnterior);
+                    combateActual = new Combate(Content.Load<Texture2D>("Pantalla Combate"), jugador, Content.Load<Texture2D>("Boton"), Content.Load<Texture2D>("Boton Presionado"), fuenteGlobal);
+                    combateActual.Update(gameTime, mouse, mouseAnterior, ref estadoActual);
                     break;
             }
 
@@ -386,7 +386,7 @@ namespace Projecto__Final
                     Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X,
                         (int)jugador.Posicion.Y, 32, 32);
 
-                    jugador.Draw(_spriteBatch);
+                    jugador.Draw(_spriteBatch, fuenteGlobal);
                     jugador.Draw(_spriteBatch, fuenteGlobal); 
                     
                     /*_spriteBatch.Draw(pixel, rectJugador, Color.Red * 0.5f);

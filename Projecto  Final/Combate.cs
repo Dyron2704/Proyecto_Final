@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Projecto__Final.Game1;
 
 namespace Projecto__Final
 {
@@ -25,11 +26,17 @@ namespace Projecto__Final
 
         Texture2D fondoCombate;
 
-        public Combate(Texture2D fondoCombate, Jugador jugador, Enemigo enemigo, Texture2D texBoton, Texture2D texBotonHover, SpriteFont fuente)
+        public Combate(Texture2D fondoCombate, Jugador jugador, Texture2D texBoton, Texture2D texBotonHover, SpriteFont fuente)
         {
             this.fondoCombate = fondoCombate;
             this.jugador = jugador;
-            this.enemigo = enemigo;
+            Enemigo[] enemigos = new Enemigo[]
+            {
+                new Enemigo(50, "Slime", fondoCombate, posicionEnemigo, 1, 10, 20),
+                new Enemigo(80, "Murcielago", fondoCombate, posicionEnemigo, 2, 20, 40),
+                new Enemigo(120, "Caballero", fondoCombate, posicionEnemigo, 3, 30, 60)
+            };
+            this.enemigo = enemigos[new Random().Next(enemigos.Length)];
             this.fuente = fuente;
 
             botones = new List<Boton>();
@@ -40,8 +47,14 @@ namespace Projecto__Final
             botones.Add(new Boton(texBoton, texBotonHover, fuente, new Vector2(posX + 560, 550), "Huir"));
         }
 
-        public void Update(GameTime gameTime, MouseState mouse, MouseState mouseAnterior)
+        public void Update(GameTime gameTime, MouseState mouse, MouseState mouseAnterior, ref GameState estadoActual)
         {
+            if(enemigo.Vida <= 0 && jugador.Vida > 0)
+            {
+                mensajeAccion = "¡Has derrotado al enemigo!";
+                estadoActual = GameState.Jugando;
+                return;
+            }
             if (esTurnoJugador)
             {
                 foreach (Boton boton in botones)
