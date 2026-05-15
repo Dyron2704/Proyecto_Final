@@ -17,9 +17,9 @@ namespace Projecto__Final.Objetos
         public bool abierto = false;
         private Texture2D _texturaCerrado;
         private Texture2D _texturaAbierto;
-
+        public int id;
         public Cofre(Rectangle area,string contenido,bool esTrampa,
-            Texture2D texturaCerrado, Texture2D texturaAbierto)
+            Texture2D texturaCerrado, Texture2D texturaAbierto,int id)
         {
             this.area = area;
             this.contenido = contenido;
@@ -27,6 +27,15 @@ namespace Projecto__Final.Objetos
             this.abierto= false;
             this._texturaCerrado = texturaCerrado;
             this._texturaAbierto = texturaAbierto;
+            this.id = id;
+        }
+        public int GetId()
+        {
+            return id;
+        }
+        public void SetId(int id)
+        {
+            this.id = id;
         }
         /*
         public bool CheckInteraccion(Rectangle jugadorHitbox, KeyboardState teclado, 

@@ -93,11 +93,11 @@ namespace Projecto__Final
                 nivelActual.Puerta1 = new Rectangle(250, 20, 64, 32);
 
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(285, 380, 40, 40),
-                    "Pocion de Vida", false, texturaCofre, null));
+                    "Pocion de Vida", false, texturaCofre, null, 11));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(575, 220, 40, 40), "Trampa trampera",
-                    false, texturaCofre, null));
+                    false, texturaCofre, null, 12));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(670, 220, 40, 40),
-                    "Llave Antigua", false, texturaCofre, null));
+                    "Llave Antigua", false, texturaCofre, null, 13));
             }
             else if (nivel == 2)
             {
@@ -105,14 +105,14 @@ namespace Projecto__Final
                 nivelActual.Puerta2 = new Rectangle(210, 10, 64, 32);
 
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(730, 60, 40, 40),
-                    "Pocion de Vida", false, texturaCofre, null));
+                    "Pocion de Vida", false, texturaCofre, null,21));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(1210, 130, 40, 40),
-                    "Trampa tramposilla", false, texturaCofre, null));
+                    "Trampa tramposilla", false, texturaCofre, null,22));
 
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(480, 570, 40, 40),
-                    "Pocion de Vida", false, texturaCofre, null));
+                    "Pocion de Vida", false, texturaCofre, null,23));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(800, 380, 40, 40),
-                    "Trampa tramposa", false, texturaCofre, null));
+                    "Trampa tramposa", false, texturaCofre, null,24));
 
 
 
@@ -123,12 +123,12 @@ namespace Projecto__Final
                 nivelActual.Puerta2 = new Rectangle(1100, 15, 64, 32);
 
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(190, 250, 40, 40),
-                    "Pocion de Vida", false, texturaCofre, null));
+                    "Pocion de Vida", false, texturaCofre, null,31));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(960, 310, 40, 40),
-                    "Trampa tramposilla", false, texturaCofre, null));
+                    "Trampa tramposilla", false, texturaCofre, null,32));
 
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(1050, 310, 40, 40),
-                    "Pocion de Vida", false, texturaCofre, null));
+                    "Pocion de Vida", false, texturaCofre, null,33));
             }
             else if (nivel == 4)
             {
@@ -212,6 +212,8 @@ namespace Projecto__Final
             menuPrincipal = new MenuPrincipal(fondoNormal, fondoEspecial, botonNoPresionado, botonPresionado, fuenteCargada);
             menuSeleccion = new MenuSeleccion(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
             menuOpciones = new MenuOpciones(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
+            //menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
+            //combate = new Combate(fondoCombate, jugador, )
             menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
             
 
@@ -384,6 +386,7 @@ namespace Projecto__Final
                     Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X,
                         (int)jugador.Posicion.Y, 32, 32);
 
+                    jugador.Draw(_spriteBatch);
                     jugador.Draw(_spriteBatch, fuenteGlobal); 
                     
                     /*_spriteBatch.Draw(pixel, rectJugador, Color.Red * 0.5f);
