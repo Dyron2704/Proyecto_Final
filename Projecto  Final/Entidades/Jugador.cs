@@ -57,7 +57,8 @@ namespace Projecto__Final.Entidades
             if (teclado.IsKeyDown(Keys.F) && tecladoAnterior.IsKeyUp(Keys.F))
             {
                 Rectangle rectJugador = new Rectangle((int)posicion.X, (int)posicion.Y, 32, 32);
-                rectJugador.Inflate(15, 15);
+                rectJugador.Inflate(15, 15); // Aumenta el área de interacción
+
                 for (int i = 0; i < cofres.Count && !interactuado; i++)
                 {
                     if (!cofres[i].abierto && cofres[i].area.Intersects(rectJugador))
@@ -146,6 +147,13 @@ namespace Projecto__Final.Entidades
 
         public override void Atacar(Entidad objetivo) { }
 
-        public void Draw(SpriteBatch sb) { base.Draw(sb, columnas); }
+        public void Draw(SpriteBatch sb, SpriteFont fuente) 
+        { 
+            base.Draw(sb, columnas); 
+
+            Vector2 posicionTexto = new Vector2(posicion.X, posicion.Y - 20);
+
+            sb.DrawString(fuente, $"HP: {this.Vida}", posicionTexto, Color.White);
+        }
     }
 }

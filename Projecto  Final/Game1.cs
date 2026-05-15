@@ -141,7 +141,7 @@ namespace Projecto__Final
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
             _spriteBatch.Draw(nivelActual.Fondo, Vector2.Zero, Color.White);
-            jugador.Draw(_spriteBatch);
+            jugador.Draw(_spriteBatch, fuenteGlobal);
             _spriteBatch.End();
 
             CargarMapa(nombreNuevoMapa);
@@ -151,7 +151,7 @@ namespace Projecto__Final
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
             _spriteBatch.Draw(nivelActual.Fondo, Vector2.Zero, Color.White);
-            jugador.Draw(_spriteBatch);
+            jugador.Draw(_spriteBatch, fuenteGlobal);
             _spriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);
@@ -214,6 +214,8 @@ namespace Projecto__Final
             menuOpciones = new MenuOpciones(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
             //menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
             //combate = new Combate(fondoCombate, jugador, )
+            menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
+            
 
             fuenteGlobal = Content.Load<SpriteFont>("FuenteMenu");
             menuEscape = new MenuEscape(GraphicsDevice, botonNoPresionado, botonPresionado, fuenteCargada);
@@ -385,6 +387,8 @@ namespace Projecto__Final
                         (int)jugador.Posicion.Y, 32, 32);
 
                     jugador.Draw(_spriteBatch);
+                    jugador.Draw(_spriteBatch, fuenteGlobal); 
+                    
                     /*_spriteBatch.Draw(pixel, rectJugador, Color.Red * 0.5f);
 
                     foreach (var cofre in nivelActual.Cofres)
@@ -411,7 +415,7 @@ namespace Projecto__Final
 
                         if (jugador != null)
                         {
-                            jugador.Draw(_spriteBatch);
+                            jugador.Draw(_spriteBatch, fuenteGlobal);
 
                         }
                         break;
