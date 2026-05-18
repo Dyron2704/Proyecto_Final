@@ -72,7 +72,6 @@ namespace Projecto__Final
         string personajeSeleccionadoEnUso = "";
 
         Enemigo[] enemigos;
-        Combate combateActual;
 
         /* Cuando se detecte un combate deberemos poner el siguiente código:
          * combateActual = new Combate(jugador, enemigoPrueba, texturaBoton, texturaBotonHover, fuenteGlobal);
@@ -105,7 +104,7 @@ namespace Projecto__Final
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(285, 380, 40, 40),
                     "Pocion de Vida", false, texturaCofre, null, 11));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(575, 220, 40, 40), "Trampa trampera",
-                    false, texturaCofre, null, 12));
+                    true, texturaCofre, null, 12));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(670, 220, 40, 40),
                     "Llave Antigua", false, texturaCofre, null, 13));
             }
@@ -117,12 +116,12 @@ namespace Projecto__Final
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(730, 60, 40, 40),
                     "Pocion de Vida", false, texturaCofre, null,21));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(1210, 130, 40, 40),
-                    "Trampa tramposilla", false, texturaCofre, null,22));
+                    "Trampa tramposilla", true, texturaCofre, null,22));
 
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(480, 570, 40, 40),
                     "Pocion de Vida", false, texturaCofre, null,23));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(800, 380, 40, 40),
-                    "Trampa tramposa", false, texturaCofre, null,24));
+                    "Trampa tramposa", true, texturaCofre, null,24));
 
 
 
@@ -135,7 +134,7 @@ namespace Projecto__Final
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(190, 250, 40, 40),
                     "Pocion de Vida", false, texturaCofre, null,31));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(960, 310, 40, 40),
-                    "Trampa tramposilla", false, texturaCofre, null,32));
+                    "Trampa tramposilla", true, texturaCofre, null,32));
 
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(1050, 310, 40, 40),
                     "Pocion de Vida", false, texturaCofre, null,33));
@@ -223,7 +222,7 @@ namespace Projecto__Final
             menuSeleccion = new MenuSeleccion(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
             menuOpciones = new MenuOpciones(fondoNormal, botonNoPresionado, botonPresionado, fuenteCargada);
             //menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
-            //combate = new Combate(fondoCombate, jugador, )
+            //combate = new Combate(fondoCombate, jugador, enemigos, Content.Load<Texture2D>("Boton"), Content.Load<Texture2D>("Boton Presionado"), fuenteGlobal);
             menuPersonajes = new MenuPersonajes(fondoNormal, listaPersonajesRecortados, nombres, fuenteCargada, botonPresionado);
 
 
@@ -288,7 +287,7 @@ namespace Projecto__Final
                         jugador = new Jugador(texturaPersonaje, posicionAnterior, 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje);
                     }
 
-                    combateActual = new Combate(Content.Load<Texture2D>("Pantalla Combate"), jugador, enemigos, Content.Load<Texture2D>("Boton"), Content.Load<Texture2D>("Boton Presionado"), fuenteGlobal);
+                    
 
                     jugador.Update(gameTime, nivelActual.Colisiones, nivelActual.Cofres, this, ref estadoActual);
 
@@ -378,7 +377,7 @@ namespace Projecto__Final
                     break;
 
                 case GameState.Combate:
-                    combateActual.Update(gameTime, mouse, mouseAnterior, ref estadoActual);
+                    combate.Update(gameTime, mouse, mouseAnterior, ref estadoActual);
                     break;
             }
 
@@ -480,7 +479,7 @@ namespace Projecto__Final
                         break;
 
                     case GameState.Combate:
-                        combateActual.Draw(_spriteBatch);
+                        combate.Draw(_spriteBatch);
                         break;
                 }
             }
@@ -523,6 +522,30 @@ namespace Projecto__Final
 
             listaDeAlertas.Add(new Alertas(texto, new Vector2(posX, posY), 3f));
         }
+
+        public void IniciarCombate()
+        {
+            foreach (Enemigo e in enemigos)
+            {
+                if (e.Nombre == "Slime" || e.Nombre == "slime") e.Vida = 20;
+                else if (e.Nombre == "Murcielago" || e.Nombre == "murcielago") e.Vida = 40;
+                else if (e.Nombre == "Caballero" || e.Nombre == "caballero") e.Vida = 80;
+            }
+
+            combate = new Combate(
+                Content.Load<Texture2D>("Pantalla Combate"),
+                jugador,
+                enemigos,
+                Content.Load<Texture2D>("Boton"),
+                Content.Load<Texture2D>("Boton Presionado"),
+                fuenteGlobal
+            );
+
+            estadoActual = GameState.Combate;
+
+            AgregarAlerta("¡Un cofre trampa te ha emboscado!");
+        }
+
         public void Reset()
         {
             estadoActual = GameState.MenuPrincipal;

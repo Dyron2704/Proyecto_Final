@@ -57,7 +57,7 @@ namespace Projecto__Final
 
                     if (boton.Clicado(mouse, mouseAnterior))
                     {
-                        ProcesarAccion(boton.Texto);
+                        ProcesarAccion(boton.Texto, ref estadoActual);
                     }
                 }
             }
@@ -66,7 +66,7 @@ namespace Projecto__Final
                 TurnoEnemigo();
         }
 
-        private void ProcesarAccion(string accion)
+        private void ProcesarAccion(string accion, ref GameState estadoActual)
         {
             switch (accion)
             {
@@ -102,7 +102,7 @@ namespace Projecto__Final
 
                 case "Huir":
                     mensajeAccion = "¡Has huido del combate!";
-
+                    estadoActual = GameState.Jugando;
                     break;
             }
         }

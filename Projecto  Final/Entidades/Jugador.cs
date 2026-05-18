@@ -72,15 +72,7 @@ namespace Projecto__Final.Entidades
                         {
                             if (cofres[i].esTrampa)
                             {
-                                estadoActual = GameState.Combate;
-                                /* Esto es más o menos lo que hay que hacer
-                                this.Vida -= 10;
-                                Item armaEnemigo = new Item(cofres[i].contenido, "Arma soltada por enemigo");
-                                armaEnemigo.Tipo = "Arma";
-
-                                this.Inventario.AgregarObjeto(armaEnemigo);
-                                juego.AgregarAlerta("¡Trampa! Has recibido 10 de daño pero obtuviste el arma.");
-                                */
+                                juego.IniciarCombate();
                             }
                             else
                             {
