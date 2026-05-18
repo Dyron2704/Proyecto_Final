@@ -287,8 +287,6 @@ namespace Projecto__Final
                         jugador = new Jugador(texturaPersonaje, posicionAnterior, 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje);
                     }
 
-                    
-
                     jugador.Update(gameTime, nivelActual.Colisiones, nivelActual.Cofres, this, ref estadoActual);
 
                     Rectangle rectJugador = new Rectangle((int)jugador.Posicion.X, (int)jugador.Posicion.Y, 32, 32);

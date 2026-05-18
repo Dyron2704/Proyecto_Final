@@ -17,6 +17,7 @@ namespace Projecto__Final
         Enemigo enemigo;
         List<Boton> botones;
         SpriteFont fuente;
+        int vidaMaximaEnemigo;
 
         Vector2 posicionJugador = new Vector2(250, 350);
         Vector2 posicionEnemigo = new Vector2(850, 350);
@@ -31,6 +32,7 @@ namespace Projecto__Final
             this.fondoCombate = fondoCombate;
             this.jugador = jugador;
             this.enemigo = enemigos[new Random().Next(enemigos.Length)];
+            this.vidaMaximaEnemigo = this.enemigo.Vida;
             this.fuente = fuente;
 
             botones = new List<Boton>();
@@ -72,11 +74,7 @@ namespace Projecto__Final
             {
                 case "Atacar":
                     enemigo.Vida -= 20;
-
-                    if (enemigo.Vida < 0) enemigo.Vida = 0;
-
-                    mensajeAccion = "¡Has atacado al enemigo!";
-
+                    mensajeAccion = $"¡Has atacado al enemigo e infligido {20} de daño!";
                     esTurnoJugador = false;
                     break;
 
@@ -142,7 +140,7 @@ namespace Projecto__Final
             enemigo.Posicion = posOriginalEnemigo;
 
             sb.DrawString(fuente, $"Jugador HP: {jugador.Vida} / 100", new Vector2(posicionJugador.X - 50, posicionJugador.Y + 120), Color.White);
-            sb.DrawString(fuente, $"Enemigo HP: {enemigo.Vida} / 100", new Vector2(posicionEnemigo.X - 50, posicionEnemigo.Y + 120), Color.White);
+            sb.DrawString(fuente, $"Enemigo HP: {enemigo.Vida} / {vidaMaximaEnemigo}", new Vector2(posicionEnemigo.X - 50, posicionEnemigo.Y + 120), Color.White);
 
             sb.DrawString(fuente, mensajeAccion, new Vector2(100, 30), Color.Yellow);
 
