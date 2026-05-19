@@ -31,12 +31,13 @@ namespace Projecto__Final.Entidades
         public int CantidadOro { get => cantidadOro; set => cantidadOro = value; }
         public int ExperienciaOtorgada { get => experienciaOtorgada; set => experienciaOtorgada = value; }
 
-        public void Draw(SpriteBatch spriteBatch, int filas, int columnas)
+        public void Draw(SpriteBatch spriteBatch, int filas, int columnas, float escala = 1f)
         {
             int ancho = textura.Width / columnas;
             int alto = textura.Height / filas;
             Rectangle origen = new Rectangle(columnaActual * ancho, filaActual * alto, ancho, alto);
-            spriteBatch.Draw(textura, posicion, origen, Color.White);
+
+            spriteBatch.Draw(textura, posicion, origen, Color.White, 0f, Vector2.Zero, escala, SpriteEffects.None, 0f);
         }
     }
 }

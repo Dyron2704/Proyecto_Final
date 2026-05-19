@@ -139,15 +139,15 @@ namespace Projecto__Final
 
             if (enemigo.Nombre == "Murcielago" || enemigo.Nombre == "murcielago")
             {
-                enemigo.Draw(sb, 1, 4); // Podemos ajustar el tamaño del enemigo para que se vea más grande
+                enemigo.Draw(sb, 1, 4, 1.5f);
             }
             else if (enemigo.Nombre == "Slime" || enemigo.Nombre == "slime")
             {
-                enemigo.Draw(sb, 1, 9); // Ajustamos el tamaño del slime para que se vea más grande
+                enemigo.Draw(sb, 1, 9, 4f);
             }
             else if (enemigo.Nombre == "Caballero" || enemigo.Nombre == "caballero")
             {
-                enemigo.Draw(sb, 1, 8);
+                enemigo.Draw(sb, 1, 8, 4f);
             }
 
             jugador.Posicion = posOriginalJugador;
