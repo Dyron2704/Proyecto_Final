@@ -133,13 +133,12 @@ namespace Projecto__Final
 
             jugador.Posicion = posicionJugador;
             if (enemigo is JefeFinal)
-            {
-                // Lo movemos más hacia arriba en la pantalla (Y = 180) para que no se corte por abajo
+            { 
                 enemigo.Posicion = new Vector2(posicionEnemigo.X, 120);
             }
             else
             {
-                enemigo.Posicion = posicionEnemigo; // Los enemigos normales se quedan en su sitio (Y = 350)
+                enemigo.Posicion = posicionEnemigo;
             }
 
             jugador.Draw(sb, fuente);
