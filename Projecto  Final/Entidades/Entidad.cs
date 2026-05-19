@@ -11,7 +11,7 @@ namespace Projecto__Final.Entidades
     internal abstract class Entidad
     {
         private int vida;
-        private string nombre;
+        protected string nombre;
         protected Texture2D textura;
         protected Vector2 posicion;
         protected int filaActual = 0;
