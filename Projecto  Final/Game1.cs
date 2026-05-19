@@ -341,32 +341,27 @@ namespace Projecto__Final
 
                         if (jugador.Posicion.X > 550 && !combateJefeIniciado)
                         {
-                            combateJefeIniciado = true; // Cambia este booleano para evitar que el combate se instancie infinitamente en bucle
+                            combateJefeIniciado = true;
 
-                            // Carga de texturas e interfaz de botones
                             Texture2D texBoton = Content.Load<Texture2D>("Boton");
                             Texture2D texBotonHover = Content.Load<Texture2D>("Boton Presionado");
                             Texture2D fondoCombateJefe = Content.Load<Texture2D>("Pantalla Combate");
 
-                            // Cargamos tu nueva imagen transparente (asegúrate de usar el nombre exacto de tu archivo en Content)
-                            Texture2D texturaJefe = Content.Load<Texture2D>("JefeFinal");
+                            Texture2D texturaJefe = Content.Load<Texture2D>("Jefe");
 
-                            // Instanciamos al Jefe Final usando su propia clase heredada de Enemigo
                             JefeFinal jefe = new JefeFinal(
-                                this,                 // Instancia del juego para poder lanzar alertas en pantalla
-                                200,                  // Puntos de vida base del jefe
-                                "Guardián de la Lava", // Nombre oficial (activará el escalado correcto en el Draw de Combate.cs)
-                                texturaJefe,          // La textura PNG transparente que acabamos de generar
-                                new Vector2(850, 350),// Posición inicial de renderizado en el escenario de combate
-                                4, 500, 1000,         // Dificultad, oro y experiencia otorgada
-                                true,                 // AtaqueEspecialDisponible (comenzará el combate usando el golpe de 40 de daño)
-                                true                  // bonusVidaMaxima activo (se curará 10 puntos de salud al final de cada turno)
+                                this,                 
+                                200,                  
+                                "Jefe", 
+                                texturaJefe,          
+                                new Vector2(850, 350),
+                                4, 500, 1000,        
+                                true,                 
+                                true                  
                             );
 
-                            // Guardamos al jefe en un array estructurado de un único elemento
                             Enemigo[] grupoJefe = new Enemigo[] { jefe };
 
-                            // Inicializamos la pantalla de pelea enviando el grupo controlado al constructor inteligente de Combate.cs
                             combate = new Combate(fondoCombateJefe, jugador, grupoJefe, texBoton, texBotonHover, fuenteGlobal);
                             estadoActual = GameState.Combate;
 

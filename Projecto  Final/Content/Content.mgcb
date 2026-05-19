@@ -272,7 +272,7 @@
 /processorParam:TextureFormat=Color
 /build:Jade.png
 
-#begin JefeFinal.png
+#begin Jefe.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -282,7 +282,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:JefeFinal.png
+/build:Jefe.png
 
 #begin Joseph - Menu.png
 /importer:TextureImporter

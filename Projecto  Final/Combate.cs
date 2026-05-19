@@ -132,10 +132,21 @@ namespace Projecto__Final
             Vector2 posOriginalEnemigo = enemigo.Posicion;
 
             jugador.Posicion = posicionJugador;
-            enemigo.Posicion = posicionEnemigo;
+            if (enemigo is JefeFinal)
+            {
+                // Lo movemos más hacia arriba en la pantalla (Y = 180) para que no se corte por abajo
+                enemigo.Posicion = new Vector2(posicionEnemigo.X, 150);
+            }
+            else
+            {
+                enemigo.Posicion = posicionEnemigo; // Los enemigos normales se quedan en su sitio (Y = 350)
+            }
 
             jugador.Draw(sb, fuente);
-
+            if (enemigo is JefeFinal)
+            {
+                enemigo.Draw(sb, 1, 1, 4.5f);
+            }
             if (enemigo.Nombre == "Murcielago" || enemigo.Nombre == "murcielago")
             {
                 enemigo.Draw(sb, 1, 4, 1.5f);
@@ -148,6 +159,7 @@ namespace Projecto__Final
             {
                 enemigo.Draw(sb, 1, 8, 4f);
             }
+            
 
             jugador.Posicion = posOriginalJugador;
             enemigo.Posicion = posOriginalEnemigo;
