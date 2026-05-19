@@ -577,14 +577,22 @@ namespace Projecto__Final
             }
 
             string jsonString = JsonSerializer.Serialize(datos);
-            File.WriteAllText(nombrePerfil + ".json", jsonString);
+
+            string carpetaSaves = "Saves";
+            if (!Directory.Exists(carpetaSaves))
+            {
+                Directory.CreateDirectory(carpetaSaves);
+            }
+
+            string rutaCompleta = Path.Combine(carpetaSaves, nombrePerfil + ".json");
+            File.WriteAllText(rutaCompleta, jsonString);
 
             AgregarAlerta($"¡Partida '{nombrePerfil}' guardada!");
         }
 
         public void CargarPartida(string nombrePerfil)
         {
-            string ruta = nombrePerfil + ".json";
+            string ruta = Path.Combine("Saves", nombrePerfil + ".json");
 
             if (File.Exists(ruta))
             {
@@ -603,8 +611,10 @@ namespace Projecto__Final
 
                 jugador.Inventario.Objetos = datos.ObjetosGuardados;
 
-                foreach (int indice in datos.CofresAbiertosIds)
+                for (int i = 0; i < datos.CofresAbiertosIds.Count; i++)
                 {
+                    int indice = datos.CofresAbiertosIds[i];
+
                     if (indice < nivelActual.Cofres.Count)
                     {
                         nivelActual.Cofres[indice].abierto = true;
