@@ -114,7 +114,7 @@ namespace Projecto__Final
                 jugador.Vida = 0; 
                 mensajeAccion = "¡Has sido derrotado por el enemigo!";
                 esTurnoJugador = false;
-                estadoActual = GameState.MenuPrincipal;
+                estadoActual = GameState.PantallaMuerte;
             }
 
             else
