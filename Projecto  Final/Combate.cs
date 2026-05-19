@@ -95,9 +95,8 @@ namespace Projecto__Final
                     else
                     {
                         mensajeAccion = "¡No tienes pociones de vida!";
+                        esTurnoJugador = false;
                     }
-
-                    esTurnoJugador = false;
                     break;
 
                 case "Huir":
