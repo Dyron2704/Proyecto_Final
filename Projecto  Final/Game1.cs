@@ -106,7 +106,7 @@ namespace Projecto__Final
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(575, 220, 40, 40), "Trampa trampera",
                     true, texturaCofre, null, 12));
                 nivelActual.Cofres.Add(new Cofre(new Rectangle(670, 220, 40, 40),
-                    "Llave Antigua", false, texturaCofre, null, 13));
+                    "Poción de Vida", false, texturaCofre, null, 13));
             }
             else if (nivel == 2)
             {
