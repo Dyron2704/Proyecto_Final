@@ -45,7 +45,7 @@ namespace Projecto__Final
 
         public void Update(GameTime gameTime, MouseState mouse, MouseState mouseAnterior, ref GameState estadoActual)
         {
-            if(enemigo.Vida <= 0 && jugador.Vida > 0)
+            if (enemigo.Vida <= 0 && jugador.Vida > 0)
             {
                 mensajeAccion = "¡Has derrotado al enemigo!";
                 estadoActual = GameState.Jugando;
@@ -116,6 +116,8 @@ namespace Projecto__Final
 
         public void Draw(SpriteBatch sb)
         {
+            sb.Draw(fondoCombate, Vector2.Zero, Color.White);
+
             Vector2 posOriginalJugador = jugador.Posicion;
             Vector2 posOriginalEnemigo = enemigo.Posicion;
 
@@ -127,7 +129,8 @@ namespace Projecto__Final
             if (enemigo.Nombre == "Murcielago" || enemigo.Nombre == "murcielago")
             {
                 enemigo.Draw(sb, 1, 4); // Podemos ajustar el tamaño del enemigo para que se vea más grande
-            } else if (enemigo.Nombre == "Slime" || enemigo.Nombre == "slime")
+            }
+            else if (enemigo.Nombre == "Slime" || enemigo.Nombre == "slime")
             {
                 enemigo.Draw(sb, 1, 9); // Ajustamos el tamaño del slime para que se vea más grande
             }
