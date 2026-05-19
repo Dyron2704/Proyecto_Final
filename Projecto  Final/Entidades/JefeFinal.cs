@@ -27,7 +27,7 @@ namespace Projecto__Final.Entidades
             if (AtaqueEspecialDisponible)
             {
                 _game.AgregarAlerta($" {nombre} Ha usado su ataque especial!");
-                objetivo.Vida -= 40;
+                objetivo.Vida -= 40; 
                 AtaqueEspecialDisponible = false;
             }
             else

@@ -135,7 +135,7 @@ namespace Projecto__Final
             if (enemigo is JefeFinal)
             {
                 // Lo movemos más hacia arriba en la pantalla (Y = 180) para que no se corte por abajo
-                enemigo.Posicion = new Vector2(posicionEnemigo.X, 150);
+                enemigo.Posicion = new Vector2(posicionEnemigo.X, 120);
             }
             else
             {
