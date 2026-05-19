@@ -41,7 +41,8 @@ namespace Projecto__Final
             Transiciones,
             Combate,
             MenuGuardar,
-            MenuCargar
+            MenuCargar,
+            PantallaMuerte
         }
 
         MenuPrincipal menuPrincipal;
@@ -51,6 +52,7 @@ namespace Projecto__Final
         MenuEscape menuEscape;
         MenuGuardado menuGuardado;
         MenuCargar menuCargar;
+        
 
         Combate combate;
         GameState estadoActual = GameState.MenuPrincipal;
@@ -77,7 +79,7 @@ namespace Projecto__Final
          * combateActual = new Combate(jugador, enemigoPrueba, texturaBoton, texturaBotonHover, fuenteGlobal);
          * estadoActual = GameState.Combate;
          */
-
+        Texture2D pantallaMuerte;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -203,6 +205,8 @@ namespace Projecto__Final
             Texture2D fondoEspecial = Content.Load<Texture2D>("FondoMenuEspecial");
 
             Texture2D fondoCombate = Content.Load<Texture2D>("Pantalla Combate");
+            pantallaMuerte=Content.Load<Texture2D>("mapaMuerte");
+
 
             List<Texture2D> listaPersonajesRecortados = new List<Texture2D>();
             listaPersonajesRecortados.Add(Content.Load<Texture2D>("Astrid - Menu"));
@@ -377,6 +381,15 @@ namespace Projecto__Final
                 case GameState.Combate:
                     combate.Update(gameTime, mouse, mouseAnterior, ref estadoActual);
                     break;
+                case GameState.PantallaMuerte:
+                    Console.WriteLine("Presione ENTER para continuar");
+                    if (teclado.IsKeyDown(Keys.Enter) && !tecladoAnterior.IsKeyDown(Keys.Enter))
+                    {
+                        Reset(); 
+                        estadoActual = GameState.MenuPrincipal;
+                        AgregarAlerta("Volviendo al menú principal...");
+                    }
+                    break;
             }
 
             foreach (Alertas alerta in listaDeAlertas)
@@ -478,6 +491,12 @@ namespace Projecto__Final
 
                     case GameState.Combate:
                         combate.Draw(_spriteBatch);
+                        break;
+                    case GameState.PantallaMuerte:
+                        if (pantallaMuerte != null)
+                        {
+                            _spriteBatch.Draw(pantallaMuerte, new Rectangle(0, 0, 1280, 720), Color.White);
+                        }
                         break;
                 }
             }
