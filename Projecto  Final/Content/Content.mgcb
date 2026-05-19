@@ -272,6 +272,18 @@
 /processorParam:TextureFormat=Color
 /build:Jade.png
 
+#begin JefeFinal.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:JefeFinal.png
+
 #begin Joseph - Menu.png
 /importer:TextureImporter
 /processor:TextureProcessor
