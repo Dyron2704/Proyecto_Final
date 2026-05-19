@@ -74,6 +74,7 @@ namespace Projecto__Final
         string personajeSeleccionadoEnUso = "";
 
         Enemigo[] enemigos;
+        bool combateJefeIniciado = false;
 
         /* Cuando se detecte un combate deberemos poner el siguiente código:
          * combateActual = new Combate(jugador, enemigoPrueba, texturaBoton, texturaBotonHover, fuenteGlobal);
@@ -340,6 +341,35 @@ namespace Projecto__Final
                             IniciarTransicion($"Pantalla 3", new Vector2(1100, 60), true);
                             //jugador.Posicion = new Vector2(1100, 60);
                             AgregarAlerta("Has entrado en la Pantalla 3");
+                        }
+
+                        if (jugador.Posicion.X > 550 && !combateJefeIniciado)
+                        {
+                            combateJefeIniciado = true;
+
+                            Texture2D texBoton = Content.Load<Texture2D>("Boton");
+                            Texture2D texBotonHover = Content.Load<Texture2D>("Boton Presionado");
+                            Texture2D fondoCombateJefe = Content.Load<Texture2D>("Pantalla Combate");
+
+                            Texture2D texturaJefe = Content.Load<Texture2D>("Jefe");
+
+                            JefeFinal jefe = new JefeFinal(
+                                this,                 
+                                200,                  
+                                "Jefe", 
+                                texturaJefe,          
+                                new Vector2(850, 350),
+                                4, 500, 1000,        
+                                true,                 
+                                true                  
+                            );
+
+                            Enemigo[] grupoJefe = new Enemigo[] { jefe };
+
+                            combate = new Combate(fondoCombateJefe, jugador, grupoJefe, texBoton, texBotonHover, fuenteGlobal);
+                            estadoActual = GameState.Combate;
+
+                            AgregarAlerta("¡El Guardián de la Lava bloquea tu camino!");
                         }
                     }
                     break;
