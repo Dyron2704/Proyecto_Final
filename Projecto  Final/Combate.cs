@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Projecto__Final.Entidades;
+using Projecto__Final.Menús;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,7 +66,7 @@ namespace Projecto__Final
             }
 
             else
-                TurnoEnemigo();
+                TurnoEnemigo(ref estadoActual);
         }
 
         private void ProcesarAccion(string accion, ref GameState estadoActual)
@@ -79,7 +80,7 @@ namespace Projecto__Final
                     break;
 
                 case "Usar Pocion":
-                    bool exito = jugador.Inventario.UsarObjeto("Pocion de vida");
+                    bool exito = jugador.Inventario.UsarObjeto("Pocion de Vida");
 
                     if (exito)
                     {
@@ -88,6 +89,7 @@ namespace Projecto__Final
                         if (jugador.Vida > 100) jugador.Vida = 100;
 
                         mensajeAccion = "¡Has usado una poción de vida!";
+                        esTurnoJugador = true;
                     }
 
                     else
@@ -105,13 +107,22 @@ namespace Projecto__Final
             }
         }
 
-        private void TurnoEnemigo()
+        private void TurnoEnemigo(ref GameState estadoActual)
         {
             jugador.Vida -= 10;
-            if (jugador.Vida < 0) jugador.Vida = 0;
-            mensajeAccion = "¡El enemigo te ha atacado!";
+            if (jugador.Vida < 0)
+            { 
+                jugador.Vida = 0; 
+                mensajeAccion = "¡Has sido derrotado por el enemigo!";
+                esTurnoJugador = false;
+                estadoActual = GameState.MenuPrincipal;
+            }
 
-            esTurnoJugador = true;
+            else
+            {
+                mensajeAccion = "¡El enemigo te ha atacado!";
+                esTurnoJugador = true;
+            }
         }
 
         public void Draw(SpriteBatch sb)
