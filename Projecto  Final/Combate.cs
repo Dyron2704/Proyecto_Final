@@ -49,6 +49,7 @@ namespace Projecto__Final
             if (enemigo.Vida <= 0 && jugador.Vida > 0)
             {
                 mensajeAccion = "¡Has derrotado al enemigo!";
+                jugador.DanoExtra+=1;
                 estadoActual = GameState.Jugando;
                 return;
             }
@@ -74,7 +75,7 @@ namespace Projecto__Final
             switch (accion)
             {
                 case "Atacar":
-                    enemigo.Vida -= 20;
+                    enemigo.Vida -= 10 + 10*jugador.DanoExtra;
                     mensajeAccion = $"¡Has atacado al enemigo e infligido {20} de daño!";
                     esTurnoJugador = false;
                     break;
@@ -115,12 +116,6 @@ namespace Projecto__Final
                 mensajeAccion = "¡Has sido derrotado por el enemigo!";
                 esTurnoJugador = false;
                 estadoActual = GameState.PantallaMuerte;
-            }
-            else if (enemigo.Vida <= 0)
-            {
-                mensajeAccion = "¡Has derrotado al enemigo!";
-                esTurnoJugador = false;
-                estadoActual = GameState.PantallaVictoria;
             }
             else
             {
