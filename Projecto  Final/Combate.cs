@@ -116,7 +116,12 @@ namespace Projecto__Final
                 esTurnoJugador = false;
                 estadoActual = GameState.PantallaMuerte;
             }
-
+            else if (enemigo.Vida <= 0)
+            {
+                mensajeAccion = "¡Has derrotado al enemigo!";
+                esTurnoJugador = false;
+                estadoActual = GameState.PantallaVictoria;
+            }
             else
             {
                 mensajeAccion = "¡El enemigo te ha atacado!";
