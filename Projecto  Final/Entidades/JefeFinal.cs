@@ -47,8 +47,8 @@ namespace Projecto__Final.Entidades
             if (bonusVidaMaxima)
             {
                 _game.AgregarAlerta("Bonus de vida máxima activado! Vida aumentada en 10 puntos.");
-                Vida += 10;
-                if (Vida > 300) Vida = 300;
+                Vida += 40;
+                if (Vida > 400) Vida = 400;
                 bonusVidaMaxima = false;
                 indexVida = 0;
             }
