@@ -42,7 +42,8 @@ namespace Projecto__Final
             Combate,
             MenuGuardar,
             MenuCargar,
-            PantallaMuerte
+            PantallaMuerte,
+            PantallaVictoria
         }
 
         MenuPrincipal menuPrincipal;
@@ -81,6 +82,7 @@ namespace Projecto__Final
          * estadoActual = GameState.Combate;
          */
         Texture2D pantallaMuerte;
+        Texture2D pantallaVictoria;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -207,6 +209,7 @@ namespace Projecto__Final
 
             Texture2D fondoCombate = Content.Load<Texture2D>("Pantalla Combate");
             pantallaMuerte=Content.Load<Texture2D>("mapaMuerte");
+            pantallaVictoria=Content.Load<Texture2D>("mapaVictoria");
 
 
             List<Texture2D> listaPersonajesRecortados = new List<Texture2D>();
@@ -420,6 +423,15 @@ namespace Projecto__Final
                         AgregarAlerta("Volviendo al menú principal...");
                     }
                     break;
+                case GameState.PantallaVictoria:
+                    Console.WriteLine("¡Has ganado! Presiona ENTER para volver al menú principal.");
+                    if (teclado.IsKeyDown(Keys.Enter) && !tecladoAnterior.IsKeyDown(Keys.Enter))
+                    {
+                        Reset();
+                        estadoActual = GameState.MenuPrincipal;
+                        AgregarAlerta("Volviendo al menú principal...");
+                    }
+                    break;
             }
 
             foreach (Alertas alerta in listaDeAlertas)
@@ -526,6 +538,12 @@ namespace Projecto__Final
                         if (pantallaMuerte != null)
                         {
                             _spriteBatch.Draw(pantallaMuerte, new Rectangle(0, 0, 1280, 720), Color.White);
+                        }
+                        break;
+                    case GameState.PantallaVictoria:
+                        if(pantallaVictoria !=null)
+                        {
+                            _spriteBatch.Draw(pantallaVictoria, new Rectangle(0, 0, 1280, 720), Color.White);
                         }
                         break;
                 }
