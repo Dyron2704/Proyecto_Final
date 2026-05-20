@@ -48,9 +48,18 @@ namespace Projecto__Final
         {
             if (enemigo.Vida <= 0 && jugador.Vida > 0)
             {
-                mensajeAccion = "¡Has derrotado al enemigo!";
-                jugador.DanoExtra+=1;
-                estadoActual = GameState.Jugando;
+                if (enemigo is JefeFinal)
+                {
+                    mensajeAccion = "¡Has derrotado al jefe final!";
+                    estadoActual = GameState.PantallaVictoria;
+
+                }
+                else 
+                {
+                    mensajeAccion = "¡Has derrotado al enemigo!";
+                    jugador.DanoExtra += 1;
+                    estadoActual = GameState.Jugando;
+                }
                 return;
             }
             if (esTurnoJugador)
