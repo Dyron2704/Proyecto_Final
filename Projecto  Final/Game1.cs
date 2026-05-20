@@ -242,9 +242,9 @@ namespace Projecto__Final
 
             enemigos = new Enemigo[]
             {
-                new Enemigo(20, "Slime", Content.Load<Texture2D>("Slime"), new Vector2(800, 300), 1, 10, 20),
-                new Enemigo(40, "Murcielago", Content.Load<Texture2D>("enemy-bird"), new Vector2(800,300), 2, 20, 40),
-                new Enemigo(80, "Caballero", Content.Load<Texture2D>("Caballero"), new Vector2(800, 300), 3, 40, 80)
+                new Enemigo(40, "Slime", Content.Load<Texture2D>("Slime"), new Vector2(800, 300), 1, 10, 20),
+                new Enemigo(60, "Murcielago", Content.Load<Texture2D>("enemy-bird"), new Vector2(800,300), 2, 20, 40),
+                new Enemigo(100, "Caballero", Content.Load<Texture2D>("Caballero"), new Vector2(800, 300), 3, 40, 80)
             };
         }
 

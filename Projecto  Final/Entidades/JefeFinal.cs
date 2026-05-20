@@ -13,6 +13,8 @@ namespace Projecto__Final.Entidades
         bool AtaqueEspecialDisponible;
         bool bonusVidaMaxima;
         private Game1 _game;
+        private int indexEspecial;
+        private int indexVida;
 
         public JefeFinal(Game1 game, int vida, string nombre, Texture2D textura, Vector2 posicion, int nivelDificultad = 0, int cantidadOro = 0, int experienciaOtorgada = 0, bool ataqueEspecialDisponible = true, bool bonusVidaMaxima = false)
             : base(vida, nombre, textura, posicion, nivelDificultad, cantidadOro, experienciaOtorgada)
@@ -20,6 +22,8 @@ namespace Projecto__Final.Entidades
             this._game = game;
             this.AtaqueEspecialDisponible = ataqueEspecialDisponible;
             this.bonusVidaMaxima = bonusVidaMaxima;
+            this.indexEspecial = 0;
+            this.indexVida = 0;
         }
 
         public override void Atacar(Entidad objetivo)
@@ -29,18 +33,24 @@ namespace Projecto__Final.Entidades
                 _game.AgregarAlerta($" {nombre} Ha usado su ataque especial!");
                 objetivo.Vida -= 40; 
                 AtaqueEspecialDisponible = false;
+                indexEspecial = 0;
             }
             else
             {
                 objetivo.Vida -= 20;
+                indexEspecial++;
+                indexVida++;
+                AtaqueEspecialDisponible = indexEspecial > 2;
+                bonusVidaMaxima = indexVida > 3;
             }
 
             if (bonusVidaMaxima)
             {
-                
                 _game.AgregarAlerta("Bonus de vida máxima activado! Vida aumentada en 10 puntos.");
                 Vida += 10;
-                if (Vida > 200) Vida = 200;
+                if (Vida > 300) Vida = 300;
+                bonusVidaMaxima = false;
+                indexVida = 0;
             }
         }
 
