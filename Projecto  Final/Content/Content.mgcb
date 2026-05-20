@@ -85,7 +85,7 @@
 /processorParam:TextureFormat=Color
 /build:Boton.png
 
-#begin Caballero.jpeg
+#begin Caballero.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -95,7 +95,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Caballero.jpeg
+/build:Caballero.png
 
 #begin cofre.png
 /importer:TextureImporter
@@ -524,7 +524,7 @@
 /processorParam:TextureFormat=Color
 /build:Pesta.png
 
-#begin Slime.jpeg
+#begin Slime.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -534,5 +534,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Slime.jpeg
+/build:Slime.png
 
