@@ -31,7 +31,7 @@ namespace Projecto__Final.Entidades
             if (AtaqueEspecialDisponible)
             {
                 _game.AgregarAlerta($" {nombre} Ha usado su ataque especial!");
-                objetivo.Vida -= 40; 
+                objetivo.Vida -= 30; 
                 AtaqueEspecialDisponible = false;
                 indexEspecial = 0;
             }
@@ -47,8 +47,8 @@ namespace Projecto__Final.Entidades
             if (bonusVidaMaxima)
             {
                 _game.AgregarAlerta("Bonus de vida máxima activado! Vida aumentada en 10 puntos.");
-                Vida += 40;
-                if (Vida > 400) Vida = 400;
+                Vida += 20;
+                if (Vida > 200) Vida = 200;
                 bonusVidaMaxima = false;
                 indexVida = 0;
             }

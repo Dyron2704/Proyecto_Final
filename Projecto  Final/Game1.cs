@@ -358,7 +358,7 @@ namespace Projecto__Final
 
                             JefeFinal jefe = new JefeFinal(
                                 this,                 
-                                300,                  
+                                200,                  
                                 "Jefe", 
                                 texturaJefe,          
                                 new Vector2(850, 350),
@@ -592,9 +592,9 @@ namespace Projecto__Final
         {
             foreach (Enemigo e in enemigos)
             {
-                if (e.Nombre == "Slime" || e.Nombre == "slime") e.Vida = 20;
-                else if (e.Nombre == "Murcielago" || e.Nombre == "murcielago") e.Vida = 40;
-                else if (e.Nombre == "Caballero" || e.Nombre == "caballero") e.Vida = 80;
+                if (e.Nombre == "Slime" || e.Nombre == "slime") e.Vida = 40;
+                else if (e.Nombre == "Murcielago" || e.Nombre == "murcielago") e.Vida = 70;
+                else if (e.Nombre == "Caballero" || e.Nombre == "caballero") e.Vida = 100;
             }
 
             combate = new Combate(

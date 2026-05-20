@@ -109,7 +109,15 @@ namespace Projecto__Final
 
         private void TurnoEnemigo(ref GameState estadoActual)
         {
-            jugador.Vida -= 10;
+            if (enemigo is JefeFinal)
+            {
+                JefeFinal jefe = (JefeFinal)enemigo;
+                jefe.Atacar(jugador);
+            }
+            else
+            {
+                jugador.Vida -= 10;
+            }
             if (jugador.Vida < 0)
             { 
                 jugador.Vida = 0; 
