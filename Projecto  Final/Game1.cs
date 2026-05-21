@@ -274,8 +274,6 @@ namespace Projecto__Final
             {
                 case GameState.MenuPrincipal:
                     menuPrincipal.Update(mouse, mouseAnterior, ref estadoActual);
-
-                    if (estadoActual == GameState.MenuCargar) menuCargar.ActualizarListaPerfiles();
                     break;
 
                 case GameState.Jugando:
@@ -391,15 +389,23 @@ namespace Projecto__Final
 
                 case GameState.MenuEscape:
                     menuEscape.Update(mouse, mouseAnterior, ref estadoActual);
-
-                    if (estadoActual == GameState.MenuGuardar) menuGuardado.CargarNombresDesdeFichero();
                     break;
 
                 case GameState.MenuGuardar:
+                    if (estadoAnterior != GameState.MenuGuardar)
+                    {
+                        menuGuardado.CargarNombresDesdeFichero();
+                        estadoAnterior = GameState.MenuGuardar;
+                    }
                     menuGuardado.Update(mouse, mouseAnterior, this, ref estadoActual);
                     break;
 
                 case GameState.MenuCargar:
+                    if (estadoAnterior != GameState.MenuCargar)
+                    {
+                        menuCargar.ActualizarListaPerfiles();
+                        estadoAnterior = GameState.MenuCargar;
+                    }
                     menuCargar.Update(mouse, mouseAnterior, this, ref estadoActual);
                     break;
 
@@ -443,6 +449,12 @@ namespace Projecto__Final
 
             mouseAnterior = mouse;
             tecladoAnterior = teclado;
+
+            if (estadoActual != GameState.MenuCargar && estadoActual != GameState.MenuGuardar)
+            {
+                estadoAnterior = estadoActual;
+            }
+
             if (estadoActual == GameState.MenuPrincipal && estadoAnterior != GameState.MenuPrincipal)
             {
                 {
@@ -668,7 +680,8 @@ namespace Projecto__Final
 
                 DatosPartida.PersonajeSeleccionado = datos.PersonajeTextura;
                 numeroNivelActual = datos.NivelActual;
-                personajeSeleccionadoEnUso = "";
+
+                personajeSeleccionadoEnUso = datos.PersonajeTextura;
 
                 CargarMapa("Pantalla " + numeroNivelActual);
 

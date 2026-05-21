@@ -78,7 +78,7 @@ namespace Projecto__Final.Menús
                 {
                     if (mouse.LeftButton == ButtonState.Pressed && mouseAnterior.LeftButton == ButtonState.Released)
                     {
-                        string rutaJson = nombresPerfiles[i] + ".json";
+                        string rutaJson = Path.Combine("Saves", nombresPerfiles[i] + ".json");
                         if (File.Exists(rutaJson))
                         {
                             game.CargarPartida(nombresPerfiles[i]);
@@ -110,7 +110,8 @@ namespace Projecto__Final.Menús
 
             for (int i = 0; i < botonesSlots.Count; i++)
             {
-                bool existeArchivo = File.Exists(nombresPerfiles[i] + ".json");
+                bool existeArchivo = File.Exists(Path.Combine("Saves", nombresPerfiles[i] + ".json"));
+                
                 Color colorBoton = existeArchivo ? Color.White : Color.Gray * 0.6f;
 
                 Texture2D texActual = botonesSlots[i].Contains(mouse.Position) ? texturaBotonHover : texturaBoton;
