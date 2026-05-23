@@ -367,6 +367,7 @@ namespace Projecto__Final
 
                             AgregarAlerta("¡El Guardián de la Lava bloquea tu camino!");
                         }
+
                     }
                     break;
 
