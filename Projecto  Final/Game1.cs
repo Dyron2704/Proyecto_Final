@@ -41,7 +41,9 @@ namespace Projecto__Final
             Transiciones,
             Combate,
             MenuGuardar,
-            MenuCargar
+            MenuCargar,
+            PantallaMuerte,
+            PantallaVictoria
         }
 
         MenuPrincipal menuPrincipal;
@@ -51,6 +53,7 @@ namespace Projecto__Final
         MenuEscape menuEscape;
         MenuGuardado menuGuardado;
         MenuCargar menuCargar;
+        
 
         Combate combate;
         GameState estadoActual = GameState.MenuPrincipal;
@@ -78,7 +81,8 @@ namespace Projecto__Final
          * combateActual = new Combate(jugador, enemigoPrueba, texturaBoton, texturaBotonHover, fuenteGlobal);
          * estadoActual = GameState.Combate;
          */
-
+        Texture2D pantallaMuerte;
+        Texture2D pantallaVictoria;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -204,6 +208,9 @@ namespace Projecto__Final
             Texture2D fondoEspecial = Content.Load<Texture2D>("FondoMenuEspecial");
 
             Texture2D fondoCombate = Content.Load<Texture2D>("Pantalla Combate");
+            pantallaMuerte=Content.Load<Texture2D>("mapaMuerte");
+            pantallaVictoria=Content.Load<Texture2D>("mapaVictoria");
+
 
             List<Texture2D> listaPersonajesRecortados = new List<Texture2D>();
             listaPersonajesRecortados.Add(Content.Load<Texture2D>("Astrid - Menu"));
@@ -238,9 +245,9 @@ namespace Projecto__Final
 
             enemigos = new Enemigo[]
             {
-                new Enemigo(20, "Slime", Content.Load<Texture2D>("Slime"), new Vector2(800, 300), 1, 10, 20),
-                new Enemigo(40, "Murcielago", Content.Load<Texture2D>("enemy-bird"), new Vector2(800,300), 2, 20, 40),
-                new Enemigo(80, "Caballero", Content.Load<Texture2D>("Caballero"), new Vector2(800, 300), 3, 40, 80)
+                new Enemigo(40, "Slime", Content.Load<Texture2D>("Slime"), new Vector2(800, 300), 1, 10, 20),
+                new Enemigo(70, "Murcielago", Content.Load<Texture2D>("enemy-bird"), new Vector2(800,300), 2, 20, 40),
+                new Enemigo(120, "Caballero", Content.Load<Texture2D>("Caballero"), new Vector2(800, 300), 3, 40, 80)
             };
         }
 
@@ -267,8 +274,6 @@ namespace Projecto__Final
             {
                 case GameState.MenuPrincipal:
                     menuPrincipal.Update(mouse, mouseAnterior, ref estadoActual);
-
-                    if (estadoActual == GameState.MenuCargar) menuCargar.ActualizarListaPerfiles();
                     break;
 
                 case GameState.Jugando:
@@ -385,15 +390,23 @@ namespace Projecto__Final
 
                 case GameState.MenuEscape:
                     menuEscape.Update(mouse, mouseAnterior, ref estadoActual);
-
-                    if (estadoActual == GameState.MenuGuardar) menuGuardado.CargarNombresDesdeFichero();
                     break;
 
                 case GameState.MenuGuardar:
+                    if (estadoAnterior != GameState.MenuGuardar)
+                    {
+                        menuGuardado.CargarNombresDesdeFichero();
+                        estadoAnterior = GameState.MenuGuardar;
+                    }
                     menuGuardado.Update(mouse, mouseAnterior, this, ref estadoActual);
                     break;
 
                 case GameState.MenuCargar:
+                    if (estadoAnterior != GameState.MenuCargar)
+                    {
+                        menuCargar.ActualizarListaPerfiles();
+                        estadoAnterior = GameState.MenuCargar;
+                    }
                     menuCargar.Update(mouse, mouseAnterior, this, ref estadoActual);
                     break;
 
@@ -408,6 +421,24 @@ namespace Projecto__Final
                 case GameState.Combate:
                     combate.Update(gameTime, mouse, mouseAnterior, ref estadoActual);
                     break;
+                case GameState.PantallaMuerte:
+                    Console.WriteLine("Presione ENTER para continuar");
+                    if (teclado.IsKeyDown(Keys.Enter) && !tecladoAnterior.IsKeyDown(Keys.Enter))
+                    {
+                        Reset(); 
+                        estadoActual = GameState.MenuPrincipal;
+                        AgregarAlerta("Volviendo al menú principal...");
+                    }
+                    break;
+                case GameState.PantallaVictoria:
+                    Console.WriteLine("¡Has ganado! Presiona ENTER para volver al menú principal.");
+                    if (teclado.IsKeyDown(Keys.Enter) && !tecladoAnterior.IsKeyDown(Keys.Enter))
+                    {
+                        Reset();
+                        estadoActual = GameState.MenuPrincipal;
+                        AgregarAlerta("Volviendo al menú principal...");
+                    }
+                    break;
             }
 
             foreach (Alertas alerta in listaDeAlertas)
@@ -419,6 +450,12 @@ namespace Projecto__Final
 
             mouseAnterior = mouse;
             tecladoAnterior = teclado;
+
+            if (estadoActual != GameState.MenuCargar && estadoActual != GameState.MenuGuardar)
+            {
+                estadoAnterior = estadoActual;
+            }
+
             if (estadoActual == GameState.MenuPrincipal && estadoAnterior != GameState.MenuPrincipal)
             {
                 {
@@ -510,6 +547,18 @@ namespace Projecto__Final
                     case GameState.Combate:
                         combate.Draw(_spriteBatch);
                         break;
+                    case GameState.PantallaMuerte:
+                        if (pantallaMuerte != null)
+                        {
+                            _spriteBatch.Draw(pantallaMuerte, new Rectangle(0, 0, 1280, 720), Color.White);
+                        }
+                        break;
+                    case GameState.PantallaVictoria:
+                        if(pantallaVictoria !=null)
+                        {
+                            _spriteBatch.Draw(pantallaVictoria, new Rectangle(0, 0, 1280, 720), Color.White);
+                        }
+                        break;
                 }
             }
 
@@ -556,9 +605,9 @@ namespace Projecto__Final
         {
             foreach (Enemigo e in enemigos)
             {
-                if (e.Nombre == "Slime" || e.Nombre == "slime") e.Vida = 20;
-                else if (e.Nombre == "Murcielago" || e.Nombre == "murcielago") e.Vida = 40;
-                else if (e.Nombre == "Caballero" || e.Nombre == "caballero") e.Vida = 80;
+                if (e.Nombre == "Slime" || e.Nombre == "slime") e.Vida = 40;
+                else if (e.Nombre == "Murcielago" || e.Nombre == "murcielago") e.Vida = 70;
+                else if (e.Nombre == "Caballero" || e.Nombre == "caballero") e.Vida = 100;
             }
 
             combate = new Combate(
@@ -632,7 +681,8 @@ namespace Projecto__Final
 
                 DatosPartida.PersonajeSeleccionado = datos.PersonajeTextura;
                 numeroNivelActual = datos.NivelActual;
-                personajeSeleccionadoEnUso = "";
+
+                personajeSeleccionadoEnUso = datos.PersonajeTextura;
 
                 CargarMapa("Pantalla " + numeroNivelActual);
 
