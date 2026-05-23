@@ -176,6 +176,7 @@ namespace Projecto__Final
 
         protected override void Initialize()
         {
+            Window.Title = "Proyecto Final: LA MAZMORRA";
             // TODO: Add your initialization logic here
 
             _graphics.PreferredBackBufferWidth = 1280;
