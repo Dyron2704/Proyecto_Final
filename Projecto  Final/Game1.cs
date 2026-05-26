@@ -68,7 +68,6 @@ namespace Projecto__Final
         Texture2D texturaPersonaje;
         Texture2D mapaColisiones;
 
-        //variables prueba alertas
         List<Alertas> listaDeAlertas = new List<Alertas>();
         Texture2D texturaFondoAlerta;
         SpriteFont fuenteGlobal;
@@ -77,10 +76,6 @@ namespace Projecto__Final
         Enemigo[] enemigos;
         bool combateJefeIniciado = false;
 
-        /* Cuando se detecte un combate deberemos poner el siguiente código:
-         * combateActual = new Combate(jugador, enemigoPrueba, texturaBoton, texturaBotonHover, fuenteGlobal);
-         * estadoActual = GameState.Combate;
-         */
         Texture2D pantallaMuerte;
         Texture2D pantallaVictoria;
         public Game1()
@@ -291,7 +286,7 @@ namespace Projecto__Final
 
                         CargarMapa($"Pantalla {numeroNivelActual}");
 
-                        jugador = new Jugador(texturaPersonaje, posicionAnterior, 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje);
+                        jugador = new Jugador(texturaPersonaje, posicionAnterior, 100, DatosPartida.PersonajeSeleccionado, DatosPartida.ColumnasPersonaje, DatosPartida.PuntuacionUsuario, this);
                     }
 
                     jugador.Update(gameTime, nivelActual.Colisiones, nivelActual.Cofres, this, ref estadoActual);
@@ -643,6 +638,7 @@ namespace Projecto__Final
             datos.PosY = jugador.Posicion.Y;
             datos.Vida = jugador.Vida;
             datos.NivelActual = numeroNivelActual;
+            datos.PuntuacionUsuario = jugador.Puntuacion;
 
             datos.ObjetosGuardados = jugador.Inventario.Objetos;
 
@@ -689,7 +685,7 @@ namespace Projecto__Final
 
                 texturaPersonaje = Content.Load<Texture2D>(DatosPartida.PersonajeSeleccionado);
                 jugador = new Jugador(texturaPersonaje, new Vector2(datos.PosX, datos.PosY),
-                                     datos.Vida, datos.PersonajeTextura, DatosPartida.ColumnasPersonaje);
+                                     datos.Vida, datos.PersonajeTextura, DatosPartida.ColumnasPersonaje, datos.PuntuacionUsuario, this);
 
                 jugador.Inventario.Objetos = datos.ObjetosGuardados;
 

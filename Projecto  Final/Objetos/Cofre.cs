@@ -18,6 +18,7 @@ namespace Projecto__Final.Objetos
         private Texture2D _texturaCerrado;
         private Texture2D _texturaAbierto;
         public int id;
+
         public Cofre(Rectangle area,string contenido,bool esTrampa,
             Texture2D texturaCerrado, Texture2D texturaAbierto,int id)
         {
@@ -29,30 +30,18 @@ namespace Projecto__Final.Objetos
             this._texturaAbierto = texturaAbierto;
             this.id = id;
         }
+
         public int GetId()
         {
             return id;
         }
+
         public void SetId(int id)
         {
             this.id = id;
         }
-        /*
-        public bool CheckInteraccion(Rectangle jugadorHitbox, KeyboardState teclado, 
-            KeyboardState tecladoAnterior)
-        {
-            if (!abierto && area.Intersects(jugadorHitbox))
-            {
-                Console.WriteLine("Presiona F para abrir el cofre");
-                if (teclado.IsKeyDown(Keys.F) && !tecladoAnterior.IsKeyDown(Keys.F))
-                {
-                    Console.WriteLine("Cofre abierto");
-                    abierto = true;
-                    return true; 
-                }
-            }
-            return false;
-        }*/
+        
+
         public void Draw(SpriteBatch spriteBatch)
         {
             Rectangle zonaInteraccion = area;

@@ -50,7 +50,7 @@ namespace Projecto__Final.Menús
 
             if (!File.Exists(rutaPerfiles))
             {
-                File.WriteAllLines(rutaPerfiles, new string[] { "Vacio", "Vacio", "Vacio" });
+                File.WriteAllLines(rutaPerfiles, ["Vacio", "Vacio", "Vacio"]);
             }
 
             if (File.Exists(rutaPerfiles))

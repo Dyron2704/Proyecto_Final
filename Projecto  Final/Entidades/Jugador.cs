@@ -24,17 +24,20 @@ namespace Projecto__Final.Entidades
         int danoExtra;
 
         KeyboardState tecladoAnterior;
+
+        private Game1 game;
         
         public Inventario Inventario { get => inventario; set => inventario = value; }
         public int Puntuacion { get => puntuacion; set => puntuacion = value; }
         public int DanoExtra { get => danoExtra; set => danoExtra = value; }
 
-        public Jugador(Texture2D textura, Vector2 pos, int vida, string nombre, int columnas)
+        public Jugador(Texture2D textura, Vector2 pos, int vida, string nombre, int columnas, int puntuacion, Game1 game)
             : base(vida, nombre, textura, pos)
         {
             this.columnas = 8;
             inventario = new Inventario();
             tecladoAnterior = Keyboard.GetState();
+            this.game = game;
             puntuacion = 0;
             danoExtra = 0;
         }
@@ -62,7 +65,7 @@ namespace Projecto__Final.Entidades
             if (teclado.IsKeyDown(Keys.F) && tecladoAnterior.IsKeyUp(Keys.F))
             {
                 Rectangle rectJugador = new Rectangle((int)posicion.X, (int)posicion.Y, 32, 32);
-                rectJugador.Inflate(15, 15); // Aumenta el área de interacción
+                rectJugador.Inflate(15, 15);
 
                 for (int i = 0; i < cofres.Count && !interactuado; i++)
                 {
@@ -70,6 +73,9 @@ namespace Projecto__Final.Entidades
                     {
                         if (cofres[i].Abrir())
                         {
+                            puntuacion += 10;
+                            game.AgregarAlerta($"Puntuación: {puntuacion}");
+
                             if (cofres[i].esTrampa)
                             {
                                 juego.IniciarCombate();

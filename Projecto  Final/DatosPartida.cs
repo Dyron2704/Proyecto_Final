@@ -10,12 +10,14 @@ namespace Projecto__Final
     {
         static string personajeSeleccionado;
         static int columnasPersonaje;
+        static int puntuacionUsuario;
 
         static string mapaActual;
         static string mapaColisiones;
 
         public static string PersonajeSeleccionado { get => personajeSeleccionado; set => personajeSeleccionado = value; }
         public static int ColumnasPersonaje { get => columnasPersonaje; set => columnasPersonaje = value; }
+        public static int PuntuacionUsuario { get => puntuacionUsuario; set => puntuacionUsuario = value; }
         public static string MapaActual { get => mapaActual; set => mapaActual = value; }
         public static string MapaColisiones { get => mapaColisiones; set => mapaColisiones = value; }
 

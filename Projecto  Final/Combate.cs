@@ -51,17 +51,20 @@ namespace Projecto__Final
                 if (enemigo is JefeFinal)
                 {
                     mensajeAccion = "¡Has derrotado al jefe final!";
+                    jugador.Puntuacion += 100;
                     estadoActual = GameState.PantallaVictoria;
 
                 }
                 else 
                 {
                     mensajeAccion = "¡Has derrotado al enemigo!";
+                    jugador.Puntuacion += 50;
                     jugador.DanoExtra += 1;
                     estadoActual = GameState.Jugando;
                 }
                 return;
             }
+
             if (esTurnoJugador)
             {
                 foreach (Boton boton in botones)
