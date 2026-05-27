@@ -83,6 +83,8 @@ namespace Projecto__Final
         Song musicaExploracion;
         Song musicaCombate;
         Song musicaMenu;
+        Song musicaJefe;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -247,6 +249,7 @@ namespace Projecto__Final
             musicaCombate= Content.Load<Song>("MusicaCombate");
             musicaExploracion= Content.Load<Song>("MusicaExploracion");
             musicaMenu= Content.Load<Song>("MusicaMenu");
+            musicaJefe= Content.Load<Song>("MusicaJefe");
 
             enemigos = new Enemigo[]
             {
@@ -386,6 +389,10 @@ namespace Projecto__Final
                             );
 
                             Enemigo[] grupoJefe = new Enemigo[] { jefe };
+
+                            MediaPlayer.IsRepeating = true;
+                            MediaPlayer.Volume = 0.6f;
+                            MediaPlayer.Play(musicaJefe);
 
                             combate = new Combate(fondoCombateJefe, jugador, grupoJefe, texBoton, texBotonHover, fuenteGlobal);
                             estadoActual = GameState.Combate;
