@@ -448,6 +448,7 @@ namespace Projecto__Final
                         Reset(); 
                         estadoActual = GameState.MenuPrincipal;
                         AgregarAlerta("Volviendo al menú principal...");
+                        MediaPlayer.Stop();
                     }
                     break;
                 case GameState.PantallaVictoria:
@@ -457,6 +458,7 @@ namespace Projecto__Final
                         Reset();
                         estadoActual = GameState.MenuPrincipal;
                         AgregarAlerta("Volviendo al menú principal...");
+                        MediaPlayer.Stop();
                     }
                     break;
             }
