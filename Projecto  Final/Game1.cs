@@ -279,7 +279,7 @@ namespace Projecto__Final
             {
                 case GameState.MenuPrincipal:
 
-                    if (MediaPlayer.State != MediaState.Playing)
+                    if (MediaPlayer.Queue.ActiveSong != musicaMenu)
                     {
                         MediaPlayer.IsRepeating = true;
                         MediaPlayer.Volume = 0.4f;
@@ -295,7 +295,7 @@ namespace Projecto__Final
                         texturaPersonaje = Content.Load<Texture2D>(DatosPartida.PersonajeSeleccionado);
                         personajeSeleccionadoEnUso = DatosPartida.PersonajeSeleccionado;
 
-                        if (MediaPlayer.State != MediaState.Playing)
+                        if (MediaPlayer.Queue.ActiveSong != musicaExploracion)
                         {
                             MediaPlayer.IsRepeating = true;
                             MediaPlayer.Volume = 0.5f;
