@@ -294,8 +294,13 @@ namespace Projecto__Final
                     {
                         texturaPersonaje = Content.Load<Texture2D>(DatosPartida.PersonajeSeleccionado);
                         personajeSeleccionadoEnUso = DatosPartida.PersonajeSeleccionado;
-                       
-                       
+
+                        if (MediaPlayer.State != MediaState.Playing)
+                        {
+                            MediaPlayer.IsRepeating = true;
+                            MediaPlayer.Volume = 0.5f;
+                            MediaPlayer.Play(musicaExploracion);
+                        }
 
                         Vector2 posicionAnterior = new Vector2(400, 300);
                         if (jugador != null)
