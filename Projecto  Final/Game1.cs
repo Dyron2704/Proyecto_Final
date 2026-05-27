@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Projecto__Final.Entidades;
 using Projecto__Final.Menús;
 using Projecto__Final.Objetos;
@@ -78,6 +79,10 @@ namespace Projecto__Final
 
         Texture2D pantallaMuerte;
         Texture2D pantallaVictoria;
+
+        Song musicaExploracion;
+        Song musicaCombate;
+        Song musicaMenu;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -239,6 +244,10 @@ namespace Projecto__Final
             texturaFondoAlerta = new Texture2D(GraphicsDevice, 1, 1);
             texturaFondoAlerta.SetData(new[] { Color.White });
 
+            musicaCombate= Content.Load<Song>("MusicaCombate");
+            musicaExploracion= Content.Load<Song>("MusicaExploracion");
+            musicaMenu= Content.Load<Song>("MusicaMenu");
+
             enemigos = new Enemigo[]
             {
                 new Enemigo(40, "Slime", Content.Load<Texture2D>("Slime"), new Vector2(800, 300), 1, 10, 20),
@@ -269,6 +278,14 @@ namespace Projecto__Final
             switch (estadoActual)
             {
                 case GameState.MenuPrincipal:
+
+                    if (MediaPlayer.State != MediaState.Playing)
+                    {
+                        MediaPlayer.IsRepeating = true;
+                        MediaPlayer.Volume = 0.4f;
+                        MediaPlayer.Play(musicaMenu);
+                    }
+
                     menuPrincipal.Update(mouse, mouseAnterior, ref estadoActual);
                     break;
 
@@ -277,6 +294,8 @@ namespace Projecto__Final
                     {
                         texturaPersonaje = Content.Load<Texture2D>(DatosPartida.PersonajeSeleccionado);
                         personajeSeleccionadoEnUso = DatosPartida.PersonajeSeleccionado;
+                       
+                       
 
                         Vector2 posicionAnterior = new Vector2(400, 300);
                         if (jugador != null)
