@@ -41,7 +41,6 @@ namespace Projecto__Final.Menús
         {
             KeyboardState keys = Keyboard.GetState();
 
-
         }
 
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
