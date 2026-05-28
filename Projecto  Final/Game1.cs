@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Projecto__Final.Entidades;
 using Projecto__Final.Menús;
 using Projecto__Final.Objetos;
@@ -78,6 +79,12 @@ namespace Projecto__Final
 
         Texture2D pantallaMuerte;
         Texture2D pantallaVictoria;
+
+        Song musicaExploracion;
+        Song musicaCombate;
+        Song musicaMenu;
+        Song musicaJefe;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -239,6 +246,11 @@ namespace Projecto__Final
             texturaFondoAlerta = new Texture2D(GraphicsDevice, 1, 1);
             texturaFondoAlerta.SetData(new[] { Color.White });
 
+            musicaCombate= Content.Load<Song>("MusicaCombate");
+            musicaExploracion= Content.Load<Song>("MusicaExploracion");
+            musicaMenu= Content.Load<Song>("MusicaMenu");
+            musicaJefe= Content.Load<Song>("MusicaJefe");
+
             enemigos = new Enemigo[]
             {
                 new Enemigo(40, "Slime", Content.Load<Texture2D>("Slime"), new Vector2(800, 300), 1, 10, 20),
@@ -269,10 +281,24 @@ namespace Projecto__Final
             switch (estadoActual)
             {
                 case GameState.MenuPrincipal:
+
+                    if (MediaPlayer.Queue.ActiveSong != musicaMenu)
+                    {
+                        MediaPlayer.IsRepeating = true;
+                        MediaPlayer.Volume = 0.4f;
+                        MediaPlayer.Play(musicaMenu);
+                    }
+
                     menuPrincipal.Update(mouse, mouseAnterior, ref estadoActual);
                     break;
 
                 case GameState.Jugando:
+                    if (MediaPlayer.Queue.ActiveSong != musicaExploracion)
+                    {
+                        MediaPlayer.IsRepeating = true;
+                        MediaPlayer.Volume = 0.5f;
+                        MediaPlayer.Play(musicaExploracion);
+                    }
                     if (jugador == null || personajeSeleccionadoEnUso != DatosPartida.PersonajeSeleccionado)
                     {
                         texturaPersonaje = Content.Load<Texture2D>(DatosPartida.PersonajeSeleccionado);
@@ -363,6 +389,10 @@ namespace Projecto__Final
 
                             Enemigo[] grupoJefe = new Enemigo[] { jefe };
 
+                            MediaPlayer.IsRepeating = true;
+                            MediaPlayer.Volume = 0.6f;
+                            MediaPlayer.Play(musicaJefe);
+
                             combate = new Combate(fondoCombateJefe, jugador, grupoJefe, texBoton, texBotonHover, fuenteGlobal);
                             estadoActual = GameState.Combate;
 
@@ -415,6 +445,12 @@ namespace Projecto__Final
                     break;
 
                 case GameState.Combate:
+                    if (MediaPlayer.Queue.ActiveSong != musicaCombate)
+                    {
+                        MediaPlayer.IsRepeating = true;
+                        MediaPlayer.Volume = 0.45f;
+                        MediaPlayer.Play(musicaCombate);
+                    }
                     combate.Update(gameTime, mouse, mouseAnterior, ref estadoActual);
                     break;
                 case GameState.PantallaMuerte:
@@ -424,6 +460,7 @@ namespace Projecto__Final
                         Reset(); 
                         estadoActual = GameState.MenuPrincipal;
                         AgregarAlerta("Volviendo al menú principal...");
+                        MediaPlayer.Stop();
                     }
                     break;
                 case GameState.PantallaVictoria:
@@ -433,6 +470,7 @@ namespace Projecto__Final
                         Reset();
                         estadoActual = GameState.MenuPrincipal;
                         AgregarAlerta("Volviendo al menú principal...");
+                        MediaPlayer.Stop();
                     }
                     break;
             }

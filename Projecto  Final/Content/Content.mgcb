@@ -404,6 +404,30 @@
 /processorParam:TextureFormat=Color
 /build:MiniMapaFlechaIzquierda.png
 
+#begin musicaCombate.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:musicaCombate.mp3
+
+#begin musicaExploracion.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:musicaExploracion.mp3
+
+#begin musicaJefe.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:musicaJefe.mp3
+
+#begin musicaMenu.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:musicaMenu.mp3
+
 #begin Pantalla 1 Colisiones.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
