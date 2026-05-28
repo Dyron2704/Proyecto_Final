@@ -250,6 +250,7 @@ namespace Projecto__Final
             musicaExploracion= Content.Load<Song>("MusicaExploracion");
             musicaMenu= Content.Load<Song>("MusicaMenu");
             musicaJefe= Content.Load<Song>("MusicaJefe");
+            MediaPlayer.Volume = 0.5f;
 
             enemigos = new Enemigo[]
             {
@@ -264,10 +265,29 @@ namespace Projecto__Final
             if (Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
                 Exit();
 
-            // TODO: Add your update logic here
-
             MouseState mouse = Mouse.GetState();
             KeyboardState teclado = Keyboard.GetState();
+
+            if ((teclado.IsKeyDown(Keys.OemQuestion) && !tecladoAnterior.IsKeyDown(Keys.OemQuestion)) ||
+                (teclado.IsKeyDown(Keys.Add) && !tecladoAnterior.IsKeyDown(Keys.Add)))
+            {
+                float nuevoVolumen = MediaPlayer.Volume + 0.1f;
+
+                if (nuevoVolumen > 1.0f) nuevoVolumen = 1.0f;
+
+                MediaPlayer.Volume = nuevoVolumen;
+                AgregarAlerta($"Volumen: {(int)(MediaPlayer.Volume * 100)}%");
+            }
+
+            if (teclado.IsKeyDown(Keys.OemMinus) && !tecladoAnterior.IsKeyDown(Keys.OemMinus))
+            {
+                float nuevoVolumen = MediaPlayer.Volume - 0.1f;
+
+                if (nuevoVolumen < 0.0f) nuevoVolumen = 0.0f;
+
+                MediaPlayer.Volume = nuevoVolumen;
+                AgregarAlerta($"Volumen: {(int)(MediaPlayer.Volume * 100)}%");
+            }
 
             if (estadoActual == GameState.Jugando && teclado.IsKeyDown(Keys.Escape)
                 && !tecladoAnterior.IsKeyDown(Keys.Escape))
@@ -285,18 +305,17 @@ namespace Projecto__Final
                     if (MediaPlayer.Queue.ActiveSong != musicaMenu)
                     {
                         MediaPlayer.IsRepeating = true;
-                        MediaPlayer.Volume = 0.4f;
                         MediaPlayer.Play(musicaMenu);
                     }
 
                     menuPrincipal.Update(mouse, mouseAnterior, ref estadoActual);
                     break;
-
+                     
                 case GameState.Jugando:
+
                     if (MediaPlayer.Queue.ActiveSong != musicaExploracion)
                     {
                         MediaPlayer.IsRepeating = true;
-                        MediaPlayer.Volume = 0.5f;
                         MediaPlayer.Play(musicaExploracion);
                     }
                     if (jugador == null || personajeSeleccionadoEnUso != DatosPartida.PersonajeSeleccionado)
@@ -390,7 +409,7 @@ namespace Projecto__Final
                             Enemigo[] grupoJefe = new Enemigo[] { jefe };
 
                             MediaPlayer.IsRepeating = true;
-                            MediaPlayer.Volume = 0.6f;
+
                             MediaPlayer.Play(musicaJefe);
 
                             combate = new Combate(fondoCombateJefe, jugador, grupoJefe, texBoton, texBotonHover, fuenteGlobal);
@@ -448,7 +467,6 @@ namespace Projecto__Final
                     if (MediaPlayer.Queue.ActiveSong != musicaCombate)
                     {
                         MediaPlayer.IsRepeating = true;
-                        MediaPlayer.Volume = 0.45f;
                         MediaPlayer.Play(musicaCombate);
                     }
                     combate.Update(gameTime, mouse, mouseAnterior, ref estadoActual);
