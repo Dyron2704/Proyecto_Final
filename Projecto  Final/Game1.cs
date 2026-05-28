@@ -293,17 +293,16 @@ namespace Projecto__Final
                     break;
 
                 case GameState.Jugando:
+                    if (MediaPlayer.Queue.ActiveSong != musicaExploracion)
+                    {
+                        MediaPlayer.IsRepeating = true;
+                        MediaPlayer.Volume = 0.5f;
+                        MediaPlayer.Play(musicaExploracion);
+                    }
                     if (jugador == null || personajeSeleccionadoEnUso != DatosPartida.PersonajeSeleccionado)
                     {
                         texturaPersonaje = Content.Load<Texture2D>(DatosPartida.PersonajeSeleccionado);
                         personajeSeleccionadoEnUso = DatosPartida.PersonajeSeleccionado;
-
-                        if (MediaPlayer.Queue.ActiveSong != musicaExploracion)
-                        {
-                            MediaPlayer.IsRepeating = true;
-                            MediaPlayer.Volume = 0.5f;
-                            MediaPlayer.Play(musicaExploracion);
-                        }
 
                         Vector2 posicionAnterior = new Vector2(400, 300);
                         if (jugador != null)
@@ -446,6 +445,12 @@ namespace Projecto__Final
                     break;
 
                 case GameState.Combate:
+                    if (MediaPlayer.Queue.ActiveSong != musicaCombate)
+                    {
+                        MediaPlayer.IsRepeating = true;
+                        MediaPlayer.Volume = 0.45f;
+                        MediaPlayer.Play(musicaCombate);
+                    }
                     combate.Update(gameTime, mouse, mouseAnterior, ref estadoActual);
                     break;
                 case GameState.PantallaMuerte:

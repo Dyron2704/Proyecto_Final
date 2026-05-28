@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Projecto__Final.Entidades;
 using Projecto__Final.Menús;
 using System;
@@ -114,7 +115,9 @@ namespace Projecto__Final
 
                 case "Huir":
                     mensajeAccion = "¡Has huido del combate!";
+                    Microsoft.Xna.Framework.Media.MediaPlayer.Stop(); 
                     estadoActual = GameState.Jugando;
+                    
                     break;
             }
         }
