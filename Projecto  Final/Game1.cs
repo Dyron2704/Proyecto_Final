@@ -312,6 +312,7 @@ namespace Projecto__Final
                     break;
                      
                 case GameState.Jugando:
+
                     if (MediaPlayer.Queue.ActiveSong != musicaExploracion)
                     {
                         MediaPlayer.IsRepeating = true;
