@@ -310,7 +310,7 @@ namespace Projecto__Final
 
                     menuPrincipal.Update(mouse, mouseAnterior, ref estadoActual);
                     break;
-
+                     
                 case GameState.Jugando:
                     if (MediaPlayer.Queue.ActiveSong != musicaExploracion)
                     {
